@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <td *ngFor="let header of headers">
+        {{header}}
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of body">
+      <td *ngFor="let column of row.columnValues">
+        {{column}}
+      </td>
+    </tr>
+  </tbody>
+</table>
