@@ -6,8 +6,8 @@ import { AccountComponent } from './card/account/account.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  templateUrl: './pages/home/home.component.html',
-  styleUrl: './pages/home/home.component.css',
+  templateUrl: './page/home/home.component.html',
+  styleUrl: '../styles.css',
   imports: [RouterOutlet, CommonModule, AccountComponent]
 })
 export class AppComponent {
