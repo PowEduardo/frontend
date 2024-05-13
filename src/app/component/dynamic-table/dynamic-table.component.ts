@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RowModel } from '../../model/row-model';
 
 @Component({
@@ -11,6 +11,13 @@ import { RowModel } from '../../model/row-model';
 })
 
 export class DynamicTableComponent {
-  headers: string[] = ["teste", "2"];
-  body: RowModel[] = [{ id: 1, columnValues: ["id", "name"] }, { id: 2, columnValues: ["id", "names"] }];
+  @Input()
+  headers: string[];
+  @Input()
+  body: RowModel[];
+
+  constructor() {
+    this.headers = [];
+    this.body = [];
+  }
 }
