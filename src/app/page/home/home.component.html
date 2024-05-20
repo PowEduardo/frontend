@@ -6,23 +6,24 @@
       <tr>
         <td><!--TODO: Change this to an card-->
           <!--TODO: Create Account Component-->
-          <button class="btn btn-primary" type="submit">Manage account</button>
+          <button class="btn btn-primary" type="submit" (click)="enableAccount()">Manage account</button>
         </td>
         <td><!--TODO: Change this to an card-->
           <!--TODO: Create credit card component-->
-          <button class="btn btn-primary" type="submit">Manage credit card</button>
+          <button class="btn btn-primary" type="submit" (click)="enableCreditCard()">Manage credit card</button>
         </td>
       </tr>
       <tr>
         <td><!--TODO: Change this to an card-->
           <!--TODO: Create investment component-->
-          <button class="btn btn-primary" type="submit">Manage investment</button>
+          <button class="btn btn-primary" type="submit" (click)="enableInvestment()">Manage investment</button>
         </td>
         <td><!--TODO: Change this to an card-->
           <!--TODO: Create Vehicles Component-->
-          <button class="btn btn-primary" type="submit">Manage vehicles</button>
+          <button class="btn btn-primary" type="submit" (click)="enableVehicles()">Manage vehicles</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+<app-account *ngIf="isAccountEnabled"></app-account>
