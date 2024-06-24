@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { RowModel } from '../../model/row-model';
+import { TableModel } from '../../model/table-model';
 
 @Component({
   selector: 'app-dynamic-table',
@@ -12,12 +12,8 @@ import { RowModel } from '../../model/row-model';
 
 export class DynamicTableComponent {
   @Input()
-  headers: string[];
-  @Input()
-  body: RowModel[];
+  model!: TableModel;
 
   constructor() {
-    this.headers = [];
-    this.body = [];
   }
 }

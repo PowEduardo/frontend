@@ -1,17 +1,17 @@
-export class PageModel {
-  content: any[] | undefined;
-  pageable: Pageable | undefined;
-  last: boolean | undefined;
-  totalPages: number | undefined;
-  totalElements: number | undefined;
-  first: boolean | undefined;
-  size: number | undefined;
-  number: number | undefined;
-  numberOfElements: number | undefined;
-  empty: boolean | undefined;
+export class PageModel<T> {
+  content!: T[];
+  pageable!: Pageable;
+  last!: boolean;
+  totalPages!: number;
+  totalElements!: number;
+  first!: boolean;
+  size!: number;
+  number!: number;
+  numberOfElements!: number;
+  empty!: boolean;
 }
 export class Pageable {
-  pageNumber: number | undefined;
-  pageSize: number | undefined;
-  offset: number | undefined;
+  pageNumber!: number;
+  pageSize!: number;
+  offset!: number;
 }

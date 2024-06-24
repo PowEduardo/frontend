@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { AccountComponent } from '../../card/account/account.component';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { AssetTableComponent } from '../../component/asset-table/asset-table.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [AccountComponent, CommonModule],
+  imports: [CommonModule, AssetTableComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

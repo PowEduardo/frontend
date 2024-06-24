@@ -1,13 +1,13 @@
 <table>
   <thead>
     <tr>
-      <td *ngFor="let header of headers">
+      <td *ngFor="let header of model.headers">
         {{header}}
       </td>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of body">
+    <tr *ngFor="let row of model.body">
       <td *ngFor="let column of row.columnValues">
         {{column}}
       </td>
