@@ -6,7 +6,7 @@ import { PageQuery } from "../model/page-query";
 export abstract class Crud<T> {
 
   abstract search(pageQuery: PageQuery): Observable<PageModel<T>>;
-  abstract getAll(): Observable<T[]>;
+  abstract getAll(pageQuery?: PageQuery): Observable<T[]>;
   abstract findById(id: number): Observable<T>;
   abstract create(asset: AssetModel): Observable<T>;
   abstract update(): Observable<T>;

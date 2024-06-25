@@ -1,26 +1,26 @@
-abstract class AssetService<T> {
-
-}
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PageModel } from '../../model/page-model';
-import { Crud } from '../crud.service';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
+import { AssetModel } from '../../model/asset-model';
+import { MovimentAssetReturnHttpModel } from '../../model/http/moviment-asset-return-http-model';
+import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../model/page-query';
-import { AssetHttpModel } from '../../model/http/asset-http-model';
+import { Crud } from '../crud.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetServiceImpl implements Crud<AssetHttpModel> {
+export class MovimentAssetReturnServiceImpl implements Crud<MovimentAssetReturnHttpModel> {
 
-  baseUrl: string = "http://localhost:8080/assets";
+  baseUrl: string = "http://localhost:8080/moviments/returns";
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  getAll(): Observable<AssetHttpModel[]> {
-    var pageQuery: PageQuery = new PageQuery;
+  search(pageQuery: PageQuery): Observable<PageModel<MovimentAssetReturnHttpModel>> {
+    return this.httpClient.get<PageModel<MovimentAssetReturnHttpModel>>(this.baseUrl + ":search?" + pageQuery.toString());
+  }
+
+  getAll(pageQuery: PageQuery): Observable<MovimentAssetReturnHttpModel[]> {
     return this.search(pageQuery).pipe(
       mergeMap(firstPage => {
         if (firstPage.last) {
@@ -40,17 +40,13 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
       })
     );
   }
-
-  findById(id: number): Observable<AssetHttpModel> {
-    return this.httpClient.get<AssetHttpModel>(this.baseUrl + id);
-  }
-  create(asset: AssetHttpModel): Observable<AssetHttpModel> {
-    return this.httpClient.post<AssetHttpModel>(this.baseUrl, asset);
-  }
-  update(): Observable<AssetHttpModel> {
+  findById(id: number): Observable<MovimentAssetReturnHttpModel> {
     throw new Error('Method not implemented.');
   }
-  search(pageQuery: PageQuery): Observable<PageModel<AssetHttpModel>> {
-    return this.httpClient.get<PageModel<AssetHttpModel>>(this.baseUrl + ":search?" + pageQuery.toString());
+  create(asset: AssetModel): Observable<MovimentAssetReturnHttpModel> {
+    throw new Error('Method not implemented.');
+  }
+  update(): Observable<MovimentAssetReturnHttpModel> {
+    throw new Error('Method not implemented.');
   }
 }
