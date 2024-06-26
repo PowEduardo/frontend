@@ -1,7 +1,4 @@
-export class AssetModel {
-  id!: number;
-  ticker!: string;
-  value!: number;
+export class AssetDetailsHttpModel {
   amount!: number;
   currentValue!: number;
   average!: number;

@@ -1,12 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Crud } from '../crud.service';
-import { MovimentHttpModel } from '../../model/http/moviment-http-model';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { AssetModel } from '../../model/asset-model';
+import { MovimentAssetHttpModel } from '../../model/http/moviment-asset-http-model';
 import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../model/page-query';
-import { HttpClient } from '@angular/common/http';
-import { MovimentAssetHttpModel } from '../../model/http/moviment-asset-http-model';
+import { Crud } from '../crud.service';
 
 @Injectable({
   providedIn: 'root'
@@ -49,4 +48,5 @@ export class AssetMovimentsServiceImpl implements Crud<MovimentAssetHttpModel> {
   update(): Observable<MovimentAssetHttpModel> {
     throw new Error('Method not implemented.');
   }
+
 }

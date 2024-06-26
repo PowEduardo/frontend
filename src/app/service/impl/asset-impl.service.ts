@@ -9,6 +9,7 @@ import { Crud } from '../crud.service';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { PageQuery } from '../../model/page-query';
 import { AssetHttpModel } from '../../model/http/asset-http-model';
+import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,9 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
   }
   search(pageQuery: PageQuery): Observable<PageModel<AssetHttpModel>> {
     return this.httpClient.get<PageModel<AssetHttpModel>>(this.baseUrl + ":search?" + pageQuery.toString());
+  }
+
+  details(id: number): Observable<AssetDetailsHttpModel> {
+    return this.httpClient.get<AssetDetailsHttpModel>(this.baseUrl + "/" + id + "/details");
   }
 }

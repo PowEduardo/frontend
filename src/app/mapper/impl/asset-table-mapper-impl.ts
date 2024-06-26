@@ -14,6 +14,7 @@ export class AssetTableMapperImpl implements DynamicTableMapper<AssetModel> {
     tableModel.headers = ["Ticker", "Value", "Amount", "Current Value", "Average", "Monthly Return", "DY", "ADY", "Buy more", "Paid Value", "Returns"];
     for (let model of items) {
       var row: RowModel = new RowModel();
+      row.id = model.id;
       row.columnValues = [
         model.ticker!,
         this.formatNumber(model.value!),
@@ -23,7 +24,7 @@ export class AssetTableMapperImpl implements DynamicTableMapper<AssetModel> {
         this.formatNumber(model.monthlyReturn),
         this.formatNumber(model.dy),
         this.formatNumber(model.ady),
-        this.formatNumber(model.buyMore),
+        this.formatNumber(model.targetAmount),
         this.formatNumber(model.paidValue),
         this.formatNumber(model.returns)];
       rows.push(row);
