@@ -1,0 +1,28 @@
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th *ngFor="let header of headers">
+        {{header}}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of columns">
+      <td>
+        {{row.category}}
+      </td>
+      <td>
+        {{row.paidValue}}
+      </td>
+      <td>
+        {{row.currentValue}}
+      </td>
+      <td>
+        {{row.wantedValue}}
+      </td>
+      <td>
+        {{row.returnsValue}}
+      </td>
+    </tr>
+  </tbody>
+</table>

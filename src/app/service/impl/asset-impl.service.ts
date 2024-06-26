@@ -10,6 +10,7 @@ import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { PageQuery } from '../../model/page-query';
 import { AssetHttpModel } from '../../model/http/asset-http-model';
 import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
+import { AssetConsolidateHttpModel } from '../../model/http/asset-consolidate-http-model';
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +58,9 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
 
   details(id: number): Observable<AssetDetailsHttpModel> {
     return this.httpClient.get<AssetDetailsHttpModel>(this.baseUrl + "/" + id + "/details");
+  }
+
+  consolidated(): Observable<AssetConsolidateHttpModel> {
+    return this.httpClient.get<AssetConsolidateHttpModel>(this.baseUrl + "/0/consolidate");
   }
 }

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AssetTableComponent } from '../../component/asset-table/asset-table.component';
+import { InvestmentComponent } from '../../card/investment/investment.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, AssetTableComponent],
+  imports: [CommonModule, AssetTableComponent, InvestmentComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
