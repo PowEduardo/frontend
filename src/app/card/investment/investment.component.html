@@ -12,16 +12,16 @@
         {{row.category}}
       </td>
       <td>
-        {{row.paidValue}}
+        {{row.paidValue | currencyFormat}}
       </td>
       <td>
-        {{row.currentValue}}
+        {{row.currentValue | currencyFormat}}
       </td>
       <td>
-        {{row.wantedValue}}
+        {{row.wantedValue | currencyFormat}}
       </td>
       <td>
-        {{row.returnsValue}}
+        {{row.returnsValue | currencyFormat}}
       </td>
     </tr>
   </tbody>

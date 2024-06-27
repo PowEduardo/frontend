@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { InvestmentServiceImpl } from './service/impl/investment-impl.service';
 import { InvestmentModel } from '../../model/investment-model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe, registerLocaleData } from '@angular/common';
+import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt, 'pt-BR');
 
 @Component({
   selector: 'app-investment',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CurrencyFormatPipe],
+  providers: [DecimalPipe],
   templateUrl: './investment.component.html',
   styleUrl: './investment.component.css'
 })
