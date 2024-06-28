@@ -1,33 +1,38 @@
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AssetTableMapperImpl } from '../../mapper/impl/asset-table-mapper-impl';
+import { firstValueFrom } from 'rxjs';
 import { AssetModel } from '../../model/asset-model';
 import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
 import { AssetHttpModel } from '../../model/http/asset-http-model';
-import { TableModel } from '../../model/table-model';
+import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { AssetServiceImpl } from '../../service/impl/asset-impl.service';
-import { DynamicTableComponent } from '../dynamic-table/dynamic-table.component';
 
 @Component({
   selector: 'app-asset-table',
   standalone: true,
-  imports: [DynamicTableComponent],
+  imports: [CommonModule, CurrencyFormatPipe],
+  providers: [DecimalPipe],
   templateUrl: './asset-table.component.html',
   styleUrl: './asset-table.component.css'
 })
 export class AssetTableComponent implements OnInit {
-  private allAssets: AssetModel[] = [];
-  tableModel!: TableModel;
-  constructor(private assetService: AssetServiceImpl,
-    private tableMapper: AssetTableMapperImpl) { }
+  headers: string[] = ["Ticker", "Value", "Amount", "Current Value", "Average", "Monthly Return", "DY", "ADY", "Buy more", "Paid Value", "Returns"];
+  allAssets: AssetModel[] = [];
+  constructor(private assetService: AssetServiceImpl) { }
 
-  ngOnInit(): void {
-    this.assetService.getAll().subscribe((data: AssetHttpModel[]) => {
-      data.forEach(assetHttp => {
-        var asset: AssetModel = new AssetModel();
+  async ngOnInit(): Promise<void> {
+    try {
+      const assetsHttp: AssetHttpModel[] = await firstValueFrom(this.assetService.getAll());
+
+      const assetDetailsPromises = assetsHttp.map(async (assetHttp) => {
+        const asset: AssetModel = new AssetModel();
         asset.id = assetHttp.id;
         asset.ticker = assetHttp.ticker;
         asset.value = assetHttp.value;
-        this.assetService.details(assetHttp.id).subscribe((data: AssetDetailsHttpModel) => {
+
+        try {
+          const data: AssetDetailsHttpModel = await firstValueFrom(this.assetService.details(assetHttp.id));
+
           asset.ady = data.ady;
           asset.amount = data.amount;
           asset.average = data.average;
@@ -37,15 +42,19 @@ export class AssetTableComponent implements OnInit {
           asset.monthlyReturn = data.monthlyReturn;
           asset.paidValue = data.paidValue;
           asset.returns = data.returns;
-          this.allAssets.push(asset);
-        }, (error) => {
-          console.log(error);
-        });
+        } catch (error) {
+          console.error('Error fetching asset details:', error);
+        }
+
+        return asset;
       });
-      this.tableModel = this.tableMapper.toTableModel(this.allAssets);
-    });
 
+      this.allAssets = await Promise.all(assetDetailsPromises);
 
+    } catch (error) {
+      console.error('Error fetching all assets:', error);
+    }
   }
+
 
 }

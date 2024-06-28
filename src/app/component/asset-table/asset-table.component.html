@@ -1,1 +1,49 @@
-<app-dynamic-table [model]="tableModel"></app-dynamic-table>
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th *ngFor="let header of headers">
+        {{header}}
+      </th>
+      <th>
+        <button class="button" value="oi">oi</button>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let asset of allAssets">
+      <td>
+        {{asset.ticker}}
+      </td>
+      <td>
+        {{asset.value | currencyFormat}}
+      </td>
+      <td>
+        {{asset.amount}}
+      </td>
+      <td>
+        {{asset.currentValue | currencyFormat}}
+      </td>
+      <td>
+        {{asset.average | currencyFormat}}
+      </td>
+      <td>
+        {{asset.monthlyReturn | currencyFormat}}
+      </td>
+      <td>
+        {{asset.dy}}
+      </td>
+      <td>
+        {{asset.ady}}
+      </td>
+      <td>
+        {{asset.targetAmount | currencyFormat}}
+      </td>
+      <td>
+        {{asset.paidValue | currencyFormat}}
+      </td>
+      <td>
+        {{asset.returns | currencyFormat}}
+      </td>
+    </tr>
+  </tbody>
+</table>
