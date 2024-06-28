@@ -44,7 +44,7 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
   }
 
   findById(id: number): Observable<AssetHttpModel> {
-    return this.httpClient.get<AssetHttpModel>(this.baseUrl + id);
+    return this.httpClient.get<AssetHttpModel>(this.baseUrl + "/" + id);
   }
   create(asset: AssetHttpModel): Observable<AssetHttpModel> {
     return this.httpClient.post<AssetHttpModel>(this.baseUrl, asset);
@@ -61,6 +61,6 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
   }
 
   consolidated(): Observable<AssetConsolidateHttpModel> {
-    return this.httpClient.get<AssetConsolidateHttpModel>(this.baseUrl + "/0/consolidate");
+    return this.httpClient.get<AssetConsolidateHttpModel>(this.baseUrl + "/consolidate");
   }
 }

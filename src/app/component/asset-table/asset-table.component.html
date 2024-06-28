@@ -5,7 +5,7 @@
         {{header}}
       </th>
       <th>
-        <button class="button" value="oi">oi</button>
+        <button class="button">+</button>
       </th>
     </tr>
   </thead>
@@ -44,6 +44,11 @@
       <td>
         {{asset.returns | currencyFormat}}
       </td>
+      <td>
+        <button class="button" (click)="openAssetComponent(asset.id)">+</button>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<app-asset *ngIf="enableAsset" [assetId]="assetId"></app-asset>

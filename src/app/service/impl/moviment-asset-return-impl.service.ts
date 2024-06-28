@@ -6,6 +6,7 @@ import { MovimentAssetReturnHttpModel } from '../../model/http/moviment-asset-re
 import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../model/page-query';
 import { Crud } from '../crud.service';
+import { MovimentAssetHttpModel } from '../../model/http/moviment-asset-http-model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +44,8 @@ export class MovimentAssetReturnServiceImpl implements Crud<MovimentAssetReturnH
   findById(id: number): Observable<MovimentAssetReturnHttpModel> {
     throw new Error('Method not implemented.');
   }
-  create(asset: AssetModel): Observable<MovimentAssetReturnHttpModel> {
-    throw new Error('Method not implemented.');
+  create(body: MovimentAssetReturnHttpModel): Observable<MovimentAssetReturnHttpModel> {
+    return this.httpClient.post<MovimentAssetReturnHttpModel>(this.baseUrl, body);
   }
   update(): Observable<MovimentAssetReturnHttpModel> {
     throw new Error('Method not implemented.');
