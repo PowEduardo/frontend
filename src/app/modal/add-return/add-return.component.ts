@@ -45,5 +45,6 @@ export class AddReturnComponent {
     this.service.create(this.mapper.toHttp(this.movimentReturn)).subscribe((data: MovimentAssetReturnHttpModel) => {
       console.log(data);
     });
+    this.activeModal.close();
   }
 }
