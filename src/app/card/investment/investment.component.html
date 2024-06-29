@@ -1,8 +1,11 @@
+<h3 class="text-center">Investment Component</h3>
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
       <th *ngFor="let header of headers">
         {{header}}
+      </th>
+      <th>
       </th>
     </tr>
   </thead>
@@ -23,6 +26,10 @@
       <td>
         {{row.returnsValue | currencyFormat}}
       </td>
+      <td class="text-center">
+        <button class=" btn" type="submit" (click)="openAssetDetails()">+</button>
+      </td>
     </tr>
   </tbody>
 </table>
+<router-outlet></router-outlet>

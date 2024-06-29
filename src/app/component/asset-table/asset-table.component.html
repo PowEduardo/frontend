@@ -1,11 +1,12 @@
+<h3 class="text-center">Asset Table Component</h3>
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
       <th *ngFor="let header of headers">
         {{header}}
       </th>
-      <th>
-        <button class="button">+</button>
+      <th class="text-center">
+        <button class="btn">+</button>
       </th>
     </tr>
   </thead>
@@ -44,11 +45,9 @@
       <td>
         {{asset.returns | currencyFormat}}
       </td>
-      <td>
+      <td class="text-center">
         <button class="button" (click)="openAssetComponent(asset.id)">+</button>
       </td>
     </tr>
   </tbody>
 </table>
-
-<app-asset *ngIf="enableAsset" [assetId]="assetId"></app-asset>

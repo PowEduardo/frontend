@@ -1,12 +1,15 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { AssetTableComponent } from '../../component/asset-table/asset-table.component';
 import { InvestmentComponent } from '../../card/investment/investment.component';
+import { Router, RouterOutlet } from '@angular/router';
+import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, AssetTableComponent, InvestmentComponent],
+  imports: [CommonModule, AssetTableComponent, InvestmentComponent, RouterOutlet],
+  providers: [DecimalPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -17,6 +20,7 @@ export class HomeComponent {
   isCreditCard: boolean = false;
   isVehicles: boolean = false;
 
+  constructor(private router: Router) { }
   disableAll(): void {
     this.isAccountEnabled = false;
   }
@@ -28,7 +32,7 @@ export class HomeComponent {
 
   enableInvestment(): void {
     this.disableAll();
-    this.isInvestmentEnabled = true;
+    this.router.navigate(['home/investments']);
   }
 
   enableCreditCard(): void {
@@ -39,5 +43,9 @@ export class HomeComponent {
   enableVehicles(): void {
     this.disableAll();
     this.isVehicles = true;
+  }
+
+  goBack(): void {
+    this.router.navigate(['home']);
   }
 }

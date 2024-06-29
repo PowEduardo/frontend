@@ -1,5 +1,6 @@
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AssetModel } from '../../model/asset-model';
 import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
@@ -20,8 +21,10 @@ export class AssetTableComponent implements OnInit {
   headers: string[] = ["Ticker", "Value", "Amount", "Current Value", "Average", "Monthly Return", "DY", "ADY", "Buy more", "Paid Value", "Returns"];
   allAssets: AssetModel[] = [];
   enableAsset: boolean = false;
-  assetId!: number;
-  constructor(private assetService: AssetServiceImpl) { }
+
+  constructor(private assetService: AssetServiceImpl,
+    private router: Router
+  ) { }
 
   async ngOnInit(): Promise<void> {
     try {
@@ -60,8 +63,7 @@ export class AssetTableComponent implements OnInit {
   }
 
   openAssetComponent(id: number) {
-    this.assetId = id;
-    this.enableAsset = true;
+    this.router.navigate(['/home/investments/assets/', id]);
   }
 
 }

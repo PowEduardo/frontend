@@ -13,7 +13,7 @@ import { MovimentAssetHttpModel } from '../../model/http/moviment-asset-http-mod
 })
 export class MovimentAssetReturnServiceImpl implements Crud<MovimentAssetReturnHttpModel> {
 
-  baseUrl: string = "http://localhost:8080/moviments/returns";
+  baseUrl: string = "http://localhost:8080/assets/";
 
   constructor(private readonly httpClient: HttpClient) { }
 
@@ -45,7 +45,7 @@ export class MovimentAssetReturnServiceImpl implements Crud<MovimentAssetReturnH
     throw new Error('Method not implemented.');
   }
   create(body: MovimentAssetReturnHttpModel): Observable<MovimentAssetReturnHttpModel> {
-    return this.httpClient.post<MovimentAssetReturnHttpModel>(this.baseUrl, body);
+    return this.httpClient.post<MovimentAssetReturnHttpModel>(this.baseUrl + body.id + "/returns", body);
   }
   update(): Observable<MovimentAssetReturnHttpModel> {
     throw new Error('Method not implemented.');

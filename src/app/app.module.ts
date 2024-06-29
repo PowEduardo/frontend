@@ -5,6 +5,10 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './page/home/home.component';
 import { CurrencyFormatPipe } from './pipe/currency-format.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { AddReturnComponent } from './modal/add-return/add-return.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -13,9 +17,13 @@ registerLocaleData(localePt, 'pt-BR');
     HttpClientModule,
     AppRoutingModule,
     HomeComponent,
-    CurrencyFormatPipe
+    CurrencyFormatPipe,
+    NgbModule,
+    BrowserModule,
+    FormsModule
   ],
   providers: [DecimalPipe],
-  exports: [CurrencyFormatPipe]
+  exports: [CurrencyFormatPipe],
+  declarations: [AddReturnComponent]
 })
 export class AppModule { }

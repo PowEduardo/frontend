@@ -16,7 +16,8 @@
       <tr>
         <td><!--TODO: Change this to an card-->
           <!--TODO: Create investment component-->
-          <button class="btn btn-primary" type="submit" (click)="enableInvestment()">Manage investment</button>
+          <button class="btn btn-primary" type="submit" (click)="enableInvestment()">Manage
+            investment</button>
         </td>
         <td><!--TODO: Change this to an card-->
           <!--TODO: Create Vehicles Component-->
@@ -24,15 +25,13 @@
         </td>
       </tr>
       <tr>
-        <td>
-          <app-investment></app-investment>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <app-asset-table></app-asset-table>
-        </td>
+
       </tr>
     </tbody>
   </table>
+  <div class="container">
+    <button class="btn btn-primary" type="submit" (click)="goBack()">Return</button>
+    <p></p>
+  </div>
+  <router-outlet></router-outlet>
 </div>

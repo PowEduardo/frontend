@@ -1,13 +1,36 @@
-<div class="container">
-  <div class="row mb-3">
-    <div class="col-12 col-md-4 bg-light p-3">
-      <strong>ID:</strong> {{asset.id}}
-    </div>
-    <div class="col-12 col-md-4 bg-light p-3">
-      <strong>Ticker:</strong> {{asset.ticker}}
-    </div>
-    <div class="col-12 col-md-4 bg-light p-3">
-      <strong>Value:</strong> {{asset.value | currency:'BRL'}}
-    </div>
-  </div>
-</div>
+<h3 class="text-center">Asset Component</h3>
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>
+        Ticker
+      </th>
+      <th>
+        Value
+      </th>
+      <th>
+        Amount
+      </th>
+      <th>
+        Returns
+        <button class="button" (click)="addReturn()">+</button>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        {{asset.ticker}}
+      </td>
+      <td>
+        {{asset.value | currencyFormat}}
+      </td>
+      <td>
+        {{asset.amount}}
+      </td>
+      <td>
+        {{asset.returns | currencyFormat}}
+      </td>
+    </tr>
+  </tbody>
+</table>

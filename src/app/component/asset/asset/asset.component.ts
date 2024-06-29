@@ -1,31 +1,50 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { AssetModel } from '../../../model/asset-model';
-import { AssetServiceImpl } from '../../../service/impl/asset-impl.service';
-import { AssetHttpModel } from '../../../model/http/asset-http-model';
-import { AssetMapperImpl } from '../../../mapper/impl/asset-mapper-impl';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AssetMapperImpl } from '../../../mapper/impl/asset-mapper-impl';
+import { AssetModel } from '../../../model/asset-model';
+import { AssetHttpModel } from '../../../model/http/asset-http-model';
+import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
+import { AssetServiceImpl } from '../../../service/impl/asset-impl.service';
+import { AssetDetailsHttpModel } from '../../../model/http/asset-details-http-model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddReturnComponent } from '../../../modal/add-return/add-return.component';
 
 @Component({
   selector: 'app-asset',
   standalone: true,
-  imports: [CurrencyPipe, CommonModule],
+  imports: [CurrencyFormatPipe, CommonModule],
   providers: [AssetMapperImpl, CurrencyPipe],
   templateUrl: './asset.component.html',
   styleUrl: './asset.component.css'
 })
-export class AssetComponent implements OnChanges {
+export class AssetComponent implements OnInit {
 
-  @Input()
-  assetId!: number;
+  id!: number;
   asset!: AssetModel;
 
   constructor(private assetService: AssetServiceImpl,
-    private assetMapper: AssetMapperImpl
+    private assetMapper: AssetMapperImpl,
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) { }
-  async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    await this.assetService.findById(this.assetId).subscribe((data: AssetHttpModel) => {
-      console.log(data);
-      this.asset = this.assetMapper.toModel(data);
+  async ngOnInit(): Promise<void> {
+    await this.route.params.subscribe(params => {
+      this.id = +params['id'];
+      this.assetService.findById(this.id).subscribe((data: AssetHttpModel) => {
+        console.log(data);
+        this.asset = this.assetMapper.toModel(data);
+        this.assetService.details(this.id).subscribe((data: AssetDetailsHttpModel) => {
+          this.asset = this.assetMapper.toModelWithDetails(data, this.asset);
+        });
+      });
     });
+
+
+  }
+
+  addReturn() {
+    const modalRef = this.modalService.open(AddReturnComponent);
+    modalRef.componentInstance.id = this.id;
   }
 }
