@@ -28,12 +28,23 @@ export class ReturnsComponent {
     private modalService: NgbModal
   ) { }
   async ngOnInit(): Promise<void> {
+    this.getRouteParams();
+    this.getReturnsByAsset(null);
+  }
+
+  async getRouteParams(): Promise<void> {
     await this.route.parent?.paramMap.subscribe(params => {
       const idString = params.get('id');
       this.id = idString !== null ? +idString : 0;
     });
+  }
 
+  async getReturnsByAsset(sort: string | null): Promise<void> {
+    this.returns = [];
     var query: PageQuery = new PageQuery();
+    if (sort) {
+      query.sort = sort;
+    }
     query.query = "stock:" + this.id;
     this.service.assetId = +this.id;
     await this.service.getAll(query).subscribe((data: MovimentAssetReturnHttpModel[]) => {

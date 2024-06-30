@@ -11,10 +11,13 @@
       <th>
         Operation
       </th>
-      <th>
+      <th (click)="getReturnsByAsset('-exDividendDate')">
+        Ex-Dividend date
+      </th>
+      <th (click)="getReturnsByAsset('-date')">
         Payment Date
       </th>
-      <th>
+      <th (click)="getReturnsByAsset('-value')">
         Value
       </th>
     </tr>
@@ -29,6 +32,9 @@
       </td>
       <td>
         {{return.operation}}
+      </td>
+      <td>
+        {{return.exDividendDate}}
       </td>
       <td>
         {{return.date}}
