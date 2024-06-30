@@ -1,6 +1,6 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { AssetMapperImpl } from '../../../mapper/impl/asset-mapper-impl';
 import { AssetModel } from '../../../model/asset-model';
 import { AssetHttpModel } from '../../../model/http/asset-http-model';
@@ -13,7 +13,7 @@ import { AddReturnComponent } from '../../../modal/add-return/add-return.compone
 @Component({
   selector: 'app-asset',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule],
+  imports: [CurrencyFormatPipe, CommonModule, RouterOutlet],
   providers: [AssetMapperImpl, CurrencyPipe],
   templateUrl: './asset.component.html',
   styleUrl: './asset.component.css'
@@ -26,13 +26,14 @@ export class AssetComponent implements OnInit {
   constructor(private assetService: AssetServiceImpl,
     private assetMapper: AssetMapperImpl,
     private route: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) { }
   async ngOnInit(): Promise<void> {
     await this.route.params.subscribe(params => {
+      console.log(params);
       this.id = +params['id'];
       this.assetService.findById(this.id).subscribe((data: AssetHttpModel) => {
-        console.log(data);
         this.asset = this.assetMapper.toModel(data);
         this.assetService.details(this.id).subscribe((data: AssetDetailsHttpModel) => {
           this.asset = this.assetMapper.toModelWithDetails(data, this.asset);
@@ -46,5 +47,9 @@ export class AssetComponent implements OnInit {
   addReturn() {
     const modalRef = this.modalService.open(AddReturnComponent);
     modalRef.componentInstance.id = this.id;
+  }
+
+  openReturns() {
+    this.router.navigate(['home', 'investments', 'assets', this.id, 'returns']);
   }
 }

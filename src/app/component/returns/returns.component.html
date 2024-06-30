@@ -3,35 +3,39 @@
   <thead class="thead-dark">
     <tr>
       <th>
-        Ticker
-      </th>
-      <th>
-        Value
+        Unit Value
       </th>
       <th>
         Amount
       </th>
       <th>
-        Returns
-        <button class="button" type="submit" (click)="openReturns()">+</button>
+        Operation
+      </th>
+      <th>
+        Payment Date
+      </th>
+      <th>
+        Value
       </th>
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr *ngFor="let return of returns">
       <td>
-        {{asset.ticker}}
+        {{return.unitValue | currencyFormat}}
       </td>
       <td>
-        {{asset.value | currencyFormat}}
+        {{return.amount}}
       </td>
       <td>
-        {{asset.amount}}
+        {{return.operation}}
       </td>
       <td>
-        {{asset.returns | currencyFormat}}
+        {{return.date}}
+      </td>
+      <td>
+        {{return.value | currencyFormat}}
       </td>
     </tr>
   </tbody>
 </table>
-<router-outlet></router-outlet>

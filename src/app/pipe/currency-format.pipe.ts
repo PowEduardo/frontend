@@ -14,7 +14,7 @@ export class CurrencyFormatPipe implements PipeTransform {
       return '';
     }
 
-    let formattedValue = this.decimalPipe.transform(value, '1.2-2', 'pt-BR');
+    let formattedValue = this.decimalPipe.transform(value, '1.2-8', 'pt-BR');
 
     if (formattedValue) {
       formattedValue = `R$ ${formattedValue}`;

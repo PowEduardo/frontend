@@ -14,11 +14,13 @@ import { MovimentAssetHttpModel } from '../../model/http/moviment-asset-http-mod
 export class MovimentAssetReturnServiceImpl implements Crud<MovimentAssetReturnHttpModel> {
 
   baseUrl: string = "http://localhost:8080/assets/";
+  assetId: number = 0;
 
   constructor(private readonly httpClient: HttpClient) { }
 
   search(pageQuery: PageQuery): Observable<PageModel<MovimentAssetReturnHttpModel>> {
-    return this.httpClient.get<PageModel<MovimentAssetReturnHttpModel>>(this.baseUrl + ":search?" + pageQuery.toString());
+    var completeUrl: string = this.baseUrl + this.assetId + "/returns";
+    return this.httpClient.get<PageModel<MovimentAssetReturnHttpModel>>(completeUrl + ":search?" + pageQuery.toString());
   }
 
   getAll(pageQuery: PageQuery): Observable<MovimentAssetReturnHttpModel[]> {
