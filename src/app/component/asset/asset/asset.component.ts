@@ -9,6 +9,7 @@ import { AssetServiceImpl } from '../../../service/impl/asset-impl.service';
 import { AssetDetailsHttpModel } from '../../../model/http/asset-details-http-model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddReturnComponent } from '../../../modal/add-return/add-return.component';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-asset',
@@ -16,32 +17,49 @@ import { AddReturnComponent } from '../../../modal/add-return/add-return.compone
   imports: [CurrencyFormatPipe, CommonModule, RouterOutlet],
   providers: [AssetMapperImpl, CurrencyPipe],
   templateUrl: './asset.component.html',
-  styleUrl: './asset.component.css'
+  styleUrls: ['./asset.component.css']
 })
 export class AssetComponent implements OnInit {
 
   id!: number;
   asset!: AssetModel;
+  loading: boolean = true;
+  error: string | null = null;
 
-  constructor(private assetService: AssetServiceImpl,
+  constructor(
+    private assetService: AssetServiceImpl,
     private assetMapper: AssetMapperImpl,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private router: Router
   ) { }
-  async ngOnInit(): Promise<void> {
-    await this.route.params.subscribe(params => {
-      console.log(params);
+
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
       this.id = +params['id'];
-      this.assetService.findById(this.id).subscribe((data: AssetHttpModel) => {
-        this.asset = this.assetMapper.toModel(data);
-        this.assetService.details(this.id).subscribe((data: AssetDetailsHttpModel) => {
-          this.asset = this.assetMapper.toModelWithDetails(data, this.asset);
-        });
-      });
+      this.loadAssetData(this.id);
     });
+  }
 
+  loadAssetData(id: number): void {
+    this.loading = true;
+    this.error = null;
 
+    forkJoin({
+      asset: this.assetService.findById(id),
+      assetDetails: this.assetService.details(id)
+    }).subscribe({
+      next: ({ asset, assetDetails }) => {
+        this.asset = this.assetMapper.toModel(asset);
+        this.asset = this.assetMapper.toModelWithDetails(assetDetails, this.asset);
+        this.loading = false;
+      },
+      error: err => {
+        console.error('Error loading asset data', err);
+        this.error = 'Error loading asset data';
+        this.loading = false;
+      }
+    });
   }
 
   addReturn() {
