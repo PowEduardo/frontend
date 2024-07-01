@@ -9,5 +9,5 @@ export abstract class Crud<T> {
   abstract getAll(pageQuery?: PageQuery): Observable<T[]>;
   abstract findById(id: number): Observable<T>;
   abstract create(body: T): Observable<T>;
-  abstract update(): Observable<T>;
+  abstract update(body: T): Observable<T>;
 }

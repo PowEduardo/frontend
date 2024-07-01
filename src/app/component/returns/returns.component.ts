@@ -2,19 +2,20 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovimentAssetReturnHttpModel } from '../../model/http/moviment-asset-return-http-model';
-import { MovimentAssetReturnServiceImpl } from '../../service/impl/moviment-asset-return-impl.service';
+import { AssetReturnServiceImpl } from '../../service/impl/moviment-asset-return-impl.service';
 import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../model/page-query';
 import { MovimentAssetReturnModel } from '../../model/moviment-asset-return-model';
 import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { CommonModule } from '@angular/common';
-import { MovimentReturnMapperImpl } from '../../mapper/impl/moviment-return-mapper-impl';
+import { AssetReturnMapperImpl } from '../../mapper/impl/moviment-return-mapper-impl';
+import { AddReturnComponent } from '../../modal/add-return/add-return.component';
 
 @Component({
   selector: 'app-returns',
   standalone: true,
   imports: [CurrencyFormatPipe, CommonModule],
-  providers: [MovimentReturnMapperImpl],
+  providers: [AssetReturnMapperImpl],
   templateUrl: './returns.component.html',
   styleUrl: './returns.component.css'
 })
@@ -22,8 +23,8 @@ export class ReturnsComponent {
   id!: number;
   returns: MovimentAssetReturnModel[] = [];
 
-  constructor(private service: MovimentAssetReturnServiceImpl,
-    private mapper: MovimentReturnMapperImpl,
+  constructor(private service: AssetReturnServiceImpl,
+    private mapper: AssetReturnMapperImpl,
     private route: ActivatedRoute,
     private modalService: NgbModal
   ) { }
@@ -52,5 +53,18 @@ export class ReturnsComponent {
         this.returns.push(this.mapper.toModel(element));
       }
     });
+  }
+
+  addReturn() {
+    const modalRef = this.modalService.open(AddReturnComponent);
+    modalRef.componentInstance.id = this.id;
+  }
+
+  updateReturn(model: MovimentAssetReturnModel) {
+    const modalRef = this.modalService.open(AddReturnComponent);
+    modalRef.componentInstance.assetId = this.id;
+    modalRef.componentInstance.movimentReturn = model;
+    modalRef.componentInstance.overrideValue = true;
+    modalRef.componentInstance.updateOperation = true;
   }
 }

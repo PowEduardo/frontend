@@ -3,7 +3,7 @@ export class PageQuery {
   query?: string;
   offset: number = 0;
   limit: number = 10;
-  sort?: string = "id";
+  sort?: string = "-id";
 
   toString(): string {
     var response: string = "";

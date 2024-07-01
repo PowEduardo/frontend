@@ -8,6 +8,7 @@ import { AssetHttpModel } from '../../model/http/asset-http-model';
 import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { AssetServiceImpl } from '../../service/impl/asset-impl.service';
 import { AssetComponent } from '../asset/asset/asset.component';
+import { PageQuery } from '../../model/page-query';
 
 @Component({
   selector: 'app-asset-table',
@@ -26,9 +27,21 @@ export class AssetTableComponent implements OnInit {
     private router: Router
   ) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
+    this.getAssets(null);
+  }
+
+  openAssetComponent(id: number) {
+    this.router.navigate(['/home/investments/assets/', id]);
+  }
+
+  async getAssets(attribute: string | null): Promise<void> {
     try {
-      const assetsHttp: AssetHttpModel[] = await firstValueFrom(this.assetService.getAll());
+      var query: PageQuery = new PageQuery();
+      if (attribute) {
+        query.sort = attribute;
+      }
+      const assetsHttp: AssetHttpModel[] = await firstValueFrom(this.assetService.getAll(query));
 
       const assetDetailsPromises = assetsHttp.map(async (assetHttp) => {
         const asset: AssetModel = new AssetModel();
@@ -60,10 +73,6 @@ export class AssetTableComponent implements OnInit {
     } catch (error) {
       console.error('Error fetching all assets:', error);
     }
-  }
-
-  openAssetComponent(id: number) {
-    this.router.navigate(['/home/investments/assets/', id]);
   }
 
 }

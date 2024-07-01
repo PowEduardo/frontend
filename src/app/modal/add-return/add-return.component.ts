@@ -1,50 +1,63 @@
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MovimentAssetReturnServiceImpl } from '../../service/impl/moviment-asset-return-impl.service';
+import { AssetReturnServiceImpl } from '../../service/impl/moviment-asset-return-impl.service';
 import { MovimentAssetReturnModel } from '../../model/moviment-asset-return-model';
 import { MovimentAssetReturnHttpModel } from '../../model/http/moviment-asset-return-http-model';
-import { MovimentReturnMapperImpl } from '../../mapper/impl/moviment-return-mapper-impl';
+import { AssetReturnMapperImpl } from '../../mapper/impl/moviment-return-mapper-impl';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-return',
   standalone: true,
-  imports: [FormsModule],
-  providers: [MovimentReturnMapperImpl],
+  imports: [FormsModule, CommonModule],
+  providers: [AssetReturnMapperImpl],
   templateUrl: './add-return.component.html',
   styleUrl: './add-return.component.css'
 })
 export class AddReturnComponent {
-  @Input() id!: number;
+  @Input() assetId!: number;
+  overrideValue: boolean = false;
+  updateOperation: boolean = false;
+  @Input()
+  movimentReturn!: MovimentAssetReturnModel;
 
   constructor(public activeModal: NgbActiveModal,
-    private service: MovimentAssetReturnServiceImpl,
-    private mapper: MovimentReturnMapperImpl
-  ) { }
-  movimentReturn: MovimentAssetReturnModel = {
-    amount: 0,
-    operation: '',
-    unitValue: 0,
-    exDividendDate: new Date(),
-    id: 0,
-    date: new Date(),
-    value: 0,
-    type: ''
-  };
-
-  overrideValue: boolean = false;
+    private service: AssetReturnServiceImpl,
+    private mapper: AssetReturnMapperImpl
+  ) {
+    if (this.movimentReturn === undefined) {
+      this.movimentReturn = {
+        amount: 0,
+        operation: '',
+        unitValue: 0,
+        exDividendDate: new Date(),
+        id: 0,
+        date: new Date(),
+        value: 0,
+        type: ''
+      };
+    }
+  }
 
   calculateValue() {
     if (!this.overrideValue) {
-      this.movimentReturn.value = this.movimentReturn.amount * this.movimentReturn.unitValue;
+      this.movimentReturn!.value = this.movimentReturn!.amount * this.movimentReturn!.unitValue;
     }
   }
 
   onSubmit() {
-    this.movimentReturn.id = this.id;
-    this.service.create(this.mapper.toHttp(this.movimentReturn)).subscribe((data: MovimentAssetReturnHttpModel) => {
-      console.log(data);
-    });
+    if (!this.updateOperation) {
+      this.service.create(this.mapper.toHttp(this.movimentReturn!)).subscribe((data: MovimentAssetReturnHttpModel) => {
+        console.log(data);
+      });
+    } else {
+      this.service.assetId = this.assetId;
+      console.log(this.assetId);
+      this.service.update(this.mapper.toHttp(this.movimentReturn!)).subscribe((data: MovimentAssetReturnHttpModel) => {
+        console.log(data);
+      });
+    }
     this.activeModal.close();
   }
 }

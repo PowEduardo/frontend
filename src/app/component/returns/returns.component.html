@@ -1,4 +1,4 @@
-<h3 class="text-center">Asset Component</h3>
+<h3 class="text-center">Returns Component</h3>
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
@@ -20,6 +20,9 @@
       <th (click)="getReturnsByAsset('-value')">
         Value
       </th>
+      <th (click)="addReturn()">
+        +
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -34,13 +37,16 @@
         {{return.operation}}
       </td>
       <td>
-        {{return.exDividendDate}}
+        {{return.exDividendDate | date:'dd/MM/yyyy'}}
       </td>
       <td>
-        {{return.date}}
+        {{return.date | date:'dd/MM/yyyy'}}
       </td>
       <td>
         {{return.value | currencyFormat}}
+      </td>
+      <td (click)="updateReturn(return)">
+        +
       </td>
     </tr>
   </tbody>

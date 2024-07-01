@@ -2,7 +2,7 @@ import { MovimentAssetReturnHttpModel } from "../../model/http/moviment-asset-re
 import { MovimentAssetReturnModel } from "../../model/moviment-asset-return-model";
 import { MovimentMapper } from "../moviment-mapper";
 
-export class MovimentReturnMapperImpl extends MovimentMapper {
+export class AssetReturnMapperImpl extends MovimentMapper {
   override toModel(returnHttp: MovimentAssetReturnHttpModel): MovimentAssetReturnModel {
     var returnModel: MovimentAssetReturnModel = new MovimentAssetReturnModel();
     returnModel.amount = returnHttp.amount;
@@ -23,7 +23,7 @@ export class MovimentReturnMapperImpl extends MovimentMapper {
     returnHttp.unitValue = returnModel.unitValue;
     returnHttp.value = returnModel.value;
     returnHttp.id = returnModel.id;
-    returnHttp.type = "STOCK_RETURNS";
+    returnHttp.type = "ASSET_RETURN";
     return returnHttp;
   }
 }

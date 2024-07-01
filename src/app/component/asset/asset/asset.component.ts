@@ -1,15 +1,11 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { AssetMapperImpl } from '../../../mapper/impl/asset-mapper-impl';
 import { AssetModel } from '../../../model/asset-model';
-import { AssetHttpModel } from '../../../model/http/asset-http-model';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { AssetServiceImpl } from '../../../service/impl/asset-impl.service';
-import { AssetDetailsHttpModel } from '../../../model/http/asset-details-http-model';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddReturnComponent } from '../../../modal/add-return/add-return.component';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-asset',
@@ -30,7 +26,6 @@ export class AssetComponent implements OnInit {
     private assetService: AssetServiceImpl,
     private assetMapper: AssetMapperImpl,
     private route: ActivatedRoute,
-    private modalService: NgbModal,
     private router: Router
   ) { }
 
@@ -60,11 +55,6 @@ export class AssetComponent implements OnInit {
         this.loading = false;
       }
     });
-  }
-
-  addReturn() {
-    const modalRef = this.modalService.open(AddReturnComponent);
-    modalRef.componentInstance.id = this.id;
   }
 
   openReturns() {

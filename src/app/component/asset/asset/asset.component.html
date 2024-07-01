@@ -7,16 +7,17 @@
       <th>Amount</th>
       <th>
         Returns
-        <button class="button btn btn-primary btn-sm ml-2" type="submit" (click)="openReturns()">+</button>
+        <button class="btn" (click)="openReturns()">+</button>
       </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngIf="asset">
-      <td>{{asset?.ticker}}</td>
-      <td>{{asset?.value | currencyFormat}}</td>
-      <td>{{asset?.amount}}</td>
-      <td>{{asset?.returns | currencyFormat}}</td>
+      <td>{{asset.ticker}}</td>
+      <td>{{asset.value | currencyFormat}}</td>
+      <td>{{asset.amount}}</td>
+      <td>{{asset.returns | currencyFormat}}</td>
+      <td>+</td>
     </tr>
     <tr *ngIf="!asset">
       <td colspan="4" class="text-center">Loading asset details...</td>

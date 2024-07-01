@@ -2,8 +2,38 @@
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
-      <th *ngFor="let header of headers">
-        {{header}}
+      <th (click)="getAssets('ticker')">
+        Ticker
+      </th>
+      <th (click)="getAssets('value')">
+        Value
+      </th>
+      <th (click)="getAssets('amount')">
+        Amount
+      </th>
+      <th (click)="getAssets('ticker')">
+        Current Value
+      </th>
+      <th (click)="getAssets('average')">
+        Average
+      </th>
+      <th (click)="getAssets('ticker')">
+        Monthly Return
+      </th>
+      <th (click)="getAssets('DY')">
+        DY
+      </th>
+      <th (click)="getAssets('ticker')">
+        ADY
+      </th>
+      <th (click)="getAssets('ticker')">
+        Target Amount
+      </th>
+      <th (click)="getAssets('ticker')">
+        Paid Value
+      </th>
+      <th (click)="getAssets('returns')">
+        Returns
       </th>
       <th class="text-center">
         <button class="btn">+</button>
@@ -46,7 +76,7 @@
         {{asset.returns | currencyFormat}}
       </td>
       <td class="text-center">
-        <button class="button" (click)="openAssetComponent(asset.id)">+</button>
+        <button class="btn" (click)="openAssetComponent(asset.id)">+</button>
       </td>
     </tr>
   </tbody>

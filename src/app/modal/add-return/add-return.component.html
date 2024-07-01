@@ -4,7 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
+<div *ngIf="movimentReturn" class="modal-body">
   <form #assetForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="amount">Amount</label>
@@ -29,8 +29,10 @@
     <div class="form-group">
       <label for="operation">Operation</label>
       <select class="form-control" id="operation" name="operation" [(ngModel)]="movimentReturn.operation">
+        <option value="AMORTIZATION">AMORTIZATION</option>
         <option value="DIVIDEND">DIVIDEND</option>
         <option value="JCP">JCP</option>
+        <option value="REFUND">REFUND</option>
       </select>
     </div>
     <div class="form-group">

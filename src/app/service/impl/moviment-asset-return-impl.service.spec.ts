@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MovimentAssetReturnServiceImpl } from './moviment-asset-return-impl.service';
+import { AssetReturnServiceImpl } from './moviment-asset-return-impl.service';
 
 describe('MovimentAssetReturnServiceImpl', () => {
-  let service: MovimentAssetReturnServiceImpl;
+  let service: AssetReturnServiceImpl;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MovimentAssetReturnServiceImpl);
+    service = TestBed.inject(AssetReturnServiceImpl);
   });
 
   it('should be created', () => {

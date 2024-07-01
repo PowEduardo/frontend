@@ -21,8 +21,7 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  getAll(): Observable<AssetHttpModel[]> {
-    var pageQuery: PageQuery = new PageQuery;
+  getAll(pageQuery: PageQuery): Observable<AssetHttpModel[]> {
     return this.search(pageQuery).pipe(
       mergeMap(firstPage => {
         if (firstPage.last) {
