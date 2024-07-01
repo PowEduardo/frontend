@@ -19,6 +19,7 @@ registerLocaleData(localePt, 'pt-BR');
 export class InvestmentComponent implements OnInit {
   headers: string[] = ["Category", "Invested", "Current Value", "Wanted Value", "Returns Value"];
   columns: InvestmentModel[] = [];
+  assetType: string = '';
 
   constructor(private service: InvestmentServiceImpl,
     private router: Router
@@ -28,8 +29,7 @@ export class InvestmentComponent implements OnInit {
     this.columns = this.service.getConsolidated();
   }
 
-  openAssetDetails() {
-    this.router.navigate(['home/investments/assets']);
-
+  openAssetDetails(assetType: string) {
+    this.router.navigate(['home/investments/assets'], { queryParams: { type: assetType } });
   }
 }

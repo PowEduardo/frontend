@@ -1,6 +1,6 @@
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit, input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AssetModel } from '../../model/asset-model';
 import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
@@ -19,15 +19,19 @@ import { PageQuery } from '../../model/page-query';
   styleUrl: './asset-table.component.css'
 })
 export class AssetTableComponent implements OnInit {
-  headers: string[] = ["Ticker", "Value", "Amount", "Current Value", "Average", "Monthly Return", "DY", "ADY", "Buy more", "Paid Value", "Returns"];
   allAssets: AssetModel[] = [];
   enableAsset: boolean = false;
+  type: string = '';
 
   constructor(private assetService: AssetServiceImpl,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.route.queryParams.subscribe(params => {
+      this.type = params['type'];
+    });
     this.getAssets(null);
   }
 
@@ -38,6 +42,7 @@ export class AssetTableComponent implements OnInit {
   async getAssets(attribute: string | null): Promise<void> {
     try {
       var query: PageQuery = new PageQuery();
+      query.query = "type:" + this.type;
       if (attribute) {
         query.sort = attribute;
       }
