@@ -9,6 +9,8 @@ import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { AssetServiceImpl } from '../../service/impl/asset-impl.service';
 import { AssetComponent } from '../asset/asset/asset.component';
 import { PageQuery } from '../../model/page-query';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddAssetComponent } from '../../modal/add-asset/add-asset.component';
 
 @Component({
   selector: 'app-asset-table',
@@ -25,7 +27,8 @@ export class AssetTableComponent implements OnInit {
 
   constructor(private assetService: AssetServiceImpl,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -78,6 +81,16 @@ export class AssetTableComponent implements OnInit {
     } catch (error) {
       console.error('Error fetching all assets:', error);
     }
+  }
+
+  addAsset() {
+    const modalRef = this.modalService.open(AddAssetComponent);
+  }
+
+  updateAsset(model: AssetModel) {
+    const modalRef = this.modalService.open(AddAssetComponent);
+    modalRef.componentInstance.model = model;
+    modalRef.componentInstance.updateOperation = true;
   }
 
 }

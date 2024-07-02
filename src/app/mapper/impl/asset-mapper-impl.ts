@@ -19,6 +19,11 @@ export class AssetMapperImpl extends AssetMapper {
   }
 
   override toHttp(assetModel: AssetModel): AssetHttpModel {
-    throw new Error("Method not implemented.");
+    var assetHttp: AssetHttpModel = new AssetHttpModel();
+    assetHttp.id = assetModel.id;
+    assetHttp.ticker = assetModel.ticker;
+    assetHttp.value = assetModel.value;
+    assetHttp.type = "STOCK";
+    return assetHttp;
   }
 }

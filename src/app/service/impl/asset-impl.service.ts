@@ -48,8 +48,8 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
   create(asset: AssetHttpModel): Observable<AssetHttpModel> {
     return this.httpClient.post<AssetHttpModel>(this.baseUrl, asset);
   }
-  update(): Observable<AssetHttpModel> {
-    throw new Error('Method not implemented.');
+  update(asset: AssetHttpModel): Observable<AssetHttpModel> {
+    return this.httpClient.put<AssetHttpModel>(this.baseUrl + "/" + asset.id, asset);
   }
   search(pageQuery: PageQuery): Observable<PageModel<AssetHttpModel>> {
     return this.httpClient.get<PageModel<AssetHttpModel>>(this.baseUrl + ":search?" + pageQuery.toString());

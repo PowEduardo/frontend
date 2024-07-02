@@ -16,8 +16,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './add-return.component.css'
 })
 export class AddReturnComponent {
-  @Input() assetId!: number;
+  @Input()
+  assetId!: number;
   overrideValue: boolean = false;
+  @Input()
   updateOperation: boolean = false;
   @Input()
   movimentReturn!: MovimentAssetReturnModel;

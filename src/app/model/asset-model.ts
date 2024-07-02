@@ -11,4 +11,5 @@ export class AssetModel {
   targetAmount!: number;
   paidValue!: number;
   returns!: number;
+  type!: string;
 }
