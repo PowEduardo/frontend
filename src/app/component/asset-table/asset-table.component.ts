@@ -35,7 +35,7 @@ export class AssetTableComponent implements OnInit {
     await this.route.queryParams.subscribe(params => {
       this.type = params['type'];
     });
-    this.getAssets(null);
+    this.getAssets('ticker');
   }
 
   openAssetComponent(id: number) {
@@ -85,12 +85,27 @@ export class AssetTableComponent implements OnInit {
 
   addAsset() {
     const modalRef = this.modalService.open(AddAssetComponent);
+    modalRef.componentInstance.model.type = this.type;
+    modalRef.result.then((result) => {
+      if (result === 'saved') {
+        this.getAssets('ticker');
+      }
+    });
   }
 
   updateAsset(model: AssetModel) {
     const modalRef = this.modalService.open(AddAssetComponent);
     modalRef.componentInstance.model = model;
     modalRef.componentInstance.updateOperation = true;
+    modalRef.result.then((result) => {
+      if (result === 'saved') {
+        this.getAssets('ticker');
+      }
+    });
+  }
+
+  sortDY() {
+    this.allAssets.sort((a, b) => b.dy - a.dy);
   }
 
 }

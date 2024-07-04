@@ -51,13 +51,10 @@ export class AddReturnComponent {
   onSubmit() {
     if (!this.updateOperation) {
       this.service.create(this.mapper.toHttp(this.movimentReturn!)).subscribe((data: MovimentAssetReturnHttpModel) => {
-        console.log(data);
       });
     } else {
       this.service.assetId = this.assetId;
-      console.log(this.assetId);
       this.service.update(this.mapper.toHttp(this.movimentReturn!)).subscribe((data: MovimentAssetReturnHttpModel) => {
-        console.log(data);
       });
     }
     this.activeModal.close();

@@ -12,17 +12,20 @@ export class InvestmentServiceImpl extends InvestmentService {
   constructor(private assetService: AssetServiceImpl) {
     super();
   }
-  override getConsolidated(): InvestmentModel[] {
+  override getConsolidated(assetsTypes: string[]): InvestmentModel[] {
     var investmentModels: InvestmentModel[] = [];
-    var investmentModel: InvestmentModel = new InvestmentModel();
-    investmentModel.category = "Stock";
-    this.assetService.consolidated().subscribe((data: AssetConsolidateHttpModel) => {
-      investmentModel.currentValue = data.currentValue;
-      investmentModel.paidValue = data.paidValue;
-      investmentModel.returnsValue = data.totalReturns;
-      investmentModel.wantedValue = data.wantedValue;
+    assetsTypes.forEach(element => {
+      this.assetService.consolidated(element).subscribe((data: AssetConsolidateHttpModel) => {
+        var investmentModel: InvestmentModel = new InvestmentModel();
+        investmentModel.category = element;
+        investmentModel.currentValue = data.currentValue;
+        investmentModel.paidValue = data.paidValue;
+        investmentModel.returnsValue = data.totalReturns;
+        investmentModel.wantedValue = data.wantedValue;
+        investmentModels.push(investmentModel);
+      });
     });
-    investmentModels.push(investmentModel);
+
 
     return investmentModels;
   }

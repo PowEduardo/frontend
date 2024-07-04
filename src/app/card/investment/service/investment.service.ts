@@ -6,5 +6,5 @@ import { InvestmentModel } from '../../../model/investment-model';
 })
 export abstract class InvestmentService {
 
-  abstract getConsolidated(): InvestmentModel[];
+  abstract getConsolidated(assetTypes: string[]): InvestmentModel[];
 }

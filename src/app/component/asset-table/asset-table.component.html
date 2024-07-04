@@ -20,7 +20,7 @@
       <th (click)="getAssets('ticker')">
         Monthly Return
       </th>
-      <th (click)="getAssets('DY')">
+      <th (click)="sortDY()">
         DY
       </th>
       <th (click)="getAssets('ticker')">
@@ -37,6 +37,9 @@
       </th>
       <th class="text-center">
         <button class="btn" (click)="addAsset()">+</button>
+      </th>
+      <th class="text-center">
+        <button class="btn">Edit</button>
       </th>
     </tr>
   </thead>
@@ -67,7 +70,7 @@
         {{asset.ady}}
       </td>
       <td>
-        {{asset.targetAmount | currencyFormat}}
+        {{asset.targetAmount}}
       </td>
       <td>
         {{asset.paidValue | currencyFormat}}
@@ -77,6 +80,9 @@
       </td>
       <td class="text-center">
         <button class="btn" (click)="openAssetComponent(asset.id)">+</button>
+      </td>
+      <td class="text-center">
+        <button class="btn" (click)="updateAsset(asset)">+</button>
       </td>
     </tr>
   </tbody>

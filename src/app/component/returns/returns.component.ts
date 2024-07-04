@@ -30,7 +30,7 @@ export class ReturnsComponent {
   ) { }
   async ngOnInit(): Promise<void> {
     this.getRouteParams();
-    this.getReturnsByAsset(null);
+    this.getReturnsByAsset('-date');
   }
 
   async getRouteParams(): Promise<void> {

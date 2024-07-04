@@ -59,7 +59,7 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
     return this.httpClient.get<AssetDetailsHttpModel>(this.baseUrl + "/" + id + "/details");
   }
 
-  consolidated(): Observable<AssetConsolidateHttpModel> {
-    return this.httpClient.get<AssetConsolidateHttpModel>(this.baseUrl + "/consolidate");
+  consolidated(assetType: string): Observable<AssetConsolidateHttpModel> {
+    return this.httpClient.get<AssetConsolidateHttpModel>(this.baseUrl + "/consolidate", { params: { type: assetType } });
   }
 }

@@ -38,11 +38,9 @@ export class AddAssetComponent {
   onSubmit() {
     if (!this.updateOperation) {
       this.service.create(this.mapper.toHttp(this.model!)).subscribe((data: AssetHttpModel) => {
-        console.log(data);
       });
     } else {
       this.service.update(this.mapper.toHttp(this.model!)).subscribe((data: AssetHttpModel) => {
-        console.log(data);
       });
     }
     this.activeModal.close();

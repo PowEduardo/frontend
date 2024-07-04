@@ -23,7 +23,7 @@ export class AssetMapperImpl extends AssetMapper {
     assetHttp.id = assetModel.id;
     assetHttp.ticker = assetModel.ticker;
     assetHttp.value = assetModel.value;
-    assetHttp.type = "STOCK";
+    assetHttp.type = assetModel.type;
     return assetHttp;
   }
 }

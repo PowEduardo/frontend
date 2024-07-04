@@ -19,14 +19,14 @@ registerLocaleData(localePt, 'pt-BR');
 export class InvestmentComponent implements OnInit {
   headers: string[] = ["Category", "Invested", "Current Value", "Wanted Value", "Returns Value"];
   columns: InvestmentModel[] = [];
-  assetType: string = '';
+  assetType: string[] = ['STOCK', 'REIT'];
 
   constructor(private service: InvestmentServiceImpl,
     private router: Router
   ) {
   }
   ngOnInit(): void {
-    this.columns = this.service.getConsolidated();
+    this.columns = this.service.getConsolidated(this.assetType);
   }
 
   openAssetDetails(assetType: string) {

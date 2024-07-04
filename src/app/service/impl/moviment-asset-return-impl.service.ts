@@ -50,7 +50,6 @@ export class AssetReturnServiceImpl implements Crud<MovimentAssetReturnHttpModel
     return this.httpClient.post<MovimentAssetReturnHttpModel>(this.baseUrl + this.assetId + "/returns", body);
   }
   update(body: MovimentAssetReturnHttpModel): Observable<MovimentAssetReturnHttpModel> {
-    console.log('body: ', body)
     return this.httpClient.put<MovimentAssetReturnHttpModel>(this.baseUrl + this.assetId + "/returns/" + body.id, body);
   }
 }
