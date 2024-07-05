@@ -1,15 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MovimentAssetReturnHttpModel } from '../../model/http/moviment-asset-return-http-model';
-import { AssetReturnServiceImpl } from '../../service/impl/moviment-asset-return-impl.service';
-import { PageModel } from '../../model/page-model';
-import { PageQuery } from '../../model/page-query';
-import { AssetMovimentReturnModel } from '../../model/asset-moviment-return-model';
-import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
-import { CommonModule } from '@angular/common';
-import { AssetReturnMapperImpl } from '../../mapper/impl/moviment-return-mapper-impl';
-import { AddReturnComponent } from '../../modal/add-return/add-return.component';
+import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
+import { AssetReturnMapperImpl } from '../../../mapper/impl/moviment-return-mapper-impl';
+import { AssetMovimentReturnModel } from '../../../model/asset-moviment-return-model';
+import { AssetReturnServiceImpl } from '../../../service/impl/moviment-asset-return-impl.service';
+import { PageQuery } from '../../../model/page-query';
+import { MovimentAssetReturnHttpModel } from '../../../model/http/moviment-asset-return-http-model';
+import { AddReturnComponent } from '../../../modal/add-return/add-return.component';
+
 
 @Component({
   selector: 'app-returns',
@@ -55,23 +55,23 @@ export class ReturnsComponent {
     });
   }
 
-  addReturn() {
+  async addReturn() {
     const modalRef = this.modalService.open(AddReturnComponent);
     modalRef.componentInstance.assetId = this.id;
-    modalRef.result.then((result) => {
+    await modalRef.result.then((result) => {
       if (result === 'saved') {
         this.getReturnsByAsset('-date');
       }
     });
   }
 
-  updateReturn(model: AssetMovimentReturnModel) {
+  async updateReturn(model: AssetMovimentReturnModel) {
     const modalRef = this.modalService.open(AddReturnComponent);
     modalRef.componentInstance.assetId = this.id;
     modalRef.componentInstance.movimentReturn = model;
     modalRef.componentInstance.overrideValue = true;
     modalRef.componentInstance.updateOperation = true;
-    modalRef.result.then((result) => {
+    await modalRef.result.then((result) => {
       if (result === 'saved') {
         this.getReturnsByAsset('-date');
       }

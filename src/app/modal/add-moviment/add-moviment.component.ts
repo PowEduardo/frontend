@@ -36,15 +36,15 @@ export class AddMovimentComponent {
 
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.service.assetId = this.assetId;
     if (!this.updateOperation) {
-      this.service.create(this.mapper.toHttp(this.model!)).subscribe((data: MovimentAssetHttpModel) => {
+      await this.service.create(this.mapper.toHttp(this.model!)).subscribe((data: MovimentAssetHttpModel) => {
       });
     } else {
-      this.service.update(this.mapper.toHttp(this.model!)).subscribe((data: MovimentAssetHttpModel) => {
+      await this.service.update(this.mapper.toHttp(this.model!)).subscribe((data: MovimentAssetHttpModel) => {
       });
     }
-    this.activeModal.close();
+    await this.activeModal.close();
   }
 }

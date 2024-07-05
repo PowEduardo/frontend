@@ -1,14 +1,12 @@
-import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { AssetTableComponent } from '../../component/asset-table/asset-table.component';
-import { InvestmentComponent } from '../../card/investment/investment.component';
 import { Router, RouterOutlet } from '@angular/router';
-import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
+import { InvestmentComponent } from '../../card/investment/investment.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, AssetTableComponent, InvestmentComponent, RouterOutlet],
+  imports: [CommonModule, InvestmentComponent, RouterOutlet],
   providers: [DecimalPipe],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

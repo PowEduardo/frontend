@@ -2,26 +2,26 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, Input, OnInit, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { AssetModel } from '../../model/asset-model';
-import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
-import { AssetHttpModel } from '../../model/http/asset-http-model';
-import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
-import { AssetServiceImpl } from '../../service/impl/asset-impl.service';
-import { AssetComponent } from '../asset/asset/asset.component';
-import { PageQuery } from '../../model/page-query';
+import { AssetModel } from '../../../model/asset-model';
+import { AssetDetailsHttpModel } from '../../../model/http/asset-details-http-model';
+import { AssetHttpModel } from '../../../model/http/asset-http-model';
+import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
+import { AssetServiceImpl } from '../../../service/impl/asset-impl.service';
+import { AssetComponent } from '../asset/asset.component';
+import { PageQuery } from '../../../model/page-query';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddAssetComponent } from '../../modal/add-asset/add-asset.component';
-import { AssetMapperImpl } from '../../mapper/impl/asset-mapper-impl';
+import { AddAssetComponent } from '../../../modal/add-asset/add-asset.component';
+import { AssetMapperImpl } from '../../../mapper/impl/asset-mapper-impl';
 
 @Component({
-  selector: 'app-asset-table',
+  selector: 'app-table',
   standalone: true,
   imports: [CommonModule, CurrencyFormatPipe, AssetComponent],
   providers: [DecimalPipe, AssetMapperImpl],
-  templateUrl: './asset-table.component.html',
-  styleUrl: './asset-table.component.css'
+  templateUrl: './table.component.html',
+  styleUrl: './table.component.css'
 })
-export class AssetTableComponent implements OnInit {
+export class TableComponent implements OnInit {
   allAssets: AssetModel[] = [];
   enableAsset: boolean = false;
   type: string = '';
@@ -82,21 +82,21 @@ export class AssetTableComponent implements OnInit {
     }
   }
 
-  addAsset() {
+  async addAsset() {
     const modalRef = this.modalService.open(AddAssetComponent);
     modalRef.componentInstance.model.type = this.type;
-    modalRef.result.then((result) => {
+    await modalRef.result.then((result) => {
       if (result === 'saved') {
         this.getAssets('ticker');
       }
     });
   }
 
-  updateAsset(model: AssetModel) {
+  async updateAsset(model: AssetModel) {
     const modalRef = this.modalService.open(AddAssetComponent);
     modalRef.componentInstance.model = model;
     modalRef.componentInstance.updateOperation = true;
-    modalRef.result.then((result) => {
+    await modalRef.result.then((result) => {
       if (result === 'saved') {
         this.getAssets('ticker');
       }

@@ -60,12 +60,19 @@ export class AssetComponent implements OnInit {
     });
   }
 
+  openMoviments() {
+    this.router.navigate(['home', 'investments', 'assets', this.id, 'moviments']);
+  }
+
   openReturns() {
     this.router.navigate(['home', 'investments', 'assets', this.id, 'returns']);
   }
 
-  addMoviment() {
+  async addMoviment() {
     const modalRef = this.modalService.open(AddMovimentComponent);
     modalRef.componentInstance.assetId = this.id;
+    await modalRef.result.then((result) => {
+      this.loadAssetData(this.id);
+    });
   }
 }

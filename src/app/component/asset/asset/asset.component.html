@@ -5,10 +5,7 @@
       <th>Ticker</th>
       <th>Value</th>
       <th>Amount</th>
-      <th>
-        Returns
-        <button class="btn" (click)="openReturns()">+</button>
-      </th>
+      <th>Returns</th>
     </tr>
   </thead>
   <tbody>
@@ -17,11 +14,13 @@
       <td>{{asset.value | currencyFormat}}</td>
       <td>{{asset.amount}}</td>
       <td>{{asset.returns | currencyFormat}}</td>
-      <td (click)="addMoviment()">+</td>
     </tr>
     <tr *ngIf="!asset">
       <td colspan="4" class="text-center">Loading asset details...</td>
     </tr>
   </tbody>
 </table>
+<button class="btn" (click)="openMoviments()">Moviments</button>
+<button class="btn" (click)="openReturns()">Returns</button>
+
 <router-outlet></router-outlet>

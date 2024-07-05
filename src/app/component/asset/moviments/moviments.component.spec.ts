@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetTableComponent } from './asset-table.component';
+import { MovimentsComponent } from './moviments.component';
 
-describe('AssetTableComponent', () => {
-  let component: AssetTableComponent;
-  let fixture: ComponentFixture<AssetTableComponent>;
+describe('MovimentsComponent', () => {
+  let component: MovimentsComponent;
+  let fixture: ComponentFixture<MovimentsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AssetTableComponent]
+      imports: [MovimentsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AssetTableComponent);
+    fixture = TestBed.createComponent(MovimentsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
