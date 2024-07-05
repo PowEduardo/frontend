@@ -1,18 +1,18 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { forkJoin } from 'rxjs';
-import { AssetMapperImpl } from '../mapper/impl/asset-mapper-impl';
-import { AssetModel } from '../model/asset-model';
-import { CurrencyFormatPipe } from '../../../../pipe/currency-format.pipe';
-import { AssetServiceImpl } from '../service/impl/asset-impl.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddMovimentComponent } from '../modal/add-moviment/add-moviment.component';
+import { forkJoin } from 'rxjs';
+import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
+import { AssetMapperImpl } from './mapper/impl/asset-mapper-impl';
+import { AssetModel } from './model/asset-model';
+import { AssetServiceImpl } from './service/impl/asset-impl.service';
+
 
 @Component({
   selector: 'app-asset',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule, RouterOutlet, AddMovimentComponent],
+  imports: [CurrencyFormatPipe, CommonModule, RouterOutlet],
   providers: [AssetMapperImpl, CurrencyPipe],
   templateUrl: './asset.component.html',
   styleUrls: ['./asset.component.css']
@@ -68,11 +68,5 @@ export class AssetComponent implements OnInit {
     this.router.navigate(['home', 'investments', 'assets', this.id, 'returns']);
   }
 
-  async addMoviment() {
-    const modalRef = this.modalService.open(AddMovimentComponent);
-    modalRef.componentInstance.assetId = this.id;
-    await modalRef.result.then((result) => {
-      this.loadAssetData(this.id);
-    });
-  }
+
 }

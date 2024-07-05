@@ -2,9 +2,10 @@ import { CommonModule, DecimalPipe, registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { InvestmentModel } from '../../component/asset/model/investment-model';
 import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { InvestmentServiceImpl } from './service/impl/investment-impl.service';
+import { InvestmentModel } from './model/investment-model';
+import { AssetMovimentMapperImpl } from './asset/mapper/impl/asset-moviment-mapper-impl';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -12,7 +13,7 @@ registerLocaleData(localePt, 'pt-BR');
   selector: 'app-investment',
   standalone: true,
   imports: [CommonModule, CurrencyFormatPipe, RouterOutlet],
-  providers: [DecimalPipe],
+  providers: [DecimalPipe, AssetMovimentMapperImpl],
   templateUrl: './investment.component.html',
   styleUrl: './investment.component.css'
 })

@@ -12,6 +12,7 @@ export class AssetMovimentMapperImpl extends MovimentMapper<AssetMovimentModel, 
     model.operation = response.operation;
     model.type = "ASSET_MOVIMENT";
     model.value = response.value;
+    model.unitValue = response.unitValue;
     return model;
   }
   override toHttp(model: AssetMovimentModel): MovimentAssetHttpModel {
@@ -22,6 +23,7 @@ export class AssetMovimentMapperImpl extends MovimentMapper<AssetMovimentModel, 
     request.operation = model.operation;
     request.type = "ASSET_MOVIMENT";
     request.value = model.value;
+    request.unitValue = model.unitValue;
     return request;
   }
 

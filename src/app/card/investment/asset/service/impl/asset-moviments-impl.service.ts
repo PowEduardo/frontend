@@ -17,7 +17,7 @@ export class AssetMovimentsServiceImpl implements Crud<MovimentAssetHttpModel> {
   constructor(private readonly httpClient: HttpClient) { }
 
   search(pageQuery: PageQuery): Observable<PageModel<MovimentAssetHttpModel>> {
-    return this.httpClient.get<PageModel<MovimentAssetHttpModel>>(this.baseUrl + ":search?" + pageQuery.toString());
+    return this.httpClient.get<PageModel<MovimentAssetHttpModel>>(this.baseUrl + this.assetId + "/moviments:search?" + pageQuery.toString());
   }
   getAll(pageQuery: PageQuery): Observable<MovimentAssetHttpModel[]> {
     return this.search(pageQuery).pipe(

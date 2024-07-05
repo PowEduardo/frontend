@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AssetConsolidateHttpModel } from '../../../../component/asset/model/http/asset-consolidate-http-model';
-import { InvestmentModel } from '../../../../component/asset/model/investment-model';
-import { AssetServiceImpl } from '../../../../component/asset/service/impl/asset-impl.service';
+import { AssetServiceImpl } from '../../asset/service/impl/asset-impl.service';
+import { AssetConsolidateHttpModel } from '../../model/http/asset-consolidate-http-model';
+import { InvestmentModel } from '../../model/investment-model';
 import { InvestmentService } from '../investment.service';
 
 @Injectable({

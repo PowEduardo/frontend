@@ -36,6 +36,12 @@ export class AddMovimentComponent {
 
   }
 
+  calculateValue() {
+    if (!this.overrideValue) {
+      this.model!.value = this.model!.amount * this.model!.unitValue;
+    }
+  }
+
   async onSubmit() {
     this.service.assetId = this.assetId;
     if (!this.updateOperation) {
@@ -45,6 +51,6 @@ export class AddMovimentComponent {
       await this.service.update(this.mapper.toHttp(this.model!)).subscribe((data: MovimentAssetHttpModel) => {
       });
     }
-    await this.activeModal.close();
+    await this.activeModal.close('saved');
   }
 }

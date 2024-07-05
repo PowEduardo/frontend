@@ -29,16 +29,7 @@ export class AddReturnComponent {
     private mapper: AssetReturnMapperImpl
   ) {
     if (this.movimentReturn === undefined) {
-      this.movimentReturn = {
-        amount: 0,
-        operation: '',
-        unitValue: 0,
-        exDividendDate: new Date(),
-        id: 0,
-        date: new Date(),
-        value: 0,
-        type: ''
-      };
+      this.movimentReturn = new AssetMovimentReturnModel();
     }
   }
 
