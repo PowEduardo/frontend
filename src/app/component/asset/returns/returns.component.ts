@@ -3,12 +3,12 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
-import { AssetReturnMapperImpl } from '../../../mapper/impl/moviment-return-mapper-impl';
-import { AssetMovimentReturnModel } from '../../../model/asset-moviment-return-model';
-import { AssetReturnServiceImpl } from '../../../service/impl/moviment-asset-return-impl.service';
-import { PageQuery } from '../../../model/page-query';
-import { MovimentAssetReturnHttpModel } from '../../../model/http/moviment-asset-return-http-model';
-import { AddReturnComponent } from '../../../modal/add-return/add-return.component';
+import { AssetReturnMapperImpl } from '../mapper/impl/moviment-return-mapper-impl';
+import { AssetMovimentReturnModel } from '../model/asset-moviment-return-model';
+import { AssetReturnServiceImpl } from '../service/impl/moviment-asset-return-impl.service';
+import { PageQuery } from '../model/page-query';
+import { MovimentAssetReturnHttpModel } from '../model/http/moviment-asset-return-http-model';
+import { AddReturnComponent } from '../modal/add-return/add-return.component';
 
 
 @Component({

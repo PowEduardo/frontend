@@ -2,12 +2,12 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { AssetMapperImpl } from '../../../mapper/impl/asset-mapper-impl';
-import { AssetModel } from '../../../model/asset-model';
+import { AssetMapperImpl } from '../mapper/impl/asset-mapper-impl';
+import { AssetModel } from '../model/asset-model';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
-import { AssetServiceImpl } from '../../../service/impl/asset-impl.service';
+import { AssetServiceImpl } from '../service/impl/asset-impl.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddMovimentComponent } from '../../../modal/add-moviment/add-moviment.component';
+import { AddMovimentComponent } from '../modal/add-moviment/add-moviment.component';
 
 @Component({
   selector: 'app-asset',

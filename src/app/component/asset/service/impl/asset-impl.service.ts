@@ -4,13 +4,13 @@ abstract class AssetService<T> {
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PageModel } from '../../model/page-model';
-import { Crud } from '../crud.service';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
-import { PageQuery } from '../../model/page-query';
-import { AssetHttpModel } from '../../model/http/asset-http-model';
-import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
 import { AssetConsolidateHttpModel } from '../../model/http/asset-consolidate-http-model';
+import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
+import { AssetHttpModel } from '../../model/http/asset-http-model';
+import { PageModel } from '../../model/page-model';
+import { PageQuery } from '../../model/page-query';
+import { Crud } from '../crud.service';
 
 @Injectable({
   providedIn: 'root'

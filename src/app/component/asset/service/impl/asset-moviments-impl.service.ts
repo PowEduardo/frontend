@@ -1,29 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
-import { AssetModel } from '../../model/asset-model';
-import { MovimentAssetReturnHttpModel } from '../../model/http/moviment-asset-return-http-model';
+import { MovimentAssetHttpModel } from '../../model/http/moviment-asset-http-model';
 import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../model/page-query';
 import { Crud } from '../crud.service';
-import { MovimentAssetHttpModel } from '../../model/http/moviment-asset-http-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetReturnServiceImpl implements Crud<MovimentAssetReturnHttpModel> {
+export class AssetMovimentsServiceImpl implements Crud<MovimentAssetHttpModel> {
 
   baseUrl: string = "http://localhost:8080/assets/";
-  assetId!: number;
+  assetId: number = 0;
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  search(pageQuery: PageQuery): Observable<PageModel<MovimentAssetReturnHttpModel>> {
-    var completeUrl: string = this.baseUrl + this.assetId + "/returns";
-    return this.httpClient.get<PageModel<MovimentAssetReturnHttpModel>>(completeUrl + ":search?" + pageQuery.toString());
+  search(pageQuery: PageQuery): Observable<PageModel<MovimentAssetHttpModel>> {
+    return this.httpClient.get<PageModel<MovimentAssetHttpModel>>(this.baseUrl + ":search?" + pageQuery.toString());
   }
-
-  getAll(pageQuery: PageQuery): Observable<MovimentAssetReturnHttpModel[]> {
+  getAll(pageQuery: PageQuery): Observable<MovimentAssetHttpModel[]> {
     return this.search(pageQuery).pipe(
       mergeMap(firstPage => {
         if (firstPage.last) {
@@ -43,13 +39,14 @@ export class AssetReturnServiceImpl implements Crud<MovimentAssetReturnHttpModel
       })
     );
   }
-  findById(id: number): Observable<MovimentAssetReturnHttpModel> {
+  findById(id: number): Observable<MovimentAssetHttpModel> {
     throw new Error('Method not implemented.');
   }
-  create(body: MovimentAssetReturnHttpModel): Observable<MovimentAssetReturnHttpModel> {
-    return this.httpClient.post<MovimentAssetReturnHttpModel>(this.baseUrl + this.assetId + "/returns", body);
+  create(asset: MovimentAssetHttpModel): Observable<MovimentAssetHttpModel> {
+    return this.httpClient.post<MovimentAssetHttpModel>(this.baseUrl + this.assetId + "/moviments", asset);
   }
-  update(body: MovimentAssetReturnHttpModel): Observable<MovimentAssetReturnHttpModel> {
-    return this.httpClient.put<MovimentAssetReturnHttpModel>(this.baseUrl + this.assetId + "/returns/" + body.id, body);
+  update(asset: MovimentAssetHttpModel): Observable<MovimentAssetHttpModel> {
+    throw new Error('Method not implemented.');
   }
+
 }

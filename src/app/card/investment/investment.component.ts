@@ -2,7 +2,7 @@ import { CommonModule, DecimalPipe, registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { InvestmentModel } from '../../model/investment-model';
+import { InvestmentModel } from '../../component/asset/model/investment-model';
 import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { InvestmentServiceImpl } from './service/impl/investment-impl.service';
 

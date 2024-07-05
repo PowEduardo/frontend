@@ -2,16 +2,16 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, Input, OnInit, input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { AssetModel } from '../../../model/asset-model';
-import { AssetDetailsHttpModel } from '../../../model/http/asset-details-http-model';
-import { AssetHttpModel } from '../../../model/http/asset-http-model';
+import { AssetModel } from '../model/asset-model';
+import { AssetDetailsHttpModel } from '../model/http/asset-details-http-model';
+import { AssetHttpModel } from '../model/http/asset-http-model';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
-import { AssetServiceImpl } from '../../../service/impl/asset-impl.service';
+import { AssetServiceImpl } from '../service/impl/asset-impl.service';
 import { AssetComponent } from '../asset/asset.component';
-import { PageQuery } from '../../../model/page-query';
+import { PageQuery } from '../model/page-query';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddAssetComponent } from '../../../modal/add-asset/add-asset.component';
-import { AssetMapperImpl } from '../../../mapper/impl/asset-mapper-impl';
+import { AddAssetComponent } from '../modal/add-asset/add-asset.component';
+import { AssetMapperImpl } from '../mapper/impl/asset-mapper-impl';
 
 @Component({
   selector: 'app-table',
