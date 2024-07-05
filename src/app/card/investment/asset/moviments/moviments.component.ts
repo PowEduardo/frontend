@@ -61,7 +61,15 @@ export class MovimentsComponent implements OnInit {
 
   }
 
-  updateMoviment(moviment: AssetMovimentModel) {
-
+  async updateMoviment(moviment: AssetMovimentModel) {
+    const modalRef = this.modal.open(AddMovimentComponent);
+    modalRef.componentInstance.assetId = this.assetId;
+    modalRef.componentInstance.model = moviment;
+    modalRef.componentInstance.updateOperation = true;
+    await modalRef.result.then((result) => {
+      if (result === 'saved') {
+        this.getMovimentsByAsset('-date');
+      }
+    });
   }
 }

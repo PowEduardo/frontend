@@ -46,7 +46,8 @@ export class AssetMovimentsServiceImpl implements Crud<MovimentAssetHttpModel> {
     return this.httpClient.post<MovimentAssetHttpModel>(this.baseUrl + this.assetId + "/moviments", asset);
   }
   update(asset: MovimentAssetHttpModel): Observable<MovimentAssetHttpModel> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.post<MovimentAssetHttpModel>(this.baseUrl + this.assetId + "/moviments/" + asset.id, asset);
+
   }
 
 }
