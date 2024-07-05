@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
+import { CurrencyFormatPipe } from '../../../../pipe/currency-format.pipe';
 import { AssetReturnMapperImpl } from '../mapper/impl/moviment-return-mapper-impl';
 import { AssetMovimentReturnModel } from '../model/asset-moviment-return-model';
 import { AssetReturnServiceImpl } from '../service/impl/moviment-asset-return-impl.service';

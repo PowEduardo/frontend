@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './page/home/home.component';
+import { AssetComponent } from './card/investment/asset/asset/asset.component';
+import { ReturnsComponent } from './card/investment/asset/returns/returns.component';
+import { TableComponent } from './card/investment/asset/table/table.component';
 import { InvestmentComponent } from './card/investment/investment.component';
-import { AssetComponent } from './component/asset/asset/asset.component';
-import { TableComponent } from './component/asset/table/table.component';
-import { ReturnsComponent } from './component/asset/returns/returns.component';
-
+import { HomeComponent } from './page/home/home.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
