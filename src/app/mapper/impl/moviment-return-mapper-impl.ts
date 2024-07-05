@@ -1,10 +1,10 @@
 import { MovimentAssetReturnHttpModel } from "../../model/http/moviment-asset-return-http-model";
-import { MovimentAssetReturnModel } from "../../model/moviment-asset-return-model";
+import { AssetMovimentReturnModel } from "../../model/asset-moviment-return-model";
 import { MovimentMapper } from "../moviment-mapper";
 
-export class AssetReturnMapperImpl extends MovimentMapper {
-  override toModel(returnHttp: MovimentAssetReturnHttpModel): MovimentAssetReturnModel {
-    var returnModel: MovimentAssetReturnModel = new MovimentAssetReturnModel();
+export class AssetReturnMapperImpl extends MovimentMapper<AssetMovimentReturnModel, MovimentAssetReturnHttpModel> {
+  override toModel(returnHttp: MovimentAssetReturnHttpModel): AssetMovimentReturnModel {
+    var returnModel: AssetMovimentReturnModel = new AssetMovimentReturnModel();
     returnModel.amount = returnHttp.amount;
     returnModel.date = returnHttp.date;
     returnModel.exDividendDate = returnHttp.exDividendDate;
@@ -14,7 +14,7 @@ export class AssetReturnMapperImpl extends MovimentMapper {
     returnModel.id = returnHttp.id;
     return returnModel;
   }
-  override toHttp(returnModel: MovimentAssetReturnModel): MovimentAssetReturnHttpModel {
+  override toHttp(returnModel: AssetMovimentReturnModel): MovimentAssetReturnHttpModel {
     var returnHttp: MovimentAssetReturnHttpModel = new MovimentAssetReturnHttpModel();
     returnHttp.amount = returnModel.amount;
     returnHttp.date = returnModel.date;

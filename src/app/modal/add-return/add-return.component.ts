@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssetReturnServiceImpl } from '../../service/impl/moviment-asset-return-impl.service';
-import { MovimentAssetReturnModel } from '../../model/moviment-asset-return-model';
+import { AssetMovimentReturnModel } from '../../model/asset-moviment-return-model';
 import { MovimentAssetReturnHttpModel } from '../../model/http/moviment-asset-return-http-model';
 import { AssetReturnMapperImpl } from '../../mapper/impl/moviment-return-mapper-impl';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,7 @@ export class AddReturnComponent {
   @Input()
   updateOperation: boolean = false;
   @Input()
-  movimentReturn!: MovimentAssetReturnModel;
+  movimentReturn!: AssetMovimentReturnModel;
 
   constructor(public activeModal: NgbActiveModal,
     private service: AssetReturnServiceImpl,
@@ -48,15 +48,15 @@ export class AddReturnComponent {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (!this.updateOperation) {
-      this.service.create(this.mapper.toHttp(this.movimentReturn!)).subscribe((data: MovimentAssetReturnHttpModel) => {
+      await this.service.create(this.mapper.toHttp(this.movimentReturn!)).subscribe((data: MovimentAssetReturnHttpModel) => {
       });
     } else {
       this.service.assetId = this.assetId;
-      this.service.update(this.mapper.toHttp(this.movimentReturn!)).subscribe((data: MovimentAssetReturnHttpModel) => {
+      await this.service.update(this.mapper.toHttp(this.movimentReturn!)).subscribe((data: MovimentAssetReturnHttpModel) => {
       });
     }
-    this.activeModal.close();
+    this.activeModal.close('saved');
   }
 }

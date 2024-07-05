@@ -12,7 +12,8 @@ import { Crud } from '../crud.service';
 })
 export class AssetMovimentsServiceImpl implements Crud<MovimentAssetHttpModel> {
 
-  baseUrl: string = "http://localhost:8080/moviments/assets";
+  baseUrl: string = "http://localhost:8080/assets/";
+  assetId: number = 0;
 
   constructor(private readonly httpClient: HttpClient) { }
 
@@ -42,10 +43,10 @@ export class AssetMovimentsServiceImpl implements Crud<MovimentAssetHttpModel> {
   findById(id: number): Observable<MovimentAssetHttpModel> {
     throw new Error('Method not implemented.');
   }
-  create(asset: AssetModel): Observable<MovimentAssetHttpModel> {
-    throw new Error('Method not implemented.');
+  create(asset: MovimentAssetHttpModel): Observable<MovimentAssetHttpModel> {
+    return this.httpClient.post<MovimentAssetHttpModel>(this.baseUrl + this.assetId + "/moviments", asset);
   }
-  update(): Observable<MovimentAssetHttpModel> {
+  update(asset: MovimentAssetHttpModel): Observable<MovimentAssetHttpModel> {
     throw new Error('Method not implemented.');
   }
 

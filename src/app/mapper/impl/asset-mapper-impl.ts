@@ -4,12 +4,13 @@ import { AssetHttpModel } from "../../model/http/asset-http-model";
 import { AssetMapper } from "../asset-mapper";
 
 export class AssetMapperImpl extends AssetMapper {
-  override toModel(assetHttp: AssetHttpModel): AssetModel {
-    var assetModel: AssetModel = new AssetModel();
-    assetModel.id = assetHttp.id;
-    assetModel.ticker = assetHttp.ticker;
-    assetModel.value = assetHttp.value;
-    return assetModel;
+  override toModel(response: AssetHttpModel): AssetModel {
+    var model: AssetModel = new AssetModel();
+    model.id = response.id;
+    model.ticker = response.ticker;
+    model.value = response.value;
+    model.type = response.type;
+    return model;
   }
 
   override toModelWithDetails(assetHttp: AssetDetailsHttpModel, assetModel: AssetModel): AssetModel {
@@ -18,12 +19,12 @@ export class AssetMapperImpl extends AssetMapper {
     return assetModel;
   }
 
-  override toHttp(assetModel: AssetModel): AssetHttpModel {
-    var assetHttp: AssetHttpModel = new AssetHttpModel();
-    assetHttp.id = assetModel.id;
-    assetHttp.ticker = assetModel.ticker;
-    assetHttp.value = assetModel.value;
-    assetHttp.type = assetModel.type;
-    return assetHttp;
+  override toHttp(model: AssetModel): AssetHttpModel {
+    var request: AssetHttpModel = new AssetHttpModel();
+    request.id = model.id;
+    request.ticker = model.ticker;
+    request.value = model.value;
+    request.type = model.type;
+    return request;
   }
 }

@@ -5,7 +5,7 @@ import { MovimentAssetReturnHttpModel } from '../../model/http/moviment-asset-re
 import { AssetReturnServiceImpl } from '../../service/impl/moviment-asset-return-impl.service';
 import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../model/page-query';
-import { MovimentAssetReturnModel } from '../../model/moviment-asset-return-model';
+import { AssetMovimentReturnModel } from '../../model/asset-moviment-return-model';
 import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { CommonModule } from '@angular/common';
 import { AssetReturnMapperImpl } from '../../mapper/impl/moviment-return-mapper-impl';
@@ -21,7 +21,7 @@ import { AddReturnComponent } from '../../modal/add-return/add-return.component'
 })
 export class ReturnsComponent {
   id!: number;
-  returns: MovimentAssetReturnModel[] = [];
+  returns: AssetMovimentReturnModel[] = [];
 
   constructor(private service: AssetReturnServiceImpl,
     private mapper: AssetReturnMapperImpl,
@@ -57,14 +57,24 @@ export class ReturnsComponent {
 
   addReturn() {
     const modalRef = this.modalService.open(AddReturnComponent);
-    modalRef.componentInstance.id = this.id;
+    modalRef.componentInstance.assetId = this.id;
+    modalRef.result.then((result) => {
+      if (result === 'saved') {
+        this.getReturnsByAsset('-date');
+      }
+    });
   }
 
-  updateReturn(model: MovimentAssetReturnModel) {
+  updateReturn(model: AssetMovimentReturnModel) {
     const modalRef = this.modalService.open(AddReturnComponent);
     modalRef.componentInstance.assetId = this.id;
     modalRef.componentInstance.movimentReturn = model;
     modalRef.componentInstance.overrideValue = true;
     modalRef.componentInstance.updateOperation = true;
+    modalRef.result.then((result) => {
+      if (result === 'saved') {
+        this.getReturnsByAsset('-date');
+      }
+    });
   }
 }

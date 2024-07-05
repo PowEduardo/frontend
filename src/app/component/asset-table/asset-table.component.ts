@@ -11,12 +11,13 @@ import { AssetComponent } from '../asset/asset/asset.component';
 import { PageQuery } from '../../model/page-query';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddAssetComponent } from '../../modal/add-asset/add-asset.component';
+import { AssetMapperImpl } from '../../mapper/impl/asset-mapper-impl';
 
 @Component({
   selector: 'app-asset-table',
   standalone: true,
   imports: [CommonModule, CurrencyFormatPipe, AssetComponent],
-  providers: [DecimalPipe],
+  providers: [DecimalPipe, AssetMapperImpl],
   templateUrl: './asset-table.component.html',
   styleUrl: './asset-table.component.css'
 })
@@ -28,6 +29,7 @@ export class AssetTableComponent implements OnInit {
   constructor(private assetService: AssetServiceImpl,
     private route: ActivatedRoute,
     private router: Router,
+    private mapper: AssetMapperImpl,
     private modalService: NgbModal
   ) { }
 
@@ -52,10 +54,7 @@ export class AssetTableComponent implements OnInit {
       const assetsHttp: AssetHttpModel[] = await firstValueFrom(this.assetService.getAll(query));
 
       const assetDetailsPromises = assetsHttp.map(async (assetHttp) => {
-        const asset: AssetModel = new AssetModel();
-        asset.id = assetHttp.id;
-        asset.ticker = assetHttp.ticker;
-        asset.value = assetHttp.value;
+        const asset: AssetModel = this.mapper.toModel(assetHttp);
 
         try {
           const data: AssetDetailsHttpModel = await firstValueFrom(this.assetService.details(assetHttp.id));

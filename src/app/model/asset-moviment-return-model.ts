@@ -1,6 +1,6 @@
 import { MovimentModel } from "./moviment-model";
 
-export class MovimentAssetReturnModel extends MovimentModel {
+export class AssetMovimentReturnModel extends MovimentModel {
   operation!: string;
   amount!: number;
   unitValue!: number;

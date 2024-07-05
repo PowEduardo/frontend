@@ -6,11 +6,13 @@ import { AssetMapperImpl } from '../../../mapper/impl/asset-mapper-impl';
 import { AssetModel } from '../../../model/asset-model';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { AssetServiceImpl } from '../../../service/impl/asset-impl.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddMovimentComponent } from '../../../modal/add-moviment/add-moviment.component';
 
 @Component({
   selector: 'app-asset',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule, RouterOutlet],
+  imports: [CurrencyFormatPipe, CommonModule, RouterOutlet, AddMovimentComponent],
   providers: [AssetMapperImpl, CurrencyPipe],
   templateUrl: './asset.component.html',
   styleUrls: ['./asset.component.css']
@@ -26,7 +28,8 @@ export class AssetComponent implements OnInit {
     private assetService: AssetServiceImpl,
     private assetMapper: AssetMapperImpl,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -59,5 +62,10 @@ export class AssetComponent implements OnInit {
 
   openReturns() {
     this.router.navigate(['home', 'investments', 'assets', this.id, 'returns']);
+  }
+
+  addMoviment() {
+    const modalRef = this.modalService.open(AddMovimentComponent);
+    modalRef.componentInstance.assetId = this.id;
   }
 }

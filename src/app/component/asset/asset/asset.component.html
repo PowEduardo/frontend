@@ -17,7 +17,7 @@
       <td>{{asset.value | currencyFormat}}</td>
       <td>{{asset.amount}}</td>
       <td>{{asset.returns | currencyFormat}}</td>
-      <td>+</td>
+      <td (click)="addMoviment()">+</td>
     </tr>
     <tr *ngIf="!asset">
       <td colspan="4" class="text-center">Loading asset details...</td>
