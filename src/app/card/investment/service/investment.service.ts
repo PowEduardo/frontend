@@ -6,5 +6,5 @@ import { InvestmentModel } from '../model/investment-model';
 })
 export abstract class InvestmentService {
 
-  abstract getConsolidated(assetTypes: string[]): InvestmentModel[];
+  abstract getConsolidated(assetTypes: string[]): Promise<InvestmentModel[]>;
 }

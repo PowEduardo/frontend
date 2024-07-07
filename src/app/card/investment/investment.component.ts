@@ -27,10 +27,18 @@ export class InvestmentComponent implements OnInit {
   ) {
   }
   ngOnInit(): void {
-    this.columns = this.service.getConsolidated(this.assetType);
+    this.loadAssetConsolidated();
+  }
+
+  loadAssetConsolidated() {
+    this.service.getConsolidated(this.assetType).then(result => {
+      this.columns = result;
+      this.columns.sort((a, b) => a.category.localeCompare(b.category));
+    });
   }
 
   openAssetDetails(assetType: string) {
     this.router.navigate(['home/investments/assets'], { queryParams: { type: assetType } });
+    this.loadAssetConsolidated();
   }
 }

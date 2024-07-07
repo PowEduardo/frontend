@@ -17,21 +17,21 @@
         placeholder="Unit Value" (input)="calculateValue()">
     </div>
     <div class="form-group">
-      <label for="paymentDate">Payment Date</label>
-      <input type="date" class="form-control" id="paymentDate" name="paymentDate" [(ngModel)]="movimentReturn.date"
-        placeholder="Payment Date">
-    </div>
-    <div class="form-group">
       <label for="exDividendDate">Ex-Dividend Date</label>
       <input type="date" class="form-control" id="exDividendDate" name="exDividendDate"
         [(ngModel)]="movimentReturn.exDividendDate" placeholder="Ex-Dividend Date">
     </div>
     <div class="form-group">
+      <label for="paymentDate">Payment Date</label>
+      <input type="date" class="form-control" id="paymentDate" name="paymentDate" [(ngModel)]="movimentReturn.date"
+        placeholder="Payment Date">
+    </div>
+    <div class="form-group">
       <label for="operation">Operation</label>
       <select class="form-control" id="operation" name="operation" [(ngModel)]="movimentReturn.operation">
-        <option value="AMORTIZATION">AMORTIZATION</option>
         <option value="DIVIDEND">DIVIDEND</option>
         <option value="JCP">JCP</option>
+        <option value="AMORTIZATION">AMORTIZATION</option>
         <option value="REFUND">REFUND</option>
       </select>
     </div>

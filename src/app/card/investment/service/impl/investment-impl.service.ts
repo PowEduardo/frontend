@@ -12,9 +12,9 @@ export class InvestmentServiceImpl extends InvestmentService {
   constructor(private assetService: AssetServiceImpl) {
     super();
   }
-  override getConsolidated(assetsTypes: string[]): InvestmentModel[] {
+  override async getConsolidated(assetsTypes: string[]): Promise<InvestmentModel[]> {
     var investmentModels: InvestmentModel[] = [];
-    assetsTypes.forEach(element => {
+    await assetsTypes.forEach(element => {
       this.assetService.consolidated(element).subscribe((data: AssetConsolidateHttpModel) => {
         var investmentModel: InvestmentModel = new InvestmentModel();
         investmentModel.category = element;
