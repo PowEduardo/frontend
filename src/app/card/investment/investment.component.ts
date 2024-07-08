@@ -6,13 +6,14 @@ import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { InvestmentServiceImpl } from './service/impl/investment-impl.service';
 import { InvestmentModel } from './model/investment-model';
 import { AssetMovimentMapperImpl } from './asset/mapper/impl/asset-moviment-mapper-impl';
+import { PieComponent } from './chart/pie/pie.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
 @Component({
   selector: 'app-investment',
   standalone: true,
-  imports: [CommonModule, CurrencyFormatPipe, RouterOutlet],
+  imports: [CommonModule, CurrencyFormatPipe, RouterOutlet, PieComponent],
   providers: [DecimalPipe, AssetMovimentMapperImpl],
   templateUrl: './investment.component.html',
   styleUrl: './investment.component.css'
@@ -21,7 +22,8 @@ export class InvestmentComponent implements OnInit {
   headers: string[] = ["Category", "Invested", "Current Value", "Wanted Value", "Returns Value"];
   columns: InvestmentModel[] = [];
   assetType: string[] = ['STOCK', 'REIT'];
-
+  pieValues: any[] = [];
+  isPieEnabled: boolean = false;
   constructor(private service: InvestmentServiceImpl,
     private router: Router
   ) {
@@ -34,6 +36,10 @@ export class InvestmentComponent implements OnInit {
     this.service.getConsolidated(this.assetType).then(result => {
       this.columns = result;
       this.columns.sort((a, b) => a.category.localeCompare(b.category));
+      for (let model of result) {
+        this.pieValues.push({ name: model.category, value: model.currentValue });
+      }
+      this.isPieEnabled = true;
     });
   }
 
