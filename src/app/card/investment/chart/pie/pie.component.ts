@@ -1,19 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-pie',
   standalone: true,
-  imports: [NgxChartsModule],
+  imports: [NgxChartsModule, CommonModule],
   providers: [],
   templateUrl: './pie.component.html',
   styleUrl: './pie.component.css'
 })
 export class PieComponent implements OnInit {
   @Input()
-  public pieChartData: any[] = [];
+  public pieChartData!: any[];
 
-  public view: [number, number] = [600, 300];
+  public view: [number, number] = [800, 300];
 
   public showLegend: boolean = true;
   public showLabels: boolean = true;

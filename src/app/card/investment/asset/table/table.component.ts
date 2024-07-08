@@ -40,7 +40,7 @@ export class TableComponent implements OnInit {
   }
 
   openAssetComponent(id: number) {
-    this.router.navigate(['/home/investments/assets/', id]);
+    this.router.navigate(['investments', 'assets', id]);
   }
 
   async getAssets(attribute: string | null): Promise<void> {

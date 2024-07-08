@@ -7,21 +7,16 @@ import { HomeComponent } from './page/home/home.component';
 import { MovimentsComponent } from './card/investment/asset/moviments/moviments.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   {
-    path: 'home', component: HomeComponent, children: [
+    path: 'investments', component: InvestmentComponent, children: [
+      { path: 'assets', component: TableComponent },
       {
-        path: 'investments', component: InvestmentComponent, children: [
-          { path: 'assets', component: TableComponent },
-          {
-            path: 'assets/:id', component: AssetComponent, children: [
-              { path: 'returns', component: ReturnsComponent },
-              { path: 'moviments', component: MovimentsComponent }
-            ]
-          }
-
+        path: 'assets/:id', component: AssetComponent, children: [
+          { path: 'returns', component: ReturnsComponent },
+          { path: 'moviments', component: MovimentsComponent }
         ]
       }
     ]
-  },
-
+  }
 ];

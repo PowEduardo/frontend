@@ -44,7 +44,7 @@ export class InvestmentComponent implements OnInit {
   }
 
   openAssetDetails(assetType: string) {
-    this.router.navigate(['home/investments/assets'], { queryParams: { type: assetType } });
+    this.router.navigate(['investments', 'assets'], { queryParams: { type: assetType } });
     this.loadAssetConsolidated();
   }
 }

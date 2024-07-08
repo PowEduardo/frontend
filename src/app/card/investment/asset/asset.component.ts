@@ -61,12 +61,12 @@ export class AssetComponent implements OnInit {
   }
 
   openMoviments() {
-    this.router.navigate(['home', 'investments', 'assets', this.id, 'moviments']);
+    this.router.navigate(['investments', 'assets', this.id, 'moviments']);
     this.loadAssetData(this.id);
   }
 
   openReturns() {
-    this.router.navigate(['home', 'investments', 'assets', this.id, 'returns']);
+    this.router.navigate(['investments', 'assets', this.id, 'returns']);
     this.loadAssetData(this.id);
   }
 

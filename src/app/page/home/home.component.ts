@@ -30,7 +30,7 @@ export class HomeComponent {
 
   enableInvestment(): void {
     this.disableAll();
-    this.router.navigate(['home/investments']);
+    this.router.navigate(['investments']);
   }
 
   enableCreditCard(): void {
