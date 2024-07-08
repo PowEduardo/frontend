@@ -17,8 +17,14 @@
       <th (click)="getAssets('average')">
         Average
       </th>
+      <th (click)="sortDifference()">
+        Difference
+      </th>
       <th (click)="getAssets('ticker')">
         Monthly Return
+      </th>
+      <th (click)="getAssets('ticker')">
+        Last Return
       </th>
       <th (click)="sortDY()">
         DY
@@ -34,6 +40,9 @@
       </th>
       <th (click)="getAssets('returns')">
         Returns
+      </th>
+      <th class="text-center" (click)="addAsset()">
+        +
       </th>
     </tr>
   </thead>
@@ -55,7 +64,13 @@
         {{asset.average | currencyFormat}}
       </td>
       <td>
+        {{asset.difference}}%
+      </td>
+      <td>
         {{asset.monthlyReturn | currencyFormat}}
+      </td>
+      <td>
+        {{asset.lastReturn | currencyFormat}}
       </td>
       <td>
         {{asset.dy}}

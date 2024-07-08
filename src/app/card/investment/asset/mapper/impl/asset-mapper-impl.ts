@@ -13,10 +13,19 @@ export class AssetMapperImpl extends AssetMapper {
     return model;
   }
 
-  override toModelWithDetails(assetHttp: AssetDetailsHttpModel, assetModel: AssetModel): AssetModel {
-    assetModel.amount = assetHttp.amount;
-    assetModel.returns = assetHttp.returns;
-    return assetModel;
+  override toModelWithDetails(assetHttp: AssetDetailsHttpModel, model: AssetModel): AssetModel {
+    model.ady = assetHttp.ady;
+    model.amount = assetHttp.amount;
+    model.average = assetHttp.average;
+    model.currentValue = assetHttp.currentValue;
+    model.difference = assetHttp.difference;
+    model.dy = assetHttp.dy;
+    model.lastReturn = assetHttp.lastReturn;
+    model.monthlyReturn = assetHttp.monthlyReturn;
+    model.paidValue = assetHttp.paidValue;
+    model.returns = assetHttp.returns;
+    model.targetAmount = assetHttp.targetAmount;
+    return model;
   }
 
   override toHttp(model: AssetModel): AssetHttpModel {

@@ -1,11 +1,13 @@
 export class AssetDetailsHttpModel {
-  amount!: number;
-  currentValue!: number;
-  average!: number;
-  monthlyReturn!: number;
-  dy!: number;
   ady!: number;
-  targetAmount!: number;
+  amount!: number;
+  average!: number;
+  currentValue!: number;
+  difference!: number;
+  dy!: number;
+  lastReturn!: number;
+  monthlyReturn!: number;
   paidValue!: number;
   returns!: number;
+  targetAmount!: number;
 }

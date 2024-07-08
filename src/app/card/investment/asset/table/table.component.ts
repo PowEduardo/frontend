@@ -24,6 +24,7 @@ export class TableComponent implements OnInit {
   allAssets: AssetModel[] = [];
   enableAsset: boolean = false;
   type: string = '';
+  sort: string = 'ticker';
 
   constructor(private assetService: AssetServiceImpl,
     private route: ActivatedRoute,
@@ -57,16 +58,7 @@ export class TableComponent implements OnInit {
 
         try {
           const data: AssetDetailsHttpModel = await firstValueFrom(this.assetService.details(assetHttp.id));
-
-          asset.ady = data.ady;
-          asset.amount = data.amount;
-          asset.average = data.average;
-          asset.targetAmount = data.targetAmount;
-          asset.currentValue = data.currentValue;
-          asset.dy = data.dy;
-          asset.monthlyReturn = data.monthlyReturn;
-          asset.paidValue = data.paidValue;
-          asset.returns = data.returns;
+          this.mapper.toModelWithDetails(data, asset);
         } catch (error) {
           console.error('Error fetching asset details:', error);
         }
@@ -106,4 +98,13 @@ export class TableComponent implements OnInit {
     this.allAssets.sort((a, b) => b.dy - a.dy);
   }
 
+  sortDifference() {
+    if (this.sort === 'difference') {
+      this.allAssets.sort((a, b) => b.difference - a.difference);
+      this.sort = '-difference'
+    } else {
+      this.allAssets.sort((a, b) => a.difference - b.difference);
+      this.sort = 'difference';
+    }
+  }
 }

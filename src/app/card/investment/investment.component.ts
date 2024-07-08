@@ -21,7 +21,7 @@ registerLocaleData(localePt, 'pt-BR');
 export class InvestmentComponent implements OnInit {
   headers: string[] = ["Category", "Invested", "Current Value", "Wanted Value", "Returns Value"];
   columns: InvestmentModel[] = [];
-  assetType: string[] = ['STOCK', 'REIT'];
+  assetType: string[] = ['STOCK', 'REIT', 'DIRECT_TREASURE'];
   pieValues: any[] = [];
   isPieEnabled: boolean = false;
   constructor(private service: InvestmentServiceImpl,
