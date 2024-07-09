@@ -1,0 +1,4 @@
+<app-pie *ngIf="pieValues !== undefined" [pieChartData]="pieValues"></app-pie>
+<app-consolidate (pieValues)="pieValues = $event" (choosedAssetType)="choosedType = $event"></app-consolidate>
+<app-asset-type-details (pieValuesChange)="pieValues = $event" *ngIf="choosedType"
+  [type]="choosedType"></app-asset-type-details>

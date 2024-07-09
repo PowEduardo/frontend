@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add Asset</h4>
+  <button type="button" class="close text-rigth" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div *ngIf="model" class="modal-body">
+  <form #assetForm="ngForm" (ngSubmit)="onSubmit()">
+    <div app-movement [renderType]="'form'" [(moviment)]="model">
+      <div form>
+        <div class="form-group">
+          <label for="unitValue">Unit Value</label>
+          <input type="number" class="form-control" id="unitValue" name="unitValue" [(ngModel)]="model.unitValue"
+            placeholder="2.54" (input)="calculateValue()">
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" class="form-control" id="amount" name="amount" [(ngModel)]="model.amount"
+            placeholder="10" (input)="calculateValue()">
+        </div>
+        <div class="form-group">
+          <label for="operation">Operation</label>
+          <select class="form-control" id="operation" name="operation" [(ngModel)]="model.operation">
+            <option *ngFor="let operation of movimentTypes" [value]="operation">{{operation}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Closed')">Close</button>
+  </div>
+</div>

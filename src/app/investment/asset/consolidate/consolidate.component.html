@@ -1,0 +1,52 @@
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>
+        Category
+      </th>
+      <th>
+        Invested
+      </th>
+      <th>
+        Current Value
+      </th>
+      <th>
+        Target Value
+      </th>
+      <th>
+        Returns
+      </th>
+      <th>
+        Difference
+      </th>
+      <th>
+        Details
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let consolidate of assetConsolidateList">
+      <td>
+        {{consolidate.category}}
+      </td>
+      <td>
+        {{consolidate.paidValue | currencyFormat}}
+      </td>
+      <td>
+        {{consolidate.currentValue | currencyFormat}}
+      </td>
+      <td>
+        {{consolidate.wantedValue | currencyFormat}}
+      </td>
+      <td>
+        {{consolidate.returnsValue | currencyFormat}}
+      </td>
+      <td>
+        {{consolidate.difference}} %
+      </td>
+      <td class="text-center">
+        <a (click)="openAssetTypeDetails(consolidate.category)">+</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

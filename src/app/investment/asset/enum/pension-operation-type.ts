@@ -1,0 +1,5 @@
+export enum PensionOperationType {
+  CONTRIBUTION = 'CONTRIBUTION',
+  PORTABILITY = 'PORTABILITY',
+  CREDIT_ENTRY = 'CREDIT_ENTRY'
+}

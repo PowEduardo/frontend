@@ -1,0 +1,14 @@
+<td>{{asset.ticker}}</td>
+<td>{{asset.value | currencyFormat}}</td>
+<td class="text-center">{{asset.amount}}</td>
+<td>{{asset.currentValue | currencyFormat}}</td>
+<td>{{asset.average | currencyFormat}}</td>
+<td>{{asset.difference}} %</td>
+<td>{{asset.monthlyReturn | currencyFormat}}</td>
+<td>{{asset.lastReturn | currencyFormat}}</td>
+<td>{{asset.dy}}</td>
+<td>{{asset.ady}}</td>
+<td class="text-center">{{asset.targetAmount}}</td>
+<td>{{asset.paidValue | currencyFormat}}</td>
+<td>{{asset.returns | currencyFormat}}</td>
+<ng-content></ng-content>

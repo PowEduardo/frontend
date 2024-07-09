@@ -1,0 +1,13 @@
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Total Value</th>
+      <th>Date</th>
+      <ng-content select="[headers]"></ng-content>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-content select="[columns]"></ng-content>
+  </tbody>
+</table>

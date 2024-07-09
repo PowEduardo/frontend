@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-md-6 font-weight-bold text-center py-3 bg-light border rounded" (click)="openMoviments()">
+    Moviments
+    <!-- <button (click)="openMoviments()">Moviments</button> -->
+  </div>
+  <div class="col-md-6 font-weight-bold text-center py-3 bg-light border rounded" (click)="openReturns()">
+    Returns
+    <!-- <button (click)="openReturns()">Returns</button> -->
+  </div>
+</div>
+<app-moviments *ngIf="isMovimentsEnabled" [assetId]="assetId"></app-moviments>
+<app-returns *ngIf="isReturnsEnabled" [assetId]="assetId"></app-returns>

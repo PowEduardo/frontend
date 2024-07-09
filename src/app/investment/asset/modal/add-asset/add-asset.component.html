@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title">Add Asset</h4>
+  <button type="button" class="close text-rigth" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div *ngIf="model" class="modal-body">
+  <form #assetForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="amount">Ticker</label>
+      <input type="string" class="form-control" id="ticker" name="ticker" [(ngModel)]="model.ticker"
+        placeholder="SANB4">
+    </div>
+    <div class="form-group">
+      <label for="Value">Value</label>
+      <input type="number" class="form-control" id="value" name="value" [(ngModel)]="model.value" placeholder="5.37">
+    </div>
+    <div *ngIf="model.type === 'FIXED_INCOME'">
+      <div class="form-group">
+        <label for="indexer">Indexer</label>
+        <select class="form-control" id="indexer" name="indexer" [(ngModel)]="model.indexer">
+          <option value="CDI">CDI</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="interestRate">Interest Rate</label>
+        <input type="number" class="form-control" id="interestRate" name="interestRate" [(ngModel)]="model.interestRate"
+          placeholder="5.37">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+</div>
