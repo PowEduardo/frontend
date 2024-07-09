@@ -46,7 +46,7 @@ export class TableComponent implements OnInit {
 
   async getAssets(attribute: string | null): Promise<void> {
     try {
-      var query: PageQuery = new PageQuery();
+      const query: PageQuery = new PageQuery();
       query.query = "type:" + this.type;
       if (attribute) {
         query.sort = attribute;

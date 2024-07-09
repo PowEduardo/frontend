@@ -13,10 +13,10 @@ export class InvestmentServiceImpl extends InvestmentService {
     super();
   }
   override async getConsolidated(assetsTypes: string[]): Promise<InvestmentModel[]> {
-    var investmentModels: InvestmentModel[] = [];
+    const investmentModels: InvestmentModel[] = [];
     await assetsTypes.forEach(element => {
       this.assetService.consolidated(element).subscribe((data: AssetConsolidateHttpModel) => {
-        var investmentModel: InvestmentModel = new InvestmentModel();
+        const investmentModel: InvestmentModel = new InvestmentModel();
         investmentModel.category = element;
         investmentModel.currentValue = data.currentValue;
         investmentModel.paidValue = data.paidValue;

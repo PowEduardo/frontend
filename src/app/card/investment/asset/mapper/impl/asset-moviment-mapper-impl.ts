@@ -5,7 +5,7 @@ import { MovimentMapper } from "../moviment-mapper";
 export class AssetMovimentMapperImpl extends MovimentMapper<AssetMovimentModel, MovimentAssetHttpModel> {
 
   override toModel(response: MovimentAssetHttpModel): AssetMovimentModel {
-    var model: AssetMovimentModel = new AssetMovimentModel();
+    const model: AssetMovimentModel = new AssetMovimentModel();
     model.id = response.id;
     model.amount = response.amount;
     model.date = response.date;
@@ -16,7 +16,7 @@ export class AssetMovimentMapperImpl extends MovimentMapper<AssetMovimentModel, 
     return model;
   }
   override toHttp(model: AssetMovimentModel): MovimentAssetHttpModel {
-    var request: MovimentAssetHttpModel = new MovimentAssetHttpModel();
+    const request: MovimentAssetHttpModel = new MovimentAssetHttpModel();
     request.id = model.id;
     request.amount = model.amount;
     request.date = model.date;

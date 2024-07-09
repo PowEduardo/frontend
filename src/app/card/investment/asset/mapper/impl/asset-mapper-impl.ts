@@ -5,7 +5,7 @@ import { AssetMapper } from "../asset-mapper";
 
 export class AssetMapperImpl extends AssetMapper {
   override toModel(response: AssetHttpModel): AssetModel {
-    var model: AssetModel = new AssetModel();
+    const model: AssetModel = new AssetModel();
     model.id = response.id;
     model.ticker = response.ticker;
     model.value = response.value;
@@ -29,7 +29,7 @@ export class AssetMapperImpl extends AssetMapper {
   }
 
   override toHttp(model: AssetModel): AssetHttpModel {
-    var request: AssetHttpModel = new AssetHttpModel();
+    const request: AssetHttpModel = new AssetHttpModel();
     request.id = model.id;
     request.ticker = model.ticker;
     request.value = model.value;

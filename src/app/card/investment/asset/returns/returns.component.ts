@@ -42,14 +42,14 @@ export class ReturnsComponent {
 
   async getReturnsByAsset(sort: string | null): Promise<void> {
     this.returns = [];
-    var query: PageQuery = new PageQuery();
+    const query: PageQuery = new PageQuery();
     if (sort) {
       query.sort = sort;
     }
     query.query = "stock:" + this.id;
     this.service.assetId = +this.id;
     await this.service.getAll(query).subscribe((data: MovimentAssetReturnHttpModel[]) => {
-      for (let element of data) {
+      for (const element of data) {
         this.returns.push(this.mapper.toModel(element));
       }
     });

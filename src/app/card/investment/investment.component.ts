@@ -21,8 +21,8 @@ registerLocaleData(localePt, 'pt-BR');
 export class InvestmentComponent implements OnInit {
   headers: string[] = ["Category", "Invested", "Current Value", "Wanted Value", "Returns Value"];
   columns: InvestmentModel[] = [];
-  assetType: string[] = ['STOCK', 'REIT', 'DIRECT_TREASURE'];
-  pieValues: any[] = [];
+  assetType: string[] = ['STOCK', 'REIT', 'DIRECT_TREASURE', 'PENSION'];
+  pieValues: unknown[] = [];
   isPieEnabled: boolean = false;
   constructor(private service: InvestmentServiceImpl,
     private router: Router
@@ -36,7 +36,7 @@ export class InvestmentComponent implements OnInit {
     this.service.getConsolidated(this.assetType).then(result => {
       this.columns = result;
       this.columns.sort((a, b) => a.category.localeCompare(b.category));
-      for (let model of result) {
+      for (const model of result) {
         this.pieValues.push({ name: model.category, value: model.currentValue });
       }
       this.isPieEnabled = true;

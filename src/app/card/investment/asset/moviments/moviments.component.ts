@@ -48,7 +48,7 @@ export class MovimentsComponent implements OnInit {
 
   async getMovimentsByAsset(attribute: string) {
     this.moviments = [];
-    var query: PageQuery = new PageQuery();
+    const query: PageQuery = new PageQuery();
     if (attribute) {
       query.sort = attribute;
     }

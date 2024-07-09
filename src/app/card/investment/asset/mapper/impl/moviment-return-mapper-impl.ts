@@ -4,7 +4,7 @@ import { MovimentMapper } from "../moviment-mapper";
 
 export class AssetReturnMapperImpl extends MovimentMapper<AssetMovimentReturnModel, MovimentAssetReturnHttpModel> {
   override toModel(returnHttp: MovimentAssetReturnHttpModel): AssetMovimentReturnModel {
-    var returnModel: AssetMovimentReturnModel = new AssetMovimentReturnModel();
+    const returnModel: AssetMovimentReturnModel = new AssetMovimentReturnModel();
     returnModel.amount = returnHttp.amount;
     returnModel.date = returnHttp.date;
     returnModel.exDividendDate = returnHttp.exDividendDate;
@@ -15,7 +15,7 @@ export class AssetReturnMapperImpl extends MovimentMapper<AssetMovimentReturnMod
     return returnModel;
   }
   override toHttp(returnModel: AssetMovimentReturnModel): MovimentAssetReturnHttpModel {
-    var returnHttp: MovimentAssetReturnHttpModel = new MovimentAssetReturnHttpModel();
+    const returnHttp: MovimentAssetReturnHttpModel = new MovimentAssetReturnHttpModel();
     returnHttp.amount = returnModel.amount;
     returnHttp.date = returnModel.date;
     returnHttp.exDividendDate = returnModel.exDividendDate;

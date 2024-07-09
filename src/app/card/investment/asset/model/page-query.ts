@@ -6,7 +6,7 @@ export class PageQuery {
   sort?: string = "-id";
 
   toString(): string {
-    var response: string = "";
+    let response: string = "";
     response = response.concat("_offset=").concat(this.offset.toString())
       .concat("&_limit=").concat(this.limit.toString());
     if (this.sort) {

@@ -17,7 +17,7 @@ export class AssetReturnServiceImpl implements Crud<MovimentAssetReturnHttpModel
   constructor(private readonly httpClient: HttpClient) { }
 
   search(pageQuery: PageQuery): Observable<PageModel<MovimentAssetReturnHttpModel>> {
-    var completeUrl: string = this.baseUrl + this.assetId + "/returns";
+    const completeUrl: string = this.baseUrl + this.assetId + "/returns";
     return this.httpClient.get<PageModel<MovimentAssetReturnHttpModel>>(completeUrl + ":search?" + pageQuery.toString());
   }
 
