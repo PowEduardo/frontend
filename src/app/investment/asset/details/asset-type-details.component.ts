@@ -13,6 +13,7 @@ import { PageQuery } from '../model/page-query';
 import { AssetServiceImpl } from '../service/impl/asset-impl.service';
 import { AssetComponent } from '../asset.component';
 import { OperationsComponent } from '../operations/operations.component';
+import { AssetMovementUpsertComponent } from '../modal/add-moviment/asset-moviment/asset-movement-upsert.component';
 
 @Component({
   selector: 'app-asset-type-details',
@@ -132,5 +133,9 @@ export class AssetTypeDetailsComponent implements OnInit {
       this.allAssets.sort((a, b) => a.difference - b.difference);
       this.sort = 'difference';
     }
+  }
+
+  test(): unknown {
+    return AssetMovementUpsertComponent;
   }
 }

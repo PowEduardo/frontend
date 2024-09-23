@@ -4,17 +4,19 @@ import { MovementsComponent } from './investment/asset/movements/movements.compo
 import { ReturnsComponent } from './investment/asset/returns/returns.component';
 import { AssetTypeDetailsComponent } from './investment/asset/details/asset-type-details.component';
 import { InvestmentComponent } from './investment/investment.component';
+import { AccountComponent } from './account/account.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, children: [
     { path: 'investments', component: InvestmentComponent, children: [
-    { path: 'details', component: AssetTypeDetailsComponent, children: [
-          { path: 'returns', component: ReturnsComponent },
-          { path: 'moviments', component: MovementsComponent }
+      { path: 'details', component: AssetTypeDetailsComponent, children: [
+        { path: 'returns', component: ReturnsComponent },
+        { path: 'moviments', component: MovementsComponent }
         ]
       }
     ]
-  }
+  },
+  { path: 'account', component: AccountComponent}
 ]
 },
   
