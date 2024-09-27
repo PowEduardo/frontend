@@ -2,6 +2,9 @@
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
+      <th *ngIf="assetId===0">
+        Asset
+      </th>
       <th>
         Unit Value
       </th>
@@ -11,13 +14,13 @@
       <th>
         Operation
       </th>
-      <th (click)="getMovimentsByAsset('-exDividendDate')">
+      <th (click)="getMovementsByAsset('-exDividendDate')">
         Ex-Dividend date
       </th>
-      <th (click)="getMovimentsByAsset('-date')">
+      <th (click)="getMovementsByAsset('-date')">
         Payment Date
       </th>
-      <th (click)="getMovimentsByAsset('-value')">
+      <th (click)="getMovementsByAsset('-value')">
         Value
       </th>
       <th (click)="addMoviment()">
@@ -27,6 +30,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let movement of movements">
+      <td *ngIf="assetId===0">
+        {{movement.asset}}
+      </td>
       <td>
         {{movement.unitValue | currencyFormat}}
       </td>

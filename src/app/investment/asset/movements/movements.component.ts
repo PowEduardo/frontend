@@ -21,6 +21,8 @@ import { AssetMovementsServiceImpl } from '../service/impl/asset-movements-impl.
 export class MovementsComponent extends MovementsTableComponent<AssetMovementModel> implements OnChanges {
   @Input()
   assetId!: number;
+  @Input()
+  assetType?: string;
   sort: string = 'date';
 
   constructor(private service: AssetMovementsServiceImpl,
@@ -31,7 +33,7 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ngOnChanges(changes: SimpleChanges): void {
-    this.getMovimentsByAsset('-date');
+    this.getMovementsByAsset('-date');
   }
 
   async addMoviment() {
@@ -39,12 +41,12 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
     modalRef.componentInstance.parentId = this.assetId;
     await modalRef.result.then((result) => {
       if (result === 'saved') {
-        this.getMovimentsByAsset('-date');
+        this.getMovementsByAsset('-date');
       }
     });
   }
 
-  async getMovimentsByAsset(attribute: string) {
+  async getMovementsByAsset(attribute: string) {
     if (this.sort === attribute) {
       attribute = '-' + attribute;
       this.sort = attribute;
@@ -53,6 +55,9 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
     const query: PageQuery = new PageQuery();
     if (attribute) {
       query.sort = attribute;
+    }
+    if (this.assetType) {
+      query.addQuery("assetType", this.assetType);
     }
     this.service.parentId = this.assetId;
     await this.service.readAll(query).subscribe((data: AssetMovementHttp[]) => {
@@ -70,7 +75,7 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
     modalRef.componentInstance.updateOperation = true;
     await modalRef.result.then((result) => {
       if (result === 'saved') {
-        this.getMovimentsByAsset('-date');
+        this.getMovementsByAsset('-date');
       }
     });
   }

@@ -5,4 +5,5 @@ export class AssetMovementReturnModel extends MovementModel {
   amount!: number;
   unitValue!: number;
   exDividendDate!: Date;
+  asset!: string;
 }

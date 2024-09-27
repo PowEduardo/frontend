@@ -3,4 +3,5 @@ export interface PageQuery {
   offset: number;
   limit: number;
   sort?: string;
+  addQuery(attribute: string, value: string): void;
 }

@@ -14,6 +14,7 @@ export class AssetMovementMapperImpl extends MovementMapper<AssetMovementModel, 
     model.type = response.type;
     model.value = response.value;
     model.unitValue = response.unitValue!;
+    model.asset = response.asset!.ticker;
     return model;
   }
   override toHttp(model: AssetMovementModel): AssetMovementHttp {

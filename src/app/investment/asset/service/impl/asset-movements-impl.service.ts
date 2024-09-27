@@ -51,14 +51,14 @@ export class AssetMovementsServiceImpl extends MovementService<AssetMovementHttp
 
 
   search(pageQuery: PageQuery): Observable<PageModel<AssetMovementHttp>> {
-    return this.httpClient.get<PageModel<AssetMovementHttp>>(this.baseUrl + this.parentId + "/moviments:search?" + pageQuery.toString());
+    return this.httpClient.get<PageModel<AssetMovementHttp>>(this.baseUrl + this.parentId + "/movements:search?" + pageQuery.toString());
   }
 
   create(asset: AssetMovementHttp): Observable<AssetMovementHttp> {
-    return this.httpClient.post<AssetMovementHttp>(this.baseUrl + this.parentId + "/moviments", asset);
+    return this.httpClient.post<AssetMovementHttp>(this.baseUrl + this.parentId + "/movements", asset);
   }
   update(asset: AssetMovementHttp): Observable<AssetMovementHttp> {
-    return this.httpClient.post<AssetMovementHttp>(this.baseUrl + this.parentId + "/moviments/" + asset.id, asset);
+    return this.httpClient.post<AssetMovementHttp>(this.baseUrl + this.parentId + "/movements/" + asset.id, asset);
 
   }
 

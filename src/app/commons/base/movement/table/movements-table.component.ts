@@ -12,6 +12,6 @@ export abstract class MovementsTableComponent<T extends MovementModel> {
   movements!: T[];
 
   abstract addMoviment(): void;
-  abstract getMovimentsByAsset(attribute: string): void;
+  abstract getMovementsByAsset(attribute: string): void;
   abstract updateMoviment(moviment: T): void;
 }

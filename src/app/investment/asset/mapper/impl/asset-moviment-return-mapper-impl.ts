@@ -3,16 +3,17 @@ import { AssetMovementReturnModel } from "../../model/asset-movement-return-mode
 import { AssetMovementReturnHttp } from "../../model/http/asset-movement-return-http-model";
 
 export class AssetMovimentReturnMapperImpl extends MovementMapper<AssetMovementReturnModel, AssetMovementReturnHttp> {
-  override toModel(returnHttp: AssetMovementReturnHttp): AssetMovementReturnModel {
-    const returnModel: AssetMovementReturnModel = new AssetMovementReturnModel();
-    returnModel.amount = returnHttp.amount;
-    returnModel.date = returnHttp.date;
-    returnModel.exDividendDate = returnHttp.exDividendDate;
-    returnModel.operation = returnHttp.operation;
-    returnModel.unitValue = returnHttp.unitValue;
-    returnModel.value = returnHttp.value;
-    returnModel.id = returnHttp.id;
-    return returnModel;
+  override toModel(response: AssetMovementReturnHttp): AssetMovementReturnModel {
+    const model: AssetMovementReturnModel = new AssetMovementReturnModel();
+    model.amount = response.amount;
+    model.date = response.date;
+    model.exDividendDate = response.exDividendDate;
+    model.operation = response.operation;
+    model.unitValue = response.unitValue;
+    model.value = response.value;
+    model.id = response.id;
+    model.asset = response.asset!.ticker;
+    return model;
   }
   override toHttp(returnModel: AssetMovementReturnModel): AssetMovementReturnHttp {
     const returnHttp: AssetMovementReturnHttp = new AssetMovementReturnHttp();

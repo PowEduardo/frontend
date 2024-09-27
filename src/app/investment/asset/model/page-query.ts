@@ -17,4 +17,12 @@ export class PageQuery {
     }
     return response;
   }
+
+  addQuery(attribute: string, value: string): void{
+    if (this.query) {
+      this.query = this.query + "," + attribute + ":" + value;
+    } else {
+      this.query = attribute + ":" + value;
+    }
+  }
 }

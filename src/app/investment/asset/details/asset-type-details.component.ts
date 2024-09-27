@@ -5,21 +5,23 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { PieChartModel } from '../../model/pie-chart-model';
+import { AssetComponent } from '../asset.component';
 import { AssetMapperImpl } from '../mapper/impl/asset-mapper-impl';
 import { AddAssetComponent } from '../modal/add-asset/add-asset.component';
 import { AssetModel } from '../model/asset-model';
 import { AssetHttpModel } from '../model/http/asset-http-model';
 import { PageQuery } from '../model/page-query';
-import { AssetServiceImpl } from '../service/impl/asset-impl.service';
-import { AssetComponent } from '../asset.component';
+import { MovementsComponent } from "../movements/movements.component";
 import { OperationsComponent } from '../operations/operations.component';
-import { AssetMovementUpsertComponent } from '../modal/add-moviment/asset-moviment/asset-movement-upsert.component';
+import { ReturnsComponent } from "../returns/returns.component";
+import { AssetServiceImpl } from '../service/impl/asset-impl.service';
+import { AssetMovementMapperImpl } from '../mapper/impl/asset-movement-mapper-impl';
 
 @Component({
   selector: 'app-asset-type-details',
   standalone: true,
-  imports: [CommonModule, CurrencyFormatPipe, AssetComponent, OperationsComponent],
-  providers: [DecimalPipe, AssetMapperImpl],
+  imports: [CommonModule, CurrencyFormatPipe, AssetComponent, OperationsComponent, MovementsComponent, ReturnsComponent],
+  providers: [DecimalPipe, AssetMapperImpl, AssetMovementMapperImpl],
   templateUrl: './asset-type-details.component.html',
   styleUrl: './asset-type-details.component.css'
 })
@@ -32,6 +34,8 @@ export class AssetTypeDetailsComponent implements OnInit {
   @Output()
   pieValuesChange = new EventEmitter<PieChartModel[]>();
   showAssetOperations?: number;
+  isMovimentsEnabled: boolean = false;
+  isReturnsEnabled: boolean = false;
 
   constructor(private assetService: AssetServiceImpl,
     private route: ActivatedRoute,
@@ -134,8 +138,13 @@ export class AssetTypeDetailsComponent implements OnInit {
       this.sort = 'difference';
     }
   }
+  openMovements() {
+    this.isReturnsEnabled = false;
+    this.isMovimentsEnabled = !this.isMovimentsEnabled;
+  }
 
-  test(): unknown {
-    return AssetMovementUpsertComponent;
+  openReturns() {
+    this.isMovimentsEnabled = false;
+    this.isReturnsEnabled = !this.isReturnsEnabled;
   }
 }

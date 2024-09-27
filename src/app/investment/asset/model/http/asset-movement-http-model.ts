@@ -1,3 +1,4 @@
+import { AssetHttpModel } from "./asset-http-model";
 import { MovementHttp } from "./movement-http";
 
 export class AssetMovementHttp extends MovementHttp {
@@ -5,4 +6,5 @@ export class AssetMovementHttp extends MovementHttp {
   amount?: number;
   unitValue?: number;
   dueDate?: Date;
+  asset?: AssetHttpModel;
 }
