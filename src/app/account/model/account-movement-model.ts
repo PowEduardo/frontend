@@ -1,4 +1,4 @@
-export class MovementModel {
+export class AccountMovementModel{
   id!: number | null;
   date!: Date;
   value!: number;

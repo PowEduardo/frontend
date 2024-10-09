@@ -3,4 +3,5 @@ export interface MovementModel {
   date: Date;
   value: number;
   type: string;
+  description: string;
 }
