@@ -1,63 +1,63 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { MovementsTableComponent } from '../../commons/base/movement/table/movements-table.component';
-import { AccountMovementModel } from '../model/account-movement-model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../commons/base/model/page-query';
+import { PageQueryModel } from '../../commons/base/model/page-query-model';
+import { MovementHttp } from '../../commons/base/movement/model/http/movement-http';
+import { MovementsTableComponent } from '../../commons/base/movement/table/movements-table.component';
 import { AssetMovementUpsertComponent } from '../../investment/asset/modal/add-moviment/asset-moviment/asset-movement-upsert.component';
-import { AssetMovementModel } from '../../investment/asset/model/asset-movement-model';
-import { AssetMovementHttp } from '../../investment/asset/model/http/asset-movement-http-model';
+import { AccountMovementModel } from '../model/account-movement-model';
+import { AccountMovementMapperImpl } from './mapper/account-movement-mapper-impl';
+import { AccountMovementService } from './service/account-movement-service';
+import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [],
+  imports: [CurrencyFormatPipe, CommonModule],
+  providers: [AccountMovementService, AccountMovementMapperImpl, NgbModal, DecimalPipe],
   templateUrl: './movements.component.html',
   styleUrl: './movements.component.css'
 })
 export class MovementsComponent extends MovementsTableComponent<AccountMovementModel>{
   
   @Input()
-  assetId!: number;
-  @Input()
-  assetType?: string;
+  parentId!: number;
   sort: string = 'date';
 
   constructor(private service: AccountMovementService,
-    private mapper: AccountMovementMapper,
+    private mapper: AccountMovementMapperImpl,
     private modal: NgbModal
   ) {
     super();
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ngOnChanges(changes: SimpleChanges): void {
-    this.getMovementsByAsset('-date');
+    this.getMovements('-date');
   }
 
   async addMoviment() {
     const modalRef = this.modal.open(AssetMovementUpsertComponent);
-    modalRef.componentInstance.parentId = this.assetId;
+    modalRef.componentInstance.parentId = this.parentId;
     await modalRef.result.then((result) => {
       if (result === 'saved') {
-        this.getMovementsByAsset('-date');
+        this.getMovements('-date');
       }
     });
   }
 
-  async getMovementsByAsset(attribute: string) {
+  async getMovements(attribute: string) {
     if (this.sort === attribute) {
       attribute = '-' + attribute;
       this.sort = attribute;
     }
     this.movements = [];
-    const query: PageQuery = new PageQuery();
+    const query: PageQuery = new PageQueryModel();
     if (attribute) {
       query.sort = attribute;
     }
-    if (this.assetType) {
-      query.addQuery("assetType", this.assetType);
-    }
-    this.service.parentId = this.assetId;
-    await this.service.readAll(query).subscribe((data: AssetMovementHttp[]) => {
+    this.service.parentId = this.parentId;
+    await this.service.readAll(query).subscribe((data: MovementHttp[]) => {
       data.map(element => {
         this.movements.push(this.mapper.toModel(element));
       });
@@ -67,12 +67,12 @@ export class MovementsComponent extends MovementsTableComponent<AccountMovementM
 
   async updateMoviment(moviment: AccountMovementModel) {
     const modalRef = this.modal.open(AssetMovementUpsertComponent);
-    modalRef.componentInstance.parentId = this.assetId;
+    modalRef.componentInstance.parentId = this.parentId;
     modalRef.componentInstance.model = moviment;
     modalRef.componentInstance.updateOperation = true;
     await modalRef.result.then((result) => {
       if (result === 'saved') {
-        this.getMovementsByAsset('-date');
+        this.getMovements('-date');
       }
     });
   }

@@ -33,7 +33,7 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ngOnChanges(changes: SimpleChanges): void {
-    this.getMovementsByAsset('-date');
+    this.getMovements('-date');
   }
 
   async addMoviment() {
@@ -41,12 +41,12 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
     modalRef.componentInstance.parentId = this.assetId;
     await modalRef.result.then((result) => {
       if (result === 'saved') {
-        this.getMovementsByAsset('-date');
+        this.getMovements('-date');
       }
     });
   }
 
-  async getMovementsByAsset(attribute: string) {
+  async getMovements(attribute: string) {
     if (this.sort === attribute) {
       attribute = '-' + attribute;
       this.sort = attribute;
@@ -75,7 +75,7 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
     modalRef.componentInstance.updateOperation = true;
     await modalRef.result.then((result) => {
       if (result === 'saved') {
-        this.getMovementsByAsset('-date');
+        this.getMovements('-date');
       }
     });
   }

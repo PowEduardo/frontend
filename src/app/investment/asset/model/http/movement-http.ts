@@ -3,5 +3,5 @@ export class MovementHttp {
   date!: Date;
   value!: number;
   type!: string;
-
+  description!: string;
 }

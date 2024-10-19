@@ -3,4 +3,5 @@ export interface MovementHttp {
   date: Date;
   value: number;
   type: string;
+  description: string;
 }
