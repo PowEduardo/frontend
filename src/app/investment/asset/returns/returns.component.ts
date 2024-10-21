@@ -3,19 +3,19 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
-import { AssetMovimentReturnMapperImpl } from '../mapper/impl/asset-moviment-return-mapper-impl';
-import { AssetReturnMovementUpsertComponent } from '../modal/add-moviment/asset-return/asset-return.component';
+import { AssetMovementReturnMapperImpl } from '../mapper/impl/asset-movement-return-mapper-impl';
+import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
 import { AssetMovementReturnHttp } from '../model/http/asset-movement-return-http-model';
 import { PageQuery } from '../model/page-query';
-import { AssetReturnServiceImpl } from '../service/impl/moviment-asset-return-impl.service';
+import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';
 
 
 @Component({
   selector: 'app-returns',
   standalone: true,
   imports: [CurrencyFormatPipe, CommonModule],
-  providers: [AssetMovimentReturnMapperImpl],
+  providers: [AssetMovementReturnMapperImpl],
   templateUrl: './returns.component.html',
   styleUrl: './returns.component.css'
 })
@@ -25,7 +25,7 @@ assetId!: number;
 sort: string = "date"
 
 constructor(private service: AssetReturnServiceImpl,
-  private mapper: AssetMovimentReturnMapperImpl,
+  private mapper: AssetMovementReturnMapperImpl,
   private modal: NgbModal
 ) {
   super();
@@ -35,7 +35,7 @@ ngOnChanges(changes: SimpleChanges): void {
   this.getMovements('-date');
 }
 
-async addMoviment() {
+async addMovement() {
   const modalRef = this.modal.open(AssetReturnMovementUpsertComponent);
   modalRef.componentInstance.parentId = this.assetId;
   await modalRef.result.then((result) => {
@@ -64,10 +64,10 @@ async getMovements(attribute: string) {
 
 }
 
-async updateMoviment(moviment: AssetMovementReturnModel) {
+async updateMovement(movement: AssetMovementReturnModel) {
   const modalRef = this.modal.open(AssetReturnMovementUpsertComponent);
   modalRef.componentInstance.parentId = this.assetId;
-  modalRef.componentInstance.model = moviment;
+  modalRef.componentInstance.model = movement;
   modalRef.componentInstance.updateOperation = true;
   await modalRef.result.then((result) => {
     if (result === 'saved') {

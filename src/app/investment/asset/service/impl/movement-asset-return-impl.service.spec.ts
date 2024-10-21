@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AssetReturnServiceImpl } from './moviment-asset-return-impl.service';
+import { AssetReturnServiceImpl } from './movement-asset-return-impl.service';
 
-describe('MovimentAssetReturnServiceImpl', () => {
+describe('MovementAssetReturnServiceImpl', () => {
   let service: AssetReturnServiceImpl;
 
   beforeEach(() => {

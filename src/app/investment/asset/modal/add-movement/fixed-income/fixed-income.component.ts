@@ -6,8 +6,8 @@ import { MovementMapper } from '../../../../../commons/base/movement/mapper/move
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
 import { FixedIncomeOperationType } from '../../../enum/fixed-income-operation-type';
-import { AssetMovimentReturnMapperImpl } from '../../../mapper/impl/asset-moviment-return-mapper-impl';
-import { FixedIncomeMovementModel } from '../../../model/fixed-income-moviment-model';
+import { AssetMovementReturnMapperImpl } from '../../../mapper/impl/asset-movement-return-mapper-impl';
+import { FixedIncomeMovementModel } from '../../../model/fixed-income-movement-model';
 import { FixedIncomeMovementHttp } from '../../../model/http/fixed-income-movement-http';
 import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements-impl.service';
 
@@ -19,7 +19,7 @@ import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements
   imports: [FormsModule, CommonModule],
   providers: [
     {provide: MovementService, useClass: AssetMovementsServiceImpl},
-    {provide: MovementMapper, useClass: AssetMovimentReturnMapperImpl}
+    {provide: MovementMapper, useClass: AssetMovementReturnMapperImpl}
   ]
 })
 export class FixedIncomeComponent extends MovementUpsertComponent<FixedIncomeMovementModel, FixedIncomeMovementHttp> implements OnInit{
@@ -32,6 +32,6 @@ export class FixedIncomeComponent extends MovementUpsertComponent<FixedIncomeMov
 
   ngOnInit(): void {
     this.model = new FixedIncomeMovementModel();
-    this.movimentTypes = Object.values(FixedIncomeOperationType);
+    this.movementTypes = Object.values(FixedIncomeOperationType);
   }
 }

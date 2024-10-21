@@ -2,7 +2,7 @@ import { MovementMapper } from "../../../../commons/base/movement/mapper/movemen
 import { AssetMovementReturnModel } from "../../model/asset-movement-return-model";
 import { AssetMovementReturnHttp } from "../../model/http/asset-movement-return-http-model";
 
-export class AssetMovimentReturnMapperImpl extends MovementMapper<AssetMovementReturnModel, AssetMovementReturnHttp> {
+export class AssetMovementReturnMapperImpl extends MovementMapper<AssetMovementReturnModel, AssetMovementReturnHttp> {
   override toModel(response: AssetMovementReturnHttp): AssetMovementReturnModel {
     const model: AssetMovementReturnModel = new AssetMovementReturnModel();
     model.amount = response.amount;

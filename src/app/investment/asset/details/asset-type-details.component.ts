@@ -34,7 +34,7 @@ export class AssetTypeDetailsComponent implements OnInit {
   @Output()
   pieValuesChange = new EventEmitter<PieChartModel[]>();
   showAssetOperations?: number;
-  isMovimentsEnabled: boolean = false;
+  isMovementsEnabled: boolean = false;
   isReturnsEnabled: boolean = false;
 
   constructor(private assetService: AssetServiceImpl,
@@ -140,11 +140,11 @@ export class AssetTypeDetailsComponent implements OnInit {
   }
   openMovements() {
     this.isReturnsEnabled = false;
-    this.isMovimentsEnabled = !this.isMovimentsEnabled;
+    this.isMovementsEnabled = !this.isMovementsEnabled;
   }
 
   openReturns() {
-    this.isMovimentsEnabled = false;
+    this.isMovementsEnabled = false;
     this.isReturnsEnabled = !this.isReturnsEnabled;
   }
 }

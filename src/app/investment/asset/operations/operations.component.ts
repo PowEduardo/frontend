@@ -15,16 +15,16 @@ import { CommonModule } from '@angular/common';
 export class OperationsComponent {
   @Input()
   assetId!: number;
-  isMovimentsEnabled: boolean = false;
+  isMovementsEnabled: boolean = false;
   isReturnsEnabled: boolean = false;
 
-  openMoviments() {
+  openMovements() {
     this.isReturnsEnabled = false;
-    this.isMovimentsEnabled = true;
+    this.isMovementsEnabled = true;
   }
 
   openReturns() {
-    this.isMovimentsEnabled = false;
+    this.isMovementsEnabled = false;
     this.isReturnsEnabled = true;
   }
 }

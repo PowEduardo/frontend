@@ -1,7 +1,7 @@
-import { FixedIncomeMovimentMapperImpl } from './fixed-income-moviment-mapper-impl';
+import { FixedIncomeMovementMapperImpl } from './fixed-income-movement-mapper-impl';
 
-describe('FixedIncomeMovimentMapperImpl', () => {
+describe('FixedIncomeMovementMapperImpl', () => {
   it('should create an instance', () => {
-    expect(new FixedIncomeMovimentMapperImpl()).toBeTruthy();
+    expect(new FixedIncomeMovementMapperImpl()).toBeTruthy();
   });
 });

@@ -11,7 +11,7 @@ export const routes: Routes = [
     { path: 'investments', component: InvestmentComponent, children: [
       { path: 'details', component: AssetTypeDetailsComponent, children: [
         { path: 'returns', component: ReturnsComponent },
-        { path: 'moviments', component: MovementsComponent }
+        { path: 'movements', component: MovementsComponent }
         ]
       }
     ]

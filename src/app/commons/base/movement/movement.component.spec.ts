@@ -1,16 +1,16 @@
 
 
-describe('MovimentComponent', () => {
-  // let component: MovimentComponent;
-  // let fixture: ComponentFixture<MovimentComponent>;
+describe('MovementComponent', () => {
+  // let component: MovementComponent;
+  // let fixture: ComponentFixture<MovementComponent>;
 
   // beforeEach(async () => {
   //   await TestBed.configureTestingModule({
-  //     imports: [MovimentComponent]
+  //     imports: [MovementComponent]
   //   })
   //   .compileComponents();
     
-  //   fixture = TestBed.createComponent(MovimentComponent);
+  //   fixture = TestBed.createComponent(MovementComponent);
   //   component = fixture.componentInstance;
   //   fixture.detectChanges();
   // });

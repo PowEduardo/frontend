@@ -1,7 +1,7 @@
-import { MovimentMapperImpl } from './moviment-mapper-impl';
+import { MovementMapperImpl } from './movement-mapper-impl';
 
-describe('MovimentMapperImpl', () => {
+describe('MovementMapperImpl', () => {
   it('should create an instance', () => {
-    expect(new MovimentMapperImpl()).toBeTruthy();
+    expect(new MovementMapperImpl()).toBeTruthy();
   });
 });

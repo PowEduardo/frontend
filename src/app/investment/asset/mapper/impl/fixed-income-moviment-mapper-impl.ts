@@ -1,9 +1,9 @@
 import { MovementType } from "../../../../commons/base/movement/enum/movement-type";
 import { MovementMapper } from "../../../../commons/base/movement/mapper/movement-mapper";
-import { FixedIncomeMovementModel } from "../../model/fixed-income-moviment-model";
+import { FixedIncomeMovementModel } from "../../model/fixed-income-movement-model";
 import { FixedIncomeMovementHttp } from "../../model/http/fixed-income-movement-http";
 
-export class FixedIncomeMovimentMapperImpl extends MovementMapper<FixedIncomeMovementModel, FixedIncomeMovementHttp>{
+export class FixedIncomeMovementMapperImpl extends MovementMapper<FixedIncomeMovementModel, FixedIncomeMovementHttp>{
 
   override toModel(response: FixedIncomeMovementHttp): FixedIncomeMovementModel {
     const model: FixedIncomeMovementModel = new FixedIncomeMovementModel();

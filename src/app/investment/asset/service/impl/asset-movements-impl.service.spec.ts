@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AssetMovementsServiceImpl } from './asset-movements-impl.service';
 
-describe('AssetMovimentsImplService', () => {
+describe('AssetMovementsImplService', () => {
   let service: AssetMovementsServiceImpl;
 
   beforeEach(() => {

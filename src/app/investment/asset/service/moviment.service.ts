@@ -6,7 +6,7 @@ import { Crud } from './crud.service';
   providedIn: 'root'
 })
 
-export abstract class MovimentService<T extends MovementHttp> extends Crud<T>{
+export abstract class MovementService<T extends MovementHttp> extends Crud<T>{
   baseUrl: string = "http://localhost:8080/assets/";
   assetId: number = 0;
 }

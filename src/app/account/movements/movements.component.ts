@@ -4,7 +4,7 @@ import { PageQuery } from '../../commons/base/model/page-query';
 import { PageQueryModel } from '../../commons/base/model/page-query-model';
 import { MovementHttp } from '../../commons/base/movement/model/http/movement-http';
 import { MovementsTableComponent } from '../../commons/base/movement/table/movements-table.component';
-import { AssetMovementUpsertComponent } from '../../investment/asset/modal/add-moviment/asset-moviment/asset-movement-upsert.component';
+import { AssetMovementUpsertComponent } from '../../investment/asset/modal/add-movement/asset-movement/asset-movement-upsert.component';
 import { AccountMovementModel } from '../model/account-movement-model';
 import { AccountMovementMapperImpl } from './mapper/account-movement-mapper-impl';
 import { AccountMovementService } from './service/account-movement-service';
@@ -36,7 +36,7 @@ export class MovementsComponent extends MovementsTableComponent<AccountMovementM
     this.getMovements('-date');
   }
 
-  async addMoviment() {
+  async addMovement() {
     const modalRef = this.modal.open(AssetMovementUpsertComponent);
     modalRef.componentInstance.parentId = this.parentId;
     await modalRef.result.then((result) => {
@@ -65,10 +65,10 @@ export class MovementsComponent extends MovementsTableComponent<AccountMovementM
 
   }
 
-  async updateMoviment(moviment: AccountMovementModel) {
+  async updateMovement(movement: AccountMovementModel) {
     const modalRef = this.modal.open(AssetMovementUpsertComponent);
     modalRef.componentInstance.parentId = this.parentId;
-    modalRef.componentInstance.model = moviment;
+    modalRef.componentInstance.model = movement;
     modalRef.componentInstance.updateOperation = true;
     await modalRef.result.then((result) => {
       if (result === 'saved') {

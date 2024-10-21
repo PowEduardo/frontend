@@ -8,17 +8,17 @@ import { MovementService } from '../../../../../commons/base/movement/service/mo
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
 import { MovementUpsertModule } from '../../../../../commons/base/movement/upsert/movement-upsert.module';
 import { AssetMovementReturnType } from '../../../enum/asset-movement-return-type';
-import { AssetMovimentReturnMapperImpl } from '../../../mapper/impl/asset-moviment-return-mapper-impl';
+import { AssetMovementReturnMapperImpl } from '../../../mapper/impl/asset-movement-return-mapper-impl';
 import { AssetMovementReturnModel } from '../../../model/asset-movement-return-model';
 import { AssetMovementReturnHttp } from '../../../model/http/asset-movement-return-http-model';
-import { AssetReturnServiceImpl } from '../../../service/impl/moviment-asset-return-impl.service';
+import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-return-impl.service';
 
 @Component({
   selector: 'app-add-return',
   standalone: true,
   imports: [FormsModule, CommonModule, MovementUpsertModule, MovementModule],
   providers: [
-    {provide: MovementMapper, useClass: AssetMovimentReturnMapperImpl},
+    {provide: MovementMapper, useClass: AssetMovementReturnMapperImpl},
     {provide: MovementService, useClass: AssetReturnServiceImpl},
     FormsModule
   ],
@@ -36,7 +36,7 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
 
   ngOnInit(): void {
     this.model = new AssetMovementReturnModel();
-    this.movimentTypes = Object.values(AssetMovementReturnType);
+    this.movementTypes = Object.values(AssetMovementReturnType);
   }
 
   calculateValue() {

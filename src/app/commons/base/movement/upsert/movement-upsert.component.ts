@@ -16,7 +16,7 @@ export class MovementUpsertComponent<T extends MovementModel, Y extends Movement
   model!: T;
   @Output()
   modelChange = new EventEmitter<T>();
-  movimentTypes!: string[];
+  movementTypes!: string[];
   @Input()
   parentId!: number;
 

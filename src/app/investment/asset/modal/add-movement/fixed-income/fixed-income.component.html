@@ -6,7 +6,7 @@
 </div>
 <div *ngIf="model" class="modal-body">
   <form #assetForm="ngForm" (ngSubmit)="onSubmit()">
-    <div app-movement [renderType]="'form'" [(moviment)]="model">
+    <div app-movement [renderType]="'form'" [(movement)]="model">
       <div form>
         <div class="form-group">
           <label for="date">Due Date</label>
@@ -16,7 +16,7 @@
         <div class="form-group">
           <label for="operation">Operation</label>
           <select class="form-control" id="operation" name="operation" [(ngModel)]="model.operation">
-            <option *ngFor="let operation of movimentTypes" [value]="operation">{{operation}}</option>
+            <option *ngFor="let operation of movementTypes" [value]="operation">{{operation}}</option>
           </select>
         </div>
       </div>
@@ -28,8 +28,8 @@
     <button type="button" class="btn btn-secondary" (click)="activeModal.close('Closed')">Close</button>
   </div>
 </div>
-<app-add-moviment [model]="model" [assetId]="assetId">
+<app-add-movement [model]="model" [assetId]="assetId">
   <div>
 
   </div>
-</app-add-moviment>
+</app-add-movement>

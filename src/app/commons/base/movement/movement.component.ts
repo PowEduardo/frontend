@@ -11,11 +11,11 @@ export class MovementComponent {
   @Input()
   renderType!: string;
   @Input()
-  moviment!: MovementModel;
+  movement!: MovementModel;
   @Output()
   valueChange = new EventEmitter<boolean>();
   @Output()
-  movimentChange = new EventEmitter<MovementModel>();
+  movementChange = new EventEmitter<MovementModel>();
 
   emitValueChange() {
     this.valueChange.emit(true);
