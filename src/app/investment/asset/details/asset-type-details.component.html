@@ -11,8 +11,8 @@
     </div>
   </div>
 </div>
-<app-movements *ngIf="isMovementsEnabled" [assetId]="0" [assetType]="type"></app-movements>
-<app-returns *ngIf="isReturnsEnabled" [assetId]="0"></app-returns>
+<app-movements *ngIf="isMovementsEnabled" [parentId]="0" [assetType]="type"></app-movements>
+<app-returns *ngIf="isReturnsEnabled" [parentId]="0"></app-returns>
 <table class="table table-striped table-bordered" *ngIf="!loading">
   <thead class="thead-dark">
     <tr>

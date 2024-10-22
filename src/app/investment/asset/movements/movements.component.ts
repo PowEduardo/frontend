@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnChanges } from '@angular/core';
+import { MovementMapper } from '../../../commons/base/movement/mapper/movement-mapper';
+import { MovementService } from '../../../commons/base/movement/service/movement.service';
 import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { AssetMovementMapperImpl } from '../mapper/impl/asset-movement-mapper-impl';
-import { AssetMovementUpsertComponent } from '../modal/add-movement/asset-movement/asset-movement-upsert.component';
 import { AssetMovementModel } from '../model/asset-movement-model';
 import { AssetMovementHttp } from '../model/http/asset-movement-http-model';
 import { PageQuery } from '../model/page-query';
@@ -13,40 +13,20 @@ import { AssetMovementsServiceImpl } from '../service/impl/asset-movements-impl.
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule],
-  providers: [],
+  imports: [CurrencyFormatPipe, CommonModule, MovementsTableComponent],
+  providers: [{ provide: MovementService, useClass: AssetMovementsServiceImpl },
+  { provide: MovementMapper, useClass: AssetMovementMapperImpl }
+  ],
   templateUrl: './movements.component.html',
   styleUrl: './movements.component.css'
 })
-export class MovementsComponent extends MovementsTableComponent<AssetMovementModel> implements OnChanges {
-  @Input()
-  assetId!: number;
+export class MovementsComponent extends MovementsTableComponent<AssetMovementModel, AssetMovementHttp> implements OnChanges {
   @Input()
   assetType?: string;
-  sort: string = 'date';
-
-  constructor(private service: AssetMovementsServiceImpl,
-    private mapper: AssetMovementMapperImpl,
-    private modal: NgbModal
-  ) {
-    super();
-  }
+  isReady: boolean = false;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ngOnChanges(changes: SimpleChanges): void {
-    this.getMovements('-date');
-  }
 
-  async addMovement() {
-    const modalRef = this.modal.open(AssetMovementUpsertComponent);
-    modalRef.componentInstance.parentId = this.assetId;
-    await modalRef.result.then((result) => {
-      if (result === 'saved') {
-        this.getMovements('-date');
-      }
-    });
-  }
-
-  async getMovements(attribute: string) {
+  override async getMovements(attribute: string) {
     if (this.sort === attribute) {
       attribute = '-' + attribute;
       this.sort = attribute;
@@ -59,24 +39,12 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
     if (this.assetType) {
       query.addQuery("assetType", this.assetType);
     }
-    this.service.parentId = this.assetId;
+    this.service.parentId = this.parentId;
     await this.service.readAll(query).subscribe((data: AssetMovementHttp[]) => {
       data.map(element => {
-        this.movements.push(this.mapper.toModel(element));
+        this.movements!.push(this.mapper.toModel(element));
       });
     });
-
   }
 
-  async updateMovement(movement: AssetMovementModel) {
-    const modalRef = this.modal.open(AssetMovementUpsertComponent);
-    modalRef.componentInstance.parentId = this.assetId;
-    modalRef.componentInstance.model = movement;
-    modalRef.componentInstance.updateOperation = true;
-    await modalRef.result.then((result) => {
-      if (result === 'saved') {
-        this.getMovements('-date');
-      }
-    });
-  }
 }

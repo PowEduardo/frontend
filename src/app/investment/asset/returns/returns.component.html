@@ -1,8 +1,7 @@
-<h3 class="text-center">Returns Component</h3>
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
-      <th *ngIf="assetId===0">
+      <th *ngIf="parentId===0">
         Asset
       </th>
       <th>
@@ -23,14 +22,11 @@
       <th (click)="getMovements('-value')">
         Value
       </th>
-      <th (click)="addMovement()">
-        +
-      </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let movement of movements">
-      <td *ngIf="assetId===0">
+      <td *ngIf="parentId===0">
         {{movement.asset}}
       </td>
       <td>
@@ -50,9 +46,6 @@
       </td>
       <td>
         {{movement.value | currencyFormat}}
-      </td>
-      <td (click)="updateMovement(movement)">
-        +
       </td>
     </tr>
   </tbody>

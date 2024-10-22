@@ -8,5 +8,5 @@
     <!-- <button (click)="openReturns()">Returns</button> -->
   </div>
 </div>
-<app-movements *ngIf="isMovementsEnabled" [assetId]="assetId"></app-movements>
-<app-returns *ngIf="isReturnsEnabled" [assetId]="assetId"></app-returns>
+<app-movements *ngIf="isMovementsEnabled" [parentId]="assetId"></app-movements>
+<app-returns *ngIf="isReturnsEnabled" [parentId]="assetId"></app-returns>

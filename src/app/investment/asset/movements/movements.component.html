@@ -1,33 +1,15 @@
-<h3 class="text-center">Movements Component</h3>
-<table class="table table-striped table-bordered">
-  <thead class="thead-dark">
-    <tr>
-      <th *ngIf="assetId===0">
-        Asset
-      </th>
-      <th>
-        Operation
-      </th>
-      <th>
-        Amount
-      </th>
-      <th>
-        Unit Value
-      </th>
-      <th (click)="getMovements('-value')">
-        Total Value
-      </th>
-      <th (click)="getMovements('date')">
-        Date
-      </th>
-      <th (click)="addMovement()">
-        +
-      </th>
-    </tr>
-  </thead>
-  <tbody>
+<app-movements-table>
+  <ng-container headers>
+    <th *ngIf="parentId===0">Asset</th>
+    <th>Operation</th>
+    <th>Amount</th>
+    <th>Unit Value</th>
+    <th (click)="getMovements('-value')">Value</th>
+    <th (click)="getMovements('date')">Date</th>
+  </ng-container>
+  <ng-container row>
     <tr *ngFor="let movement of movements">
-      <td *ngIf="assetId===0">
+      <td *ngIf="parentId===0">
         {{movement.asset}}
       </td>
       <td>
@@ -45,9 +27,6 @@
       <td>
         {{movement.date | date:'dd/MM/yyyy'}}
       </td>
-      <td (click)="updateMovement(movement)">
-        +
-      </td>
     </tr>
-  </tbody>
-</table>
+  </ng-container>
+</app-movements-table>
