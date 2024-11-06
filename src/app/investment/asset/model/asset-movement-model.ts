@@ -1,6 +1,6 @@
-import { MovementModel } from "./movement-model";
+import { InvestmentMovementModel } from "./movement-model";
 
-export class AssetMovementModel extends MovementModel {
+export class AssetMovementModel extends InvestmentMovementModel {
   amount!: number;
   operation!: string;
   unitValue!: number;

@@ -1,6 +1,6 @@
-import { MovementHttp } from "./movement-http";
+import { InvestmentMovementHttp } from "./movement-http";
 
-export class FixedIncomeMovementHttp extends MovementHttp {
+export class FixedIncomeMovementHttp extends InvestmentMovementHttp {
   dueDate?: Date;
   operation?: string;
 }
