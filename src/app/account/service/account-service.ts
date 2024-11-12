@@ -1,9 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Page } from "../../../commons/base/model/page";
-import { PageQuery } from "../../../commons/base/model/page-query";
-import { AccountDetailsModel } from "../../model/account-details-model";
+import { Page } from "../../commons/base/model/page";
+import { PageQuery } from "../../commons/base/model/page-query";
+import { AccountDetailsModel } from "../model/account-details-model";
+import { Injectable } from "@angular/core";
 
+@Injectable({
+    providedIn: 'root'
+}
+)
 export class AccountService {
     baseUrl: string = "http://localhost:8080/";
     accountId: number = 0;
@@ -30,6 +35,6 @@ export class AccountService {
         throw new Error("Method not implemented.");
     }
     details(): Observable<AccountDetailsModel> {
-        return this.httpClient.get<AccountDetailsModel>(this.baseUrl.replace("{accountId}", this.accountId.toString()) + "/details");
+        return this.httpClient.get<AccountDetailsModel>(this.baseUrl.replace("{accountId}", this.accountId.toString()).replace("movements", "details"));
     }
 }

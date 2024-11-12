@@ -1,16 +1,21 @@
-<div class="card-body">
+<div class="card-body" *ngIf="isReady">
     <div class="row">
         <div class="col-md-3">
-            <p><strong>Bank:</strong> Nubank - 260</p>
+            <p><strong>Bank: </strong>{{model.bank}}</p>
         </div>
         <div class="col-md-3">
-            <p><strong>Account Number:</strong> 86907374</p>
+            <p><strong>Account Number: </strong>{{model.number}}</p>
         </div>
         <div class="col-md-3">
-            <p><strong>Branch:</strong> 0001</p>
+            <p><strong>Branch: </strong>{{model.branch}}</p>
         </div>
-        <div class="col-md-3hbio∫">
-            <p><strong>Created Date:</strong> 2018-08-06</p>
+        <div class="col-md-3">
+            <p><strong>Created Date: </strong>{{model.createDate}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p><strong>Balance: </strong>{{model.balance}}</p>
         </div>
     </div>
 </div>
