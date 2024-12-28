@@ -3,10 +3,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
-import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { PieChartModel } from '../../model/pie-chart-model';
 import { AssetComponent } from '../asset.component';
 import { AssetMapperImpl } from '../mapper/impl/asset-mapper-impl';
+import { AssetMovementMapperImpl } from '../mapper/impl/asset-movement-mapper-impl';
 import { AddAssetComponent } from '../modal/add-asset/add-asset.component';
 import { AssetModel } from '../model/asset-model';
 import { AssetHttpModel } from '../model/http/asset-http-model';
@@ -15,12 +15,11 @@ import { MovementsComponent } from "../movements/movements.component";
 import { OperationsComponent } from '../operations/operations.component';
 import { ReturnsComponent } from "../returns/returns.component";
 import { AssetServiceImpl } from '../service/impl/asset-impl.service';
-import { AssetMovementMapperImpl } from '../mapper/impl/asset-movement-mapper-impl';
 
 @Component({
   selector: 'app-asset-type-details',
   standalone: true,
-  imports: [CommonModule, CurrencyFormatPipe, AssetComponent, OperationsComponent, MovementsComponent, ReturnsComponent],
+  imports: [CommonModule, AssetComponent, OperationsComponent, MovementsComponent, ReturnsComponent],
   providers: [DecimalPipe, AssetMapperImpl, AssetMovementMapperImpl],
   templateUrl: './asset-type-details.component.html',
   styleUrl: './asset-type-details.component.css'
