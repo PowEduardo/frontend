@@ -50,8 +50,7 @@
       <td>
         {{movement.value | currencyFormat}}
       </td>
-      <td>
-      </td>
+      <td (click)="updateMovements(movement)">+</td>
     </tr>
   </tbody>
 </table>

@@ -60,4 +60,10 @@ export class ReturnsComponent extends MovementsTableComponent<AssetMovementRetur
     modalRef.componentInstance.parentId = this.parentId;
   }
 
+  updateMovements(model: AssetMovementReturnModel) {
+      const modalRef = this.modal.open(AssetReturnMovementUpsertComponent);
+      modalRef.componentInstance.parentId = this.parentId;
+      modalRef.componentInstance.model = model;
+    }
+
 }

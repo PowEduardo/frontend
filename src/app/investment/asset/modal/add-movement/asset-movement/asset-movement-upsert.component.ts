@@ -35,7 +35,9 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
   }
 
   ngOnInit(): void {
-    this.model = new AssetMovementModel();
+    if (!this.model) {
+      this.model = new AssetMovementModel();
+    }
     this.movementTypes = Object.values(AssetOperationType);
   }
 
