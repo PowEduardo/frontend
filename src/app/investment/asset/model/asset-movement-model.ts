@@ -5,6 +5,6 @@ export class AssetMovementModel extends InvestmentMovementModel {
   operation!: string;
   unitValue!: number;
   dueDate!: Date;
-  interestRate!: number;
   asset!: string;
+  liquidationFee!: number;
 }

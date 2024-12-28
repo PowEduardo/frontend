@@ -1,18 +1,24 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccountService } from './service/account-service';
+import { NgModule } from '@angular/core';
 import { DetailsComponent } from './details/details.component';
+import { AccountMovementsUpsertComponent } from './movements/account-movements-upsert/account-movements-upsert.component';
+import { AccountMovementService } from './movements/service/account-movement-service';
+import { AccountService } from './service/account-service';
 
 
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
-    DetailsComponent
+    DetailsComponent,
+    AccountMovementsUpsertComponent
+  ],
+  exports: [
+    CommonModule
   ],
   providers: [
-    AccountService
+    AccountService,
+    AccountMovementService
   ]
 })
 export class AccountModule { }

@@ -22,6 +22,9 @@
       <th (click)="getMovements('-value')">
         Value
       </th>
+      <th (click)="addMovement()">
+        +
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -46,6 +49,8 @@
       </td>
       <td>
         {{movement.value | currencyFormat}}
+      </td>
+      <td>
       </td>
     </tr>
   </tbody>

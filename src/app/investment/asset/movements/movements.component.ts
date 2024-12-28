@@ -9,6 +9,7 @@ import { AssetMovementModel } from '../model/asset-movement-model';
 import { AssetMovementHttp } from '../model/http/asset-movement-http-model';
 import { PageQuery } from '../model/page-query';
 import { AssetMovementsServiceImpl } from '../service/impl/asset-movements-impl.service';
+import { AssetMovementUpsertComponent } from '../modal/add-movement/asset-movement/asset-movement-upsert.component';
 
 @Component({
   selector: 'app-movements',
@@ -45,6 +46,11 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
         this.movements!.push(this.mapper.toModel(element));
       });
     });
+  }
+
+  addMovements() {
+    const modalRef = this.modal.open(AssetMovementUpsertComponent);
+    modalRef.componentInstance.parentId = this.parentId;
   }
 
 }

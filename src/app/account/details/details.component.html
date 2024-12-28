@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            <p><strong>Balance: </strong>{{model.balance}}</p>
+            <p><strong>Balance: </strong>{{model.balance | currency:'BRL':'symbol':'1.2-2'}}</p>
         </div>
     </div>
 </div>

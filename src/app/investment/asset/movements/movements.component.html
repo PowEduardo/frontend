@@ -6,6 +6,7 @@
     <th>Unit Value</th>
     <th (click)="getMovements('-value')">Value</th>
     <th (click)="getMovements('date')">Date</th>
+    <th (click)="addMovements()">+</th>
   </ng-container>
   <ng-container row>
     <tr *ngFor="let movement of movements">
@@ -27,6 +28,7 @@
       <td>
         {{movement.date | date:'dd/MM/yyyy'}}
       </td>
+      <td></td>
     </tr>
   </ng-container>
 </app-movements-table>

@@ -5,28 +5,33 @@ import { AssetMovementHttp } from "../../model/http/asset-movement-http-model";
 
 export class AssetMovementMapperImpl extends MovementMapper<AssetMovementModel, AssetMovementHttp> {
 
-  override toModel(response: AssetMovementHttp): AssetMovementModel {
+  override toModel(http: AssetMovementHttp): AssetMovementModel {
     const model: AssetMovementModel = new AssetMovementModel();
-    model.id = response.id;
-    model.amount = response.amount!;
-    model.date = response.date;
-    model.operation = response.operation!;
-    model.type = response.type;
-    model.value = response.value;
-    model.unitValue = response.unitValue!;
-    model.asset = response.asset!.ticker;
+    model.id = http.id;
+    model.amount = http.amount!;
+    model.date = http.date;
+    model.operation = http.operation!;
+    model.type = http.type;
+    model.value = http.value;
+    model.unitValue = http.unitValue!;
+    model.asset = http.asset!.ticker;
+    model.description = http.description;
+    model.liquidationFee = http.liquidationFee;
     return model;
   }
   override toHttp(model: AssetMovementModel): AssetMovementHttp {
-    const request: AssetMovementHttp = new AssetMovementHttp();
-    request.id = model.id;
-    request.amount = model.amount;
-    request.date = model.date;
-    request.operation = model.operation;
-    request.type = MovementType.ASSET_MOVEMENT;
-    request.value = model.value;
-    request.unitValue = model.unitValue;
-    return request;
+    const http: AssetMovementHttp = new AssetMovementHttp();
+    http.category = "INVESTMENT"
+    http.id = model.id;
+    http.amount = model.amount;
+    http.date = model.date;
+    http.operation = model.operation;
+    http.type = MovementType.DEBIT;
+    http.value = model.value;
+    http.unitValue = model.unitValue;
+    http.description = model.description;
+    http.liquidationFee = model.liquidationFee;
+    return http;
   }
 
 }

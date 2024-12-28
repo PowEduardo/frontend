@@ -41,7 +41,7 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
 
   calculateValue() {
     if (!this.overrideValue) {
-      const result = this.model!.amount * this.model!.unitValue;
+      const result = this.model!.amount * this.model!.unitValue + this.model.liquidationFee;
       this.model!.value = this.roundHalfUp(result, 3);
     }
   }

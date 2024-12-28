@@ -15,7 +15,7 @@ export class DetailsComponent {
   model!: AccountDetailsModel;
   isReady: boolean = false;
 
-  constructor (service: AccountService) {
+  constructor(service: AccountService) {
     service.details().subscribe(model => {
       this.model = model;
       this.isReady = true;

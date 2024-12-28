@@ -10,15 +10,15 @@ import { MovementService } from "../../../commons/base/movement/service/movement
 import { AccountMovementHttp } from "../../model/http/account-movement-model";
 
 @Injectable()
-export class AccountMovementService extends MovementService<AccountMovementHttp>{
+export class AccountMovementService extends MovementService<AccountMovementHttp> {
 
   constructor(private readonly httpClient: HttpClient) {
     super();
     this.baseUrl = this.baseUrl.concat("accounts/{parentId}/movements");
-   }
-   
+  }
+
   create(request: AccountMovementHttp): Observable<AccountMovementHttp> {
-    return this.httpClient.post<AccountMovementHttp>(this.baseUrl, request);
+    return this.httpClient.post<AccountMovementHttp>(this.baseUrl.replace("{parentId}", this.parentId.toString()), request);
   }
   read(id: number): Observable<AccountMovementHttp> {
     throw new Error("Method not implemented.");

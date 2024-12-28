@@ -8,4 +8,5 @@ export class AssetMovementReturnHttp extends InvestmentMovementHttp {
   unitValue!: number;
   exDividendDate!: Date;
   asset?: AssetHttpModel;
+  irFee!: number;
 }

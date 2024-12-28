@@ -9,12 +9,17 @@
     <div class="form-group">
       <label for="amount">Amount</label>
       <input type="number" class="form-control" id="amount" name="amount" [(ngModel)]="model.amount"
-        placeholder="Amount" (input)="calculateValue()">
+        placeholder="32" (input)="calculateValue()">
     </div>
     <div class="form-group">
       <label for="unitValue">Unit Value</label>
       <input type="number" class="form-control" id="unitValue" name="unitValue" [(ngModel)]="model.unitValue"
-        placeholder="Unit Value" (input)="calculateValue()">
+        placeholder="0.12" (input)="calculateValue()">
+    </div>
+    <div class="form-group">
+      <label for="irFee">Ir Fee</label>
+      <input type="number" class="form-control" id="irFee" name="irFee" [(ngModel)]="model.irFee"
+      placeholder="10" (input)="calculateValue()">
     </div>
     <div class="form-group">
       <label for="exDividendDate">Ex-Dividend Date</label>

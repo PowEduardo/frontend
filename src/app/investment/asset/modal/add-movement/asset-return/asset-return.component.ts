@@ -18,17 +18,17 @@ import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-ret
   standalone: true,
   imports: [FormsModule, CommonModule, MovementUpsertModule, MovementModule],
   providers: [
-    {provide: MovementMapper, useClass: AssetMovementReturnMapperImpl},
-    {provide: MovementService, useClass: AssetReturnServiceImpl},
+    { provide: MovementMapper, useClass: AssetMovementReturnMapperImpl },
+    { provide: MovementService, useClass: AssetReturnServiceImpl },
     FormsModule
   ],
   templateUrl: './asset-return.component.html',
   styleUrl: './asset-return.component.css'
 })
-export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<AssetMovementReturnModel, AssetMovementReturnHttp>{
+export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<AssetMovementReturnModel, AssetMovementReturnHttp> {
   overrideValue: boolean = false;
 
-  constructor (protected override service: MovementService<AssetMovementReturnHttp>,
+  constructor(protected override service: MovementService<AssetMovementReturnHttp>,
     protected override mapper: MovementMapper<AssetMovementReturnModel, AssetMovementReturnHttp>,
     protected override activeModal: NgbActiveModal) {
     super(service, mapper, activeModal);
@@ -36,12 +36,13 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
 
   ngOnInit(): void {
     this.model = new AssetMovementReturnModel();
+    this.model.irFee = 0;
     this.movementTypes = Object.values(AssetMovementReturnType);
   }
 
   calculateValue() {
     if (!this.overrideValue) {
-      const result = this.model!.amount * this.model!.unitValue;
+      const result = this.model!.amount * this.model!.unitValue - this.model!.irFee;
       this.model!.value = this.roundHalfUp(result, 3);
     }
   }

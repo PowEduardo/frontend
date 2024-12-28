@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { AssetMovementReturnMapperImpl } from '../mapper/impl/asset-movement-return-mapper-impl';
+import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
 import { AssetMovementReturnHttp } from '../model/http/asset-movement-return-http-model';
 import { PageQuery } from '../model/page-query';
@@ -19,7 +20,8 @@ import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-im
   styleUrl: './returns.component.css'
 })
 export class ReturnsComponent extends MovementsTableComponent<AssetMovementReturnModel, AssetMovementReturnHttp> implements OnChanges {
-
+  @Input()
+  assetType?: string;
   constructor(protected override service: AssetReturnServiceImpl,
     protected override mapper: AssetMovementReturnMapperImpl,
     protected override modal: NgbModal
@@ -41,6 +43,9 @@ export class ReturnsComponent extends MovementsTableComponent<AssetMovementRetur
     if (attribute) {
       query.sort = attribute;
     }
+    if (this.assetType) {
+      query.addQuery("assetType", this.assetType);
+    }
     this.service.parentId = this.parentId;
     await this.service.readAll(query).subscribe((data: AssetMovementReturnHttp[]) => {
       data.map(element => {
@@ -48,6 +53,11 @@ export class ReturnsComponent extends MovementsTableComponent<AssetMovementRetur
       });
     });
 
+  }
+
+  addMovement() {
+    const modalRef = this.modal.open(AssetReturnMovementUpsertComponent);
+    modalRef.componentInstance.parentId = this.parentId;
   }
 
 }

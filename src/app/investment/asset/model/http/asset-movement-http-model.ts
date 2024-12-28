@@ -7,4 +7,5 @@ export class AssetMovementHttp extends InvestmentMovementHttp {
   unitValue?: number;
   dueDate?: Date;
   asset?: AssetHttpModel;
+  liquidationFee!: number;
 }

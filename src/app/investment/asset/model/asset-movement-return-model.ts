@@ -6,4 +6,5 @@ export class AssetMovementReturnModel extends InvestmentMovementModel {
   unitValue!: number;
   exDividendDate!: Date;
   asset!: string;
+  irFee!: number;
 }
