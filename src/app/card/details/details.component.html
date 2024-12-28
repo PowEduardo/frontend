@@ -1,0 +1,18 @@
+<div class="card-body" *ngIf="isReady">
+  <div class="row">
+      <div class="col-md-3">
+          <p><strong>Name: </strong>{{model.name}}</p>
+      </div>
+      <div class="col-md-3">
+          <p><strong>Statement Day: </strong>{{model.statementDay}}</p>
+      </div>
+      <div class="col-md-3">
+          <p><strong>Created Date: </strong>{{model.createDate}}</p>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-3">
+          <p><strong>Current Statement Value: </strong>{{model.currentStatementValue | currency:'BRL':'symbol':'1.2-2'}}</p>
+      </div>
+  </div>
+</div>
