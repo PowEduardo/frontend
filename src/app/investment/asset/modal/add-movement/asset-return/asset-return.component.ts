@@ -35,8 +35,10 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
   }
 
   ngOnInit(): void {
-    this.model = new AssetMovementReturnModel();
-    this.model.irFee = 0;
+    if (!this.model) {
+      this.model = new AssetMovementReturnModel();
+      this.model.irFee = 0;
+    }
     this.movementTypes = Object.values(AssetMovementReturnType);
   }
 

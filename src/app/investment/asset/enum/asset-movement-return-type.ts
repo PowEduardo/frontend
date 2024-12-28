@@ -1,5 +1,6 @@
 export enum AssetMovementReturnType {
-  BUY = 'DIVIDEND',
-  SELL = 'JCP',
-  SPLIT = 'AMORTIZATION'
+  DIVIDEND = 'DIVIDEND',
+  JCP = 'JCP',
+  AMORTIZATION = 'AMORTIZATION',
+  REFUND = 'REFUND'
 }
