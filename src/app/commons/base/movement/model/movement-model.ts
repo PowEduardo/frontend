@@ -4,4 +4,5 @@ export interface MovementModel {
   value: number;
   type: string;
   description: string;
+  category: string;
 }

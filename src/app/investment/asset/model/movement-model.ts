@@ -1,7 +1,10 @@
-export class MovementModel {
-  id!: number | null;
+import { MovementModel } from "../../../commons/base/movement/model/movement-model";
+
+export class InvestmentMovementModel implements MovementModel{
+  category!: string;
   date!: Date;
-  value!: number;
-  type!: string;
   description!: string;
+  id!: number | null;
+  type!: string;
+  value!: number;
 }

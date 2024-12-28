@@ -1,0 +1,21 @@
+<div class="card-body" *ngIf="isReady">
+    <div class="row">
+        <div class="col-md-3">
+            <p><strong>Bank: </strong>{{model.bank}}</p>
+        </div>
+        <div class="col-md-3">
+            <p><strong>Account Number: </strong>{{model.number}}</p>
+        </div>
+        <div class="col-md-3">
+            <p><strong>Branch: </strong>{{model.branch}}</p>
+        </div>
+        <div class="col-md-3">
+            <p><strong>Created Date: </strong>{{model.createDate}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p><strong>Balance: </strong>{{model.balance | currency:'BRL':'symbol':'1.2-2'}}</p>
+        </div>
+    </div>
+</div>

@@ -4,4 +4,5 @@ export interface MovementHttp {
   value: number;
   type: string;
   description: string;
+  category: string;
 }

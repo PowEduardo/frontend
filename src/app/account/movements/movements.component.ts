@@ -1,16 +1,15 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { CommonModule, DecimalPipe } from '@angular/common';
+import { Component, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { PageQueryModel } from '../../commons/base/model/page-query-model';
 import { MovementHttp } from '../../commons/base/movement/model/http/movement-http';
 import { MovementsTableComponent } from '../../commons/base/movement/table/movements-table.component';
-import { AssetMovementUpsertComponent } from '../../investment/asset/modal/add-movement/asset-movement/asset-movement-upsert.component';
+import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { AccountMovementModel } from '../model/account-movement-model';
+import { AccountMovementHttp } from '../model/http/account-movement-model';
 import { AccountMovementMapperImpl } from './mapper/account-movement-mapper-impl';
 import { AccountMovementService } from './service/account-movement-service';
-import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
-import { CommonModule, DecimalPipe } from '@angular/common';
-import { AccountMovementHttp } from '../model/http/account-movement-model';
 
 @Component({
   selector: 'app-movements',
@@ -36,8 +35,8 @@ export class MovementsComponent extends MovementsTableComponent<AccountMovementM
   override async getMovements(attribute: string) {
     if (this.sort === attribute) {
       attribute = '-' + attribute;
-      this.sort = attribute;
     }
+    this.sort = attribute;
     this.movements = [];
     const query: PageQuery = new PageQueryModel();
     if (attribute) {
