@@ -1,0 +1,28 @@
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>
+        Description
+      </th>
+      <th (click)="getInstallments('value')">
+        Value
+      </th>
+      <th (click)="getInstallments('Installment')">
+        Installment
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let installment of installments">
+      <td>
+        {{installment.description}}
+      </td>
+      <td>
+        {{installment.value | currencyFormat}}
+      </td>
+      <td>
+        {{installment.installment | date:'dd/MM/yyyy'}}
+      </td>
+    </tr>
+  </tbody>
+</table>

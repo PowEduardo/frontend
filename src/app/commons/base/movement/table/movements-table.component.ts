@@ -1,10 +1,8 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PageQuery } from '../../../../investment/asset/model/page-query';
-import { MovementMapper } from '../mapper/movement-mapper';
-import { MovementHttpInterface } from '../model/http/movement-http';
-import { MovementService } from '../service/movement.service';
+import { PageQuery } from '../../model/page-query';
 import { MovementModelInterface } from '../model/movement-model-interface';
+import { MovementService } from '../service/movement.service';
 
 @Component({
   standalone: true,

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { MovementService } from '../../../../commons/base/movement/service/movement.service';
 import { PageModel } from '../../model/page-model';
-import { PageQuery } from '../../model/page-query';
+import { PageQuery } from '../../../../commons/base/model/page-query';
 import { AssetMovementReturnModel } from '../../model/asset-movement-return-model';
 
 @Injectable({
