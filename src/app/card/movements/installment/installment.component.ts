@@ -17,7 +17,7 @@ import { PageQuery } from '../../../commons/base/model/page-query';
 export class InstallmentComponent implements OnInit {
 
   installments!: InstallmentModel[];
-  sort: string = 'date';
+  sort: string = 'id';
   @Input()
   parentId: number = 4549;
 
@@ -26,7 +26,7 @@ export class InstallmentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getInstallments('date');
+    this.getInstallments('id');
   }
 
   async getInstallments(attribute: string) {

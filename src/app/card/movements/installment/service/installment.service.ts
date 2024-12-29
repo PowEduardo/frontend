@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class InstallmentService implements Crud<InstallmentModel>{
-  baseUrl: string = 'http://localhost:8080/cards/1/statement/{parentId}/installments:search';
+  baseUrl: string = 'http://localhost:8080/cards/1/statements/{parentId}/installments:search';
   parentId!: number;
   constructor(private readonly httpClient: HttpClient) {
   }
