@@ -9,4 +9,5 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ]
 })
-export class CardModule { }
+export class CardModule {
+}

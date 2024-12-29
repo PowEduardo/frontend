@@ -1,6 +1,6 @@
 import { CrudService } from '../../../service/crud.service';
-import { MovementHttp } from '../model/http/movement-http';
+import { MovementModelInterface } from '../model/movement-model-interface';
 
-export abstract class MovementService<T extends MovementHttp> extends CrudService<T>{
+export abstract class MovementService<T extends MovementModelInterface> extends CrudService<T>{
   parentId!: number;
 }

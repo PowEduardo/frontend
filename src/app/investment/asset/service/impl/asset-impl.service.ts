@@ -3,21 +3,21 @@ import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { AssetConsolidateHttpModel } from '../../../model/http/asset-consolidate-http-model';
 import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
-import { AssetHttpModel } from '../../model/http/asset-http-model';
 import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../model/page-query';
 import { Crud } from '../crud.service';
+import { AssetModel } from '../../model/asset-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetServiceImpl implements Crud<AssetHttpModel> {
+export class AssetServiceImpl implements Crud<AssetModel> {
 
   baseUrl: string = "http://localhost:8080/assets";
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  getAll(pageQuery: PageQuery): Observable<AssetHttpModel[]> {
+  getAll(pageQuery: PageQuery): Observable<AssetModel[]> {
     return this.search(pageQuery).pipe(
       mergeMap(firstPage => {
         if (firstPage.last) {
@@ -38,17 +38,17 @@ export class AssetServiceImpl implements Crud<AssetHttpModel> {
     );
   }
 
-  findById(id: number): Observable<AssetHttpModel> {
-    return this.httpClient.get<AssetHttpModel>(this.baseUrl + "/" + id);
+  findById(id: number): Observable<AssetModel> {
+    return this.httpClient.get<AssetModel>(this.baseUrl + "/" + id);
   }
-  create(asset: AssetHttpModel): Observable<AssetHttpModel> {
-    return this.httpClient.post<AssetHttpModel>(this.baseUrl, asset);
+  create(asset: AssetModel): Observable<AssetModel> {
+    return this.httpClient.post<AssetModel>(this.baseUrl, asset);
   }
-  update(asset: AssetHttpModel): Observable<AssetHttpModel> {
-    return this.httpClient.put<AssetHttpModel>(this.baseUrl + "/" + asset.id, asset);
+  update(asset: AssetModel): Observable<AssetModel> {
+    return this.httpClient.put<AssetModel>(this.baseUrl + "/" + asset.id, asset);
   }
-  search(pageQuery: PageQuery): Observable<PageModel<AssetHttpModel>> {
-    return this.httpClient.get<PageModel<AssetHttpModel>>(this.baseUrl + ":search?" + pageQuery.toString());
+  search(pageQuery: PageQuery): Observable<PageModel<AssetModel>> {
+    return this.httpClient.get<PageModel<AssetModel>>(this.baseUrl + ":search?" + pageQuery.toString());
   }
 
   details(id: number): Observable<AssetDetailsHttpModel> {

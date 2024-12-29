@@ -3,4 +3,5 @@ export class CardDetailsModel {
   statementDay!: number;
   createDate!: Date;
   currentStatementValue!: number;
+  lastStatementValue!: number;
 }

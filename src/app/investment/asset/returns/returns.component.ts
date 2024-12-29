@@ -3,10 +3,8 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
-import { AssetMovementReturnMapperImpl } from '../mapper/impl/asset-movement-return-mapper-impl';
 import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
-import { AssetMovementReturnHttp } from '../model/http/asset-movement-return-http-model';
 import { PageQuery } from '../model/page-query';
 import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';
 
@@ -15,18 +13,17 @@ import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-im
   selector: 'app-returns',
   standalone: true,
   imports: [CurrencyFormatPipe, CommonModule],
-  providers: [AssetMovementReturnMapperImpl],
+  providers: [],
   templateUrl: './returns.component.html',
   styleUrl: './returns.component.css'
 })
-export class ReturnsComponent extends MovementsTableComponent<AssetMovementReturnModel, AssetMovementReturnHttp> implements OnChanges {
+export class ReturnsComponent extends MovementsTableComponent<AssetMovementReturnModel> implements OnChanges {
   @Input()
   assetType?: string;
   constructor(protected override service: AssetReturnServiceImpl,
-    protected override mapper: AssetMovementReturnMapperImpl,
     protected override modal: NgbModal
   ) {
-    super(service, mapper, modal);
+    super(service, modal);
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override ngOnChanges(changes: SimpleChanges): void {
@@ -47,9 +44,9 @@ export class ReturnsComponent extends MovementsTableComponent<AssetMovementRetur
       query.addQuery("assetType", this.assetType);
     }
     this.service.parentId = this.parentId;
-    await this.service.readAll(query).subscribe((data: AssetMovementReturnHttp[]) => {
+    await this.service.readAll(query).subscribe((data: AssetMovementReturnModel[]) => {
       data.map(element => {
-        this.movements!.push(this.mapper.toModel(element));
+        this.movements!.push(element);
       });
     });
 

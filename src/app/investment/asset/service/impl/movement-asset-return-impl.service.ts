@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { MovementService } from '../../../../commons/base/movement/service/movement.service';
-import { AssetMovementReturnHttp } from '../../model/http/asset-movement-return-http-model';
 import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../model/page-query';
+import { AssetMovementReturnModel } from '../../model/asset-movement-return-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetReturnServiceImpl extends MovementService<AssetMovementReturnHttp> {
+export class AssetReturnServiceImpl extends MovementService<AssetMovementReturnModel> {
 
 
   constructor(private readonly httpClient: HttpClient) {
@@ -17,11 +17,11 @@ export class AssetReturnServiceImpl extends MovementService<AssetMovementReturnH
     this.baseUrl = this.baseUrl + "assets/";
   }
 
-  override read(id: number): Observable<AssetMovementReturnHttp> {
+  override read(id: number): Observable<AssetMovementReturnModel> {
     console.log(id);
     throw new Error('Method not implemented.');
   }
-  override readAll(pageQuery: PageQuery): Observable<AssetMovementReturnHttp[]> {
+  override readAll(pageQuery: PageQuery): Observable<AssetMovementReturnModel[]> {
     return this.search(pageQuery).pipe(
       mergeMap(firstPage => {
         if (firstPage.last) {
@@ -51,15 +51,15 @@ export class AssetReturnServiceImpl extends MovementService<AssetMovementReturnH
   }
 
 
-  search(pageQuery: PageQuery): Observable<PageModel<AssetMovementReturnHttp>> {
-    return this.httpClient.get<PageModel<AssetMovementReturnHttp>>(this.baseUrl + this.parentId + "/returns:search?" + pageQuery.toString());
+  search(pageQuery: PageQuery): Observable<PageModel<AssetMovementReturnModel>> {
+    return this.httpClient.get<PageModel<AssetMovementReturnModel>>(this.baseUrl + this.parentId + "/returns:search?" + pageQuery.toString());
   }
 
-  create(movement: AssetMovementReturnHttp): Observable<AssetMovementReturnHttp> {
-    return this.httpClient.post<AssetMovementReturnHttp>(this.baseUrl + this.parentId + "/returns", movement);
+  create(movement: AssetMovementReturnModel): Observable<AssetMovementReturnModel> {
+    return this.httpClient.post<AssetMovementReturnModel>(this.baseUrl + this.parentId + "/returns", movement);
   }
-  update(movement: AssetMovementReturnHttp): Observable<AssetMovementReturnHttp> {
-    return this.httpClient.post<AssetMovementReturnHttp>(this.baseUrl + this.parentId + "/returns/" + movement.id, movement);
+  update(movement: AssetMovementReturnModel): Observable<AssetMovementReturnModel> {
+    return this.httpClient.post<AssetMovementReturnModel>(this.baseUrl + this.parentId + "/returns/" + movement.id, movement);
 
   }
 }

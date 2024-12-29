@@ -6,35 +6,37 @@ import { MovementCategory } from '../../../commons/base/movement/enum/movement-c
 import { MovementService } from '../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../commons/base/movement/upsert/movement-upsert.component';
 import { MovementUpsertModule } from '../../../commons/base/movement/upsert/movement-upsert.module';
-import { AccountMovementModel } from '../../model/account-movement-model';
-import { AccountMovementService } from '../service/account-movement-service';
+import { CardMovementModel } from '../model/card-movement-model';
+import { CardMovementService } from '../service/card-movement.service';
+import { MovementType } from '../../../commons/base/movement/enum/movement-type';
 
 @Component({
-  selector: 'app-account-movements-upsert',
+  selector: 'app-card-movements-upsert',
   standalone: true,
   imports: [CommonModule, FormsModule, MovementUpsertModule],
-  providers: [
-    {provide: MovementService, useClass: AccountMovementService}
-  ],
-  templateUrl: './account-movements-upsert.component.html',
-  styleUrl: './account-movements-upsert.component.css'
+    providers: [
+      {provide: MovementService, useClass: CardMovementService}
+    ],
+  templateUrl: './card-movements-upsert.component.html',
+  styleUrl: './card-movements-upsert.component.css'
 })
-export class AccountMovementsUpsertComponent extends MovementUpsertComponent<AccountMovementModel>{
+export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMovementModel>{
   @Input()
   updateOperation: boolean = false;
   movementCategory!: string[];
 
   constructor(override activeModal: NgbActiveModal,
-    override service: MovementService<AccountMovementModel>
+    override service: MovementService<CardMovementModel>
   ) {
     super(service, activeModal);
     this.parentId = 1;
     this.movementCategory = Object.values(MovementCategory);
     if (this.model === undefined) {
-      this.model = new AccountMovementModel();
+      this.model = new CardMovementModel();
       this.model.type = '';
       this.model.value = 0;
+      this.model.type = MovementType.CREDIT;
+      this.model.paid = false;
     }
-
   }
 }

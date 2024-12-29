@@ -1,15 +1,12 @@
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { PieChartModel } from '../../model/pie-chart-model';
 import { AssetComponent } from '../asset.component';
-import { AssetMapperImpl } from '../mapper/impl/asset-mapper-impl';
-import { AssetMovementMapperImpl } from '../mapper/impl/asset-movement-mapper-impl';
 import { AddAssetComponent } from '../modal/add-asset/add-asset.component';
 import { AssetModel } from '../model/asset-model';
-import { AssetHttpModel } from '../model/http/asset-http-model';
+import { AssetDetailsHttpModel } from '../model/http/asset-details-http-model';
 import { PageQuery } from '../model/page-query';
 import { MovementsComponent } from "../movements/movements.component";
 import { OperationsComponent } from '../operations/operations.component';
@@ -20,7 +17,7 @@ import { AssetServiceImpl } from '../service/impl/asset-impl.service';
   selector: 'app-asset-type-details',
   standalone: true,
   imports: [CommonModule, AssetComponent, OperationsComponent, MovementsComponent, ReturnsComponent],
-  providers: [DecimalPipe, AssetMapperImpl, AssetMovementMapperImpl],
+  providers: [DecimalPipe],
   templateUrl: './asset-type-details.component.html',
   styleUrl: './asset-type-details.component.css'
 })
@@ -37,9 +34,6 @@ export class AssetTypeDetailsComponent implements OnInit {
   isReturnsEnabled: boolean = false;
 
   constructor(private assetService: AssetServiceImpl,
-    private route: ActivatedRoute,
-    private router: Router,
-    private mapper: AssetMapperImpl,
     private modalService: NgbModal
   ) { }
 
@@ -62,11 +56,11 @@ export class AssetTypeDetailsComponent implements OnInit {
       if (attribute) {
         query.sort = attribute;
       }
-      this.assetService.getAll(query).subscribe(async (assetHttp: AssetHttpModel[]) => {
+      this.assetService.getAll(query).subscribe(async (asset: AssetModel[]) => {
         const assetDetailsList: AssetModel[] = [];
         const pieValues: PieChartModel[] = [];
 
-        const promises = assetHttp.map(async (asset) => {
+        const promises = asset.map(async (asset) => {
           let assetModel: AssetModel = new AssetModel();
 
           const result = await forkJoin({
@@ -74,8 +68,7 @@ export class AssetTypeDetailsComponent implements OnInit {
             assetDetails: this.assetService.details(asset.id)
           }).toPromise();
 
-          assetModel = this.mapper.toModel(result!.asset);
-          this.mapper.toModelWithDetails(result!.assetDetails, assetModel);
+          this.toModelWithDetails(result!.assetDetails, result!.asset);
           if (assetModel.currentValue !== 0) {
             pieValues.push({ name: assetModel.ticker, value: assetModel.currentValue });
           }
@@ -146,4 +139,19 @@ export class AssetTypeDetailsComponent implements OnInit {
     this.isMovementsEnabled = false;
     this.isReturnsEnabled = !this.isReturnsEnabled;
   }
+
+  toModelWithDetails(response: AssetDetailsHttpModel, model: AssetModel): AssetModel {
+      model.ady = response.ady;
+      model.amount = response.amount;
+      model.average = response.average;
+      model.currentValue = response.currentValue;
+      model.difference = response.difference;
+      model.dy = response.dy;
+      model.lastReturn = response.lastReturn;
+      model.monthlyReturn = response.monthlyReturn;
+      model.paidValue = response.paidValue;
+      model.returns = response.returns;
+      model.targetAmount = response.targetAmount;
+      return model;
+    }
 }
