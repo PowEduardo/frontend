@@ -2,9 +2,9 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../../../investment/asset/model/page-query';
 import { MovementMapper } from '../mapper/movement-mapper';
-import { MovementHttp } from '../model/http/movement-http';
-import { MovementModel } from '../model/movement-model';
+import { MovementHttpInterface } from '../model/http/movement-http';
 import { MovementService } from '../service/movement.service';
+import { MovementModelInterface } from '../model/movement-model-interface';
 
 @Component({
   standalone: true,
@@ -12,15 +12,14 @@ import { MovementService } from '../service/movement.service';
   templateUrl: './movements-table.component.html',
   styleUrl: './movements-table.component.css'
 })
-export class MovementsTableComponent<T extends MovementModel, Y extends MovementHttp> {
+export class MovementsTableComponent<T extends MovementModelInterface> {
   @Input()
   parentId!: number;
   @Input()
   movements?: T[];
   sort: string = 'date';
 
-  constructor(protected service: MovementService<Y>,
-    protected mapper: MovementMapper<T, Y>,
+  constructor(protected service: MovementService<T>,
     protected modal: NgbModal
   ) {
   }
@@ -40,9 +39,9 @@ export class MovementsTableComponent<T extends MovementModel, Y extends Movement
       query.sort = attribute;
     }
     this.service.parentId = this.parentId;
-    await this.service.readAll(query).subscribe((data: Y[]) => {
+    await this.service.readAll(query).subscribe((data: T[]) => {
       data.map(element => {
-        this.movements!.push(this.mapper.toModel(element));
+        this.movements!.push(element);
       });
     });
 

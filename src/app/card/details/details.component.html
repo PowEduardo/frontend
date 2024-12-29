@@ -11,8 +11,11 @@
       </div>
   </div>
   <div class="row">
-      <div class="col-md-3">
-          <p><strong>Current Statement Value: </strong>{{model.currentStatementValue | currency:'BRL':'symbol':'1.2-2'}}</p>
-      </div>
+    <div class="col-md-3">
+        <p><strong>Current Statement Value: </strong>{{model.currentStatementValue | currency:'BRL':'symbol':'1.2-2'}}</p>
+    </div>
+    <div class="col-md-3">
+        <p><strong>Last Statement Value: </strong>{{model.lastStatementValue | currency:'BRL':'symbol':'1.2-2'}}</p>
+    </div>
   </div>
 </div>

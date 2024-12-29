@@ -9,7 +9,7 @@ export abstract class CrudService<T> {
   abstract create(request: T): Observable<T>;
   abstract read(id: number): Observable<T>;
   abstract readAll(pageQuery: PageQuery): Observable<T[]>;
-  abstract update(request: T, id: number): Observable<T>;
+  abstract update(request: T): Observable<T>;
   abstract delete(id: number): Observable<void>;
   abstract search(query: PageQuery): Observable<Page<T>>;
 }

@@ -5,25 +5,25 @@ import { Page } from "../../../commons/base/model/page";
 import { PageModel } from "../../../commons/base/model/page-model";
 import { PageQuery } from "../../../commons/base/model/page-query";
 import { PageQueryModel } from "../../../commons/base/model/page-query-model";
-import { MovementHttp } from "../../../commons/base/movement/model/http/movement-http";
+import { MovementHttpInterface } from "../../../commons/base/movement/model/http/movement-http";
 import { MovementService } from "../../../commons/base/movement/service/movement.service";
-import { AccountMovementHttp } from "../../model/http/account-movement-model";
+import { AccountMovementModel } from "../../model/account-movement-model";
 
 @Injectable()
-export class AccountMovementService extends MovementService<AccountMovementHttp> {
+export class AccountMovementService extends MovementService<AccountMovementModel> {
 
   constructor(private readonly httpClient: HttpClient) {
     super();
     this.baseUrl = this.baseUrl.concat("accounts/{parentId}/movements");
   }
 
-  create(request: AccountMovementHttp): Observable<AccountMovementHttp> {
-    return this.httpClient.post<AccountMovementHttp>(this.baseUrl.replace("{parentId}", this.parentId.toString()), request);
+  create(request: AccountMovementModel): Observable<AccountMovementModel> {
+    return this.httpClient.post<AccountMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()), request);
   }
-  read(id: number): Observable<AccountMovementHttp> {
+  read(id: number): Observable<AccountMovementModel> {
     throw new Error("Method not implemented.");
   }
-  readAll(pageQuery: PageQuery): Observable<AccountMovementHttp[]> {
+  readAll(pageQuery: PageQuery): Observable<AccountMovementModel[]> {
     return this.search(pageQuery).pipe(
       mergeMap(firstPage => {
         if (firstPage.last) {
@@ -47,14 +47,14 @@ export class AccountMovementService extends MovementService<AccountMovementHttp>
       })
     );
   }
-  update(request: MovementHttp, id: number): Observable<AccountMovementHttp> {
+  update(request: MovementHttpInterface): Observable<AccountMovementModel> {
     throw new Error("Method not implemented.");
   }
   delete(id: number): Observable<void> {
     throw new Error("Method not implemented.");
   }
-  search(query: PageQuery): Observable<Page<AccountMovementHttp>> {
-    return this.httpClient.get<PageModel<AccountMovementHttp>>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + ":search?" + query.toString());
+  search(query: PageQuery): Observable<Page<AccountMovementModel>> {
+    return this.httpClient.get<PageModel<AccountMovementModel>>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + ":search?" + query.toString());
 
   }
 }

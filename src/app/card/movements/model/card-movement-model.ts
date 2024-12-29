@@ -1,4 +1,5 @@
 import { MovementModel } from "../../../commons/base/movement/model/movement-model";
 
-export class InvestmentMovementModel extends MovementModel {
+export class CardMovementModel extends MovementModel {
+  installment!: number;
 }

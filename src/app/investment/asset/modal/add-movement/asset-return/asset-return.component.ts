@@ -2,15 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MovementMapper } from '../../../../../commons/base/movement/mapper/movement-mapper';
 import { MovementModule } from '../../../../../commons/base/movement/movement.module';
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
 import { MovementUpsertModule } from '../../../../../commons/base/movement/upsert/movement-upsert.module';
 import { AssetMovementReturnType } from '../../../enum/asset-movement-return-type';
-import { AssetMovementReturnMapperImpl } from '../../../mapper/impl/asset-movement-return-mapper-impl';
 import { AssetMovementReturnModel } from '../../../model/asset-movement-return-model';
-import { AssetMovementReturnHttp } from '../../../model/http/asset-movement-return-http-model';
 import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-return-impl.service';
 
 @Component({
@@ -18,20 +15,18 @@ import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-ret
   standalone: true,
   imports: [FormsModule, CommonModule, MovementUpsertModule, MovementModule],
   providers: [
-    { provide: MovementMapper, useClass: AssetMovementReturnMapperImpl },
     { provide: MovementService, useClass: AssetReturnServiceImpl },
     FormsModule
   ],
   templateUrl: './asset-return.component.html',
   styleUrl: './asset-return.component.css'
 })
-export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<AssetMovementReturnModel, AssetMovementReturnHttp> {
+export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<AssetMovementReturnModel> {
   overrideValue: boolean = false;
 
-  constructor(protected override service: MovementService<AssetMovementReturnHttp>,
-    protected override mapper: MovementMapper<AssetMovementReturnModel, AssetMovementReturnHttp>,
+  constructor(protected override service: MovementService<AssetMovementReturnModel>,
     protected override activeModal: NgbActiveModal) {
-    super(service, mapper, activeModal);
+    super(service, activeModal);
   }
 
   ngOnInit(): void {
