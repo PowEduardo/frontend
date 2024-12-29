@@ -18,10 +18,10 @@
         {{installment.description}}
       </td>
       <td>
-        {{installment.value | currencyFormat}}
+        {{installment.value | currency:'BRL':'symbol':'1.2-2'}}
       </td>
       <td>
-        {{installment.installment | date:'dd/MM/yyyy'}}
+        {{installment.installment}}
       </td>
     </tr>
   </tbody>

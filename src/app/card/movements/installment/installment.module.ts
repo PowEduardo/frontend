@@ -8,11 +8,9 @@ import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
-    CurrencyFormatPipe
+    CommonModule
   ],
   exports: [
-    CurrencyFormatPipe,
     CommonModule
   ]
 })
