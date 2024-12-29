@@ -4,7 +4,7 @@ import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { MovementService } from '../../../../commons/base/movement/service/movement.service';
 import { AssetMovementModel } from '../../model/asset-movement-model';
 import { PageModel } from '../../model/page-model';
-import { PageQuery } from '../../model/page-query';
+import { PageQuery } from '../../../../commons/base/model/page-query';
 
 @Injectable({
   providedIn: 'root'

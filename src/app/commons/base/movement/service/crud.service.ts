@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
-import { PageModel } from "../model/page-model";
-import { PageQuery } from "../model/page-query";
+import { PageQuery } from "../../model/page-query";
+import { PageModel } from "../../model/page-model";
 
 export abstract class Crud<T> {
 

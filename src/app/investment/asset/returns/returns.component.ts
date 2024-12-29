@@ -5,7 +5,7 @@ import { MovementsTableComponent } from '../../../commons/base/movement/table/mo
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
-import { PageQuery } from '../model/page-query';
+import { PageQuery } from '../../../commons/base/model/page-query';
 import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';
 
 

@@ -4,8 +4,8 @@ import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { AssetConsolidateHttpModel } from '../../../model/http/asset-consolidate-http-model';
 import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
 import { PageModel } from '../../model/page-model';
-import { PageQuery } from '../../model/page-query';
-import { Crud } from '../crud.service';
+import { PageQuery } from '../../../../commons/base/model/page-query';
+import { Crud } from '../../../../commons/base/movement/service/crud.service';
 import { AssetModel } from '../../model/asset-model';
 
 @Injectable({

@@ -7,7 +7,7 @@ import { AssetComponent } from '../asset.component';
 import { AddAssetComponent } from '../modal/add-asset/add-asset.component';
 import { AssetModel } from '../model/asset-model';
 import { AssetDetailsHttpModel } from '../model/http/asset-details-http-model';
-import { PageQuery } from '../model/page-query';
+import { PageQuery } from '../../../commons/base/model/page-query';
 import { MovementsComponent } from "../movements/movements.component";
 import { OperationsComponent } from '../operations/operations.component';
 import { ReturnsComponent } from "../returns/returns.component";

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MovementMapper } from '../mapper/movement-mapper';
 import { MovementModelInterface } from '../model/movement-model-interface';
 import { MovementService } from '../service/movement.service';
 
