@@ -9,6 +9,7 @@ import { MovementUpsertModule } from '../../../../../commons/base/movement/upser
 import { AssetOperationType } from '../../../enum/asset-operation-type';
 import { AssetMovementModel } from '../../../model/asset-movement-model';
 import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements-impl.service';
+import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
 
 @Component({
   selector: 'app-asset-movement',
@@ -32,6 +33,7 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
   ngOnInit(): void {
     if (!this.model) {
       this.model = new AssetMovementModel();
+      this.model.type = MovementType.DEBIT;
     }
     this.movementTypes = Object.values(AssetOperationType);
   }

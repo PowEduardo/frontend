@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { DetailsComponent } from './details/details.component';
-import { CardModule } from './card.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CardModule } from './card.module';
 import { CardMovementsUpsertComponent } from './movements/card-movements-upsert/card-movements-upsert.component';
 import { InstallmentComponent } from "./movements/installment/installment.component";
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [DetailsComponent, CardModule, InstallmentComponent],
+  imports: [CardModule, InstallmentComponent],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })

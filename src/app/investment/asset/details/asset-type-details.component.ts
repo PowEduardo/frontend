@@ -68,7 +68,7 @@ export class AssetTypeDetailsComponent implements OnInit {
             assetDetails: this.assetService.details(asset.id)
           }).toPromise();
 
-          this.toModelWithDetails(result!.assetDetails, result!.asset);
+          assetModel = this.toModelWithDetails(result!.assetDetails, result!.asset);
           if (assetModel.currentValue !== 0) {
             pieValues.push({ name: assetModel.ticker, value: assetModel.currentValue });
           }
