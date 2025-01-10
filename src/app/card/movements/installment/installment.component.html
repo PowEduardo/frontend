@@ -10,6 +10,7 @@
       <th (click)="getInstallments('Installment')">
         Installment
       </th>
+      <th (click)="getInstallments('movement.date')">Date</th>
     </tr>
   </thead>
   <tbody>
@@ -22,6 +23,9 @@
       </td>
       <td>
         {{installment.installment}}
+      </td>
+      <td>
+        {{installment.date | date: 'dd/MM/yyyy'}}
       </td>
     </tr>
   </tbody>
