@@ -58,7 +58,7 @@ export class AssetMovementsServiceImpl extends MovementService<AssetMovementMode
     return this.httpClient.post<AssetMovementModel>(this.baseUrl + this.parentId + "/movements", asset);
   }
   update(asset: AssetMovementModel): Observable<AssetMovementModel> {
-    return this.httpClient.post<AssetMovementModel>(this.baseUrl + this.parentId + "/movements/" + asset.id, asset);
+    return this.httpClient.put<AssetMovementModel>(this.baseUrl + this.parentId + "/movements/" + asset.id, asset);
 
   }
 

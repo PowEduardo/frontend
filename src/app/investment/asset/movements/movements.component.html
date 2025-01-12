@@ -1,5 +1,6 @@
 <app-movements-table>
   <ng-container headers>
+    <th>Id</th>
     <th *ngIf="parentId===0">Asset</th>
     <th>Operation</th>
     <th>Amount</th>
@@ -10,6 +11,9 @@
   </ng-container>
   <ng-container row>
     <tr *ngFor="let movement of movements">
+      <td>
+        {{movement.id}}
+      </td>
       <td *ngIf="parentId===0">
         {{movement.asset}}
       </td>
