@@ -10,13 +10,13 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class InstallmentService implements Crud<InstallmentModel>{
-  baseUrl: string = 'http://localhost:8080/cards/1/statements/{parentId}/installments:search';
+  baseUrl: string = 'http://localhost:8080/cards/1/installments:search';
   parentId!: number;
   constructor(private readonly httpClient: HttpClient) {
   }
 
   search(pageQuery: PageQuery): Observable<PageModel<InstallmentModel>> {
-    return this.httpClient.get<PageModel<InstallmentModel>>(this.baseUrl.replace('{parentId}', this.parentId.toString()) + "?" + pageQuery.toString());
+    return this.httpClient.get<PageModel<InstallmentModel>>(this.baseUrl + "?" + pageQuery.toString());
   }
   getAll(pageQuery: PageQuery): Observable<InstallmentModel[]> {
     return this.search(pageQuery).pipe(

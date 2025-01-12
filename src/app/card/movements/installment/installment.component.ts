@@ -19,7 +19,7 @@ export class InstallmentComponent implements OnInit {
   installments!: InstallmentModel[];
   sort: string = 'id';
   @Input()
-  parentId: number = 4549;
+  referenceMonth: string = '2025-02';
 
   constructor(private modalService: NgbModal,
     private service: InstallmentService
@@ -36,10 +36,10 @@ export class InstallmentComponent implements OnInit {
     this.sort = attribute;
     this.installments = [];
     const query: PageQuery = new PageQueryModel();
+    query.addQuery('referenceMonth', this.referenceMonth);
     if (attribute) {
       query.sort = attribute;
     }
-    this.service.parentId = this.parentId;
     await this.service.getAll(query).subscribe((data: InstallmentModel[]) => {
       data.map(element => {
         this.installments!.push(element);
