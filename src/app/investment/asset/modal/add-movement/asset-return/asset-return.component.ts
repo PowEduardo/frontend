@@ -10,6 +10,7 @@ import { AssetMovementReturnType } from '../../../enum/asset-movement-return-typ
 import { AssetMovementReturnModel } from '../../../model/asset-movement-return-model';
 import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-return-impl.service';
 import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
+import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
 
 @Component({
   selector: 'app-add-return',
@@ -35,6 +36,8 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
       this.model = new AssetMovementReturnModel();
       this.model.irFee = 0;
       this.model.type = MovementType.CREDIT;
+      this.model.category = MovementCategory.INVESTMENT;
+      
     }
     this.movementTypes = Object.values(AssetMovementReturnType);
   }

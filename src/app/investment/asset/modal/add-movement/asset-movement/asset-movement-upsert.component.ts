@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
 import { MovementModule } from '../../../../../commons/base/movement/movement.module';
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
@@ -9,7 +10,7 @@ import { MovementUpsertModule } from '../../../../../commons/base/movement/upser
 import { AssetOperationType } from '../../../enum/asset-operation-type';
 import { AssetMovementModel } from '../../../model/asset-movement-model';
 import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements-impl.service';
-import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
+import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
 
 @Component({
   selector: 'app-asset-movement',
@@ -26,14 +27,16 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
   overrideValue: boolean = false;
 
   constructor (protected override service: MovementService<AssetMovementModel>,
-    protected override activeModal: NgbActiveModal) {
+    protected override activeModal: NgbActiveModal,
+    private modalService: NgbModal) {
     super(service, activeModal);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if (!this.model) {
       this.model = new AssetMovementModel();
       this.model.type = MovementType.DEBIT;
+      this.model.category = MovementCategory.INVESTMENT;
     }
     this.movementTypes = Object.values(AssetOperationType);
   }

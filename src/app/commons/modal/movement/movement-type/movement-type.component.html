@@ -1,0 +1,6 @@
+<div class="modal-body">
+    <select [(ngModel)]="selectedOption" class="form-select">
+        <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+    </select>
+    <button (click)="close()">Select</button>
+</div>
