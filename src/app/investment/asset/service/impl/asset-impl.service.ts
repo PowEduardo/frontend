@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
-import { AssetConsolidateHttpModel } from '../../../model/http/asset-consolidate-http-model';
-import { AssetDetailsHttpModel } from '../../model/http/asset-details-http-model';
-import { PageModel } from '../../model/page-model';
 import { PageQuery } from '../../../../commons/base/model/page-query';
 import { Crud } from '../../../../commons/base/movement/service/crud.service';
+import { AssetConsolidateHttpModel } from '../../../model/http/asset-consolidate-http-model';
 import { AssetModel } from '../../model/asset-model';
+import { AssetDetailsModel } from '../../model/asset-model-details';
+import { PageModel } from '../../model/page-model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,8 +51,8 @@ export class AssetServiceImpl implements Crud<AssetModel> {
     return this.httpClient.get<PageModel<AssetModel>>(this.baseUrl + ":search?" + pageQuery.toString());
   }
 
-  details(id: number): Observable<AssetDetailsHttpModel> {
-    return this.httpClient.get<AssetDetailsHttpModel>(this.baseUrl + "/" + id + "/details");
+  details(id: number): Observable<AssetDetailsModel> {
+    return this.httpClient.get<AssetDetailsModel>(this.baseUrl + "/" + id + "/details");
   }
 
   consolidated(assetType: string): Observable<AssetConsolidateHttpModel> {

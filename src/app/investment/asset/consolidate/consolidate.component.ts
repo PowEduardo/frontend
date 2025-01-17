@@ -19,8 +19,7 @@ export class ConsolidateComponent {
   choosedAssetType = new EventEmitter<string>();
 
   constructor(
-    private service: InvestmentServiceImpl,
-    private route: ActivatedRoute
+    private service: InvestmentServiceImpl
   ) {}
 
   async ngOnInit(): Promise<void> {

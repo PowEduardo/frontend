@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AssetModel } from '../../model/asset-model';
 import { AssetServiceImpl } from '../../service/impl/asset-impl.service';
+import { AssetModel } from '../../model/asset-model';
 
 @Component({
   selector: 'app-add-asset',
