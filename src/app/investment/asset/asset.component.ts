@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
-import { AssetModel } from './model/asset-model';
+import { AssetDetailsModel } from './model/asset-model-details';
 
 @Component({
   selector: '[app-asset]',
@@ -12,5 +12,5 @@ import { AssetModel } from './model/asset-model';
 export class AssetComponent {
 
   @Input()
-  asset!: AssetModel;
+  asset!: AssetDetailsModel;
 }

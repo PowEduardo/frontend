@@ -2,12 +2,12 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
+import { PageQuery } from '../../../commons/base/model/page-query';
 import { PieChartModel } from '../../model/pie-chart-model';
 import { AssetComponent } from '../asset.component';
 import { AddAssetComponent } from '../modal/add-asset/add-asset.component';
 import { AssetModel } from '../model/asset-model';
-import { AssetDetailsHttpModel } from '../model/http/asset-details-http-model';
-import { PageQuery } from '../../../commons/base/model/page-query';
+import { AssetDetailsModel } from '../model/asset-model-details';
 import { MovementsComponent } from "../movements/movements.component";
 import { OperationsComponent } from '../operations/operations.component';
 import { ReturnsComponent } from "../returns/returns.component";
@@ -22,7 +22,7 @@ import { AssetServiceImpl } from '../service/impl/asset-impl.service';
   styleUrl: './asset-type-details.component.css'
 })
 export class AssetTypeDetailsComponent implements OnInit {
-  allAssets: AssetModel[] = [];
+  allAssets: AssetDetailsModel[] = [];
   @Input()
   type: string = '';
   private sort: string = 'ticker';
@@ -38,7 +38,7 @@ export class AssetTypeDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.getAssets('ticker');
+    this.getAssets(this.sort);
   }
 
   openAssetOperations(id: number) {
@@ -55,13 +55,14 @@ export class AssetTypeDetailsComponent implements OnInit {
       query.query = "type:" + this.type;
       if (attribute) {
         query.sort = attribute;
+        this.sort = attribute;
       }
       this.assetService.getAll(query).subscribe(async (asset: AssetModel[]) => {
-        const assetDetailsList: AssetModel[] = [];
+        const assetDetailsList: AssetDetailsModel[] = [];
         const pieValues: PieChartModel[] = [];
 
         const promises = asset.map(async (asset) => {
-          let assetModel: AssetModel = new AssetModel();
+          let assetModel: AssetDetailsModel = new AssetDetailsModel();
 
           const result = await forkJoin({
             asset: this.assetService.findById(asset.id),
@@ -99,9 +100,14 @@ export class AssetTypeDetailsComponent implements OnInit {
     });
   }
 
-  async updateAsset(model: AssetModel) {
+  async updateAsset(model: AssetDetailsModel) {
     const modalRef = this.modalService.open(AddAssetComponent);
-    modalRef.componentInstance.model = model;
+    const assetModel: AssetModel = new AssetModel();
+    assetModel.id = model.id;
+    assetModel.ticker = model.ticker;
+    assetModel.type = model.type;
+    assetModel.value = model.value;
+    modalRef.componentInstance.model = assetModel;
     modalRef.componentInstance.updateOperation = true;
     await modalRef.result.then((result) => {
       if (result === 'saved') {
@@ -140,18 +146,11 @@ export class AssetTypeDetailsComponent implements OnInit {
     this.isReturnsEnabled = !this.isReturnsEnabled;
   }
 
-  toModelWithDetails(response: AssetDetailsHttpModel, model: AssetModel): AssetModel {
-      model.ady = response.ady;
-      model.amount = response.amount;
-      model.average = response.average;
-      model.currentValue = response.currentValue;
-      model.difference = response.difference;
-      model.dy = response.dy;
-      model.lastReturn = response.lastReturn;
-      model.monthlyReturn = response.monthlyReturn;
-      model.paidValue = response.paidValue;
-      model.returns = response.returns;
-      model.targetAmount = response.targetAmount;
-      return model;
+  toModelWithDetails(response: AssetDetailsModel, model: AssetModel): AssetDetailsModel {
+    response.id = model.id;
+    response.ticker = model.ticker;
+    response.type = model.type;
+    response.value = model.value;
+    return response;
     }
 }

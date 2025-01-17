@@ -1,4 +1,6 @@
-export class AssetDetailsHttpModel {
+import { AssetModel } from "./asset-model";
+
+export class AssetDetailsModel extends AssetModel {
   ady!: number;
   amount!: number;
   average!: number;
@@ -10,4 +12,6 @@ export class AssetDetailsHttpModel {
   paidValue!: number;
   returns!: number;
   targetAmount!: number;
+  indexer!: string;
+  interestRate!: number;
 }
