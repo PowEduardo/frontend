@@ -7,18 +7,20 @@ import { MovementsTableComponent } from '../../commons/base/movement/table/movem
 import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { AccountMovementModel } from '../model/account-movement-model';
 import { AccountMovementService } from './service/account-movement-service';
+import { AccountMovementsUpsertComponent } from './account-movements-upsert/account-movements-upsert.component';
+import { MovementService } from '../../commons/base/movement/service/movement.service';
 
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule],
-  providers: [AccountMovementService, NgbModal, DecimalPipe],
+  imports: [CurrencyFormatPipe, CommonModule, MovementsTableComponent],
+  providers: [{provide: MovementService, useClass:AccountMovementService}, NgbModal, DecimalPipe],
   templateUrl: './movements.component.html',
   styleUrl: './movements.component.css'
 })
 export class MovementsComponent extends MovementsTableComponent<AccountMovementModel>{
 
-  constructor(protected override service: AccountMovementService,
+  constructor(protected override service: MovementService<AccountMovementModel>,
     protected override modal: NgbModal
   ) {
     super(service, modal);
@@ -44,7 +46,11 @@ export class MovementsComponent extends MovementsTableComponent<AccountMovementM
         this.movements!.push(element);
       });
     });
+  }
 
+  updateMovement(id: number) {
+    const modalRef = this.modal.open(AccountMovementsUpsertComponent);
+    modalRef.componentInstance.toUpdate(id);
   }
 
 }

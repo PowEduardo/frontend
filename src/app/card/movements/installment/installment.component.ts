@@ -6,6 +6,7 @@ import { InstallmentModel } from './model/installment-model';
 import { } from "../../../pipe/currency-format.pipe";
 import { PageQueryModel } from '../../../commons/base/model/page-query-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
+import { CardMovementsUpsertComponent } from '../card-movements-upsert/card-movements-upsert.component';
 
 @Component({
   selector: 'app-installment',
@@ -45,5 +46,10 @@ export class InstallmentComponent implements OnInit {
         this.installments!.push(element);
       });
     });
+  }
+
+  edit(movementId: number) {
+    const modalRef = this.modalService.open(CardMovementsUpsertComponent);
+    modalRef.componentInstance.toUpdate(movementId);
   }
 }

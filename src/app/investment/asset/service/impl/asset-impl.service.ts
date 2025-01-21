@@ -25,9 +25,14 @@ export class AssetServiceImpl implements Crud<AssetModel> {
         }
         const otherPagesQueries: PageQuery[] = [];
         for (let i = 1; i < firstPage.totalPages; i++) {
-          pageQuery.offset = i;
-          otherPagesQueries.push(pageQuery);
+          const newPage = new PageQuery();
+          console.log(i);
+          newPage.offset = i;
+          newPage.query = pageQuery.query;
+          newPage.sort = pageQuery.sort;
+          otherPagesQueries.push(newPage);
         }
+        console.log(otherPagesQueries);
         return forkJoin(otherPagesQueries.map(pageQuery => this.search(pageQuery)))
           .pipe(
             map(otherPages => [firstPage].concat(otherPages)

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementModelInterface } from '../model/movement-model-interface';
 import { MovementService } from '../service/movement.service';
+import { CardMovementModel } from '../../../../card/movements/model/card-movement-model';
 
 @Component({
   selector: 'app-movement-upsert',
@@ -31,5 +32,14 @@ export class MovementUpsertComponent<T extends MovementModelInterface> {
       await this.service.update(this.model).subscribe();
     }
     await this.activeModal.close('saved');
+  }
+
+  async toUpdate(id: number) {
+    this.service.parentId = this.parentId;
+    await this.service.read(id).subscribe(
+      (movement: T) => {
+        this.model = movement;
+      }
+    );
   }
 }
