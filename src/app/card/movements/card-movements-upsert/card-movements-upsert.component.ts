@@ -37,6 +37,7 @@ export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMo
       this.model.value = 0;
       this.model.type = MovementType.CREDIT;
       this.model.paid = false;
+      this.model.date = new Date();
     }
   }
 }

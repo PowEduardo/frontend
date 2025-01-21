@@ -1,18 +1,11 @@
-<table class="table table-striped table-bordered">
-  <thead class="thead-dark">
-    <tr>
-      <th>
-        Description
-      </th>
-      <th (click)="getMovements('value')">
-        Total Value
-      </th>
-      <th (click)="getMovements('date')">
-        Date
-      </th>
-    </tr>
-  </thead>
-  <tbody>
+<app-movements-table>
+  <ng-container headers>
+    <th>Description</th>
+    <th (click)="getMovements('value')">Total Value</th>
+    <th (click)="getMovements('date')">Date</th>
+    <th></th>
+  </ng-container>
+  <ng-container row>
     <tr *ngFor="let movement of movements">
       <td>
         {{movement.description}}
@@ -23,6 +16,7 @@
       <td>
         {{movement.date | date:'dd/MM/yyyy'}}
       </td>
+      <td (click)="updateMovement(movement.id!)">Edit</td>
     </tr>
-  </tbody>
-</table>
+  </ng-container>
+</app-movements-table>

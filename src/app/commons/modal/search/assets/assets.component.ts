@@ -22,7 +22,9 @@ export class AssetsComponent implements OnInit{
     private activeModal: NgbActiveModal
   ) {}
   ngOnInit(): void {
-    this.service.getAll(new PageQuery()).subscribe((asset) => {
+    const page = new PageQuery();
+    page.sort = "ticker";
+    this.service.getAll(page).subscribe((asset) => {
       this.assets = asset;
     });
   }
