@@ -7,11 +7,12 @@ import { AssetMovementUpsertComponent } from '../modal/add-movement/asset-moveme
 import { AssetMovementModel } from '../model/asset-movement-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { AssetMovementsServiceImpl } from '../service/impl/asset-movements-impl.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule, MovementsTableComponent],
+  imports: [CurrencyFormatPipe, CommonModule, MovementsTableComponent, MatIconModule],
   providers: [{ provide: MovementService, useClass: AssetMovementsServiceImpl }
   ],
   templateUrl: './movements.component.html',
@@ -55,4 +56,7 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
     modalRef.componentInstance.model = model;
   }
 
+  deleteMovement(id: number){
+    this.service.delete(id);
+  }
 }
