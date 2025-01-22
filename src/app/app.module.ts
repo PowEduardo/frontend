@@ -15,7 +15,8 @@ import { CurrencyFormatPipe } from './pipe/currency-format.pipe';
     NgbModule,
     BrowserModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    
   ],
   providers: [],
   exports: [],

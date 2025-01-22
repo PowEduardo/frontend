@@ -7,12 +7,13 @@ import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-returns',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule],
+  imports: [CurrencyFormatPipe, CommonModule, MatIconModule],
   providers: [],
   templateUrl: './returns.component.html',
   styleUrl: './returns.component.css'
@@ -63,4 +64,7 @@ export class ReturnsComponent extends MovementsTableComponent<AssetMovementRetur
       modalRef.componentInstance.model = model;
     }
 
+    deleteMovement(id: number){
+      this.service.delete(id);
+    }
 }
