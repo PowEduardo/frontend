@@ -14,4 +14,5 @@ export class AssetDetailsModel extends AssetModel {
   targetAmount!: number;
   indexer!: string;
   interestRate!: number;
+  nextDividend!: number;
 }

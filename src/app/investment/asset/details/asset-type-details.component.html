@@ -28,12 +28,14 @@
       <th (click)="getAssets('ticker')">Target Amount</th>
       <th (click)="getAssets('ticker')">Paid Value</th>
       <th (click)="getAssets('returns')">Returns</th>
+      <th>Next Dividend</th>
       <th class="text-center" (click)="addAsset()">+</th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngFor="let asset of allAssets">
       <tr app-asset [asset]="asset">
+        <td>{{asset.nextDividend}}</td>
         <td class="text-center"><button class="btn" (click)="openAssetOperations(asset.id)"><u>Details</u></button></td>
         <td class="text-center"><button class="btn" (click)="updateAsset(asset)"><u>Edit</u></button></td>
       </tr>
