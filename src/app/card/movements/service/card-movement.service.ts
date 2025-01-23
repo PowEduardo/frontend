@@ -27,7 +27,7 @@ export class CardMovementService extends MovementService<CardMovementModel> {
     throw new Error('Method not implemented.');
   }
   update(request: CardMovementModel): Observable<CardMovementModel> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.put<CardMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/" + request.id, request);
   }
   delete(id: number): Observable<void> {
     throw new Error('Method not implemented.');

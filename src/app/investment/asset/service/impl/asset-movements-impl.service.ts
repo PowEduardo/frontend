@@ -44,9 +44,8 @@ export class AssetMovementsServiceImpl extends MovementService<AssetMovementMode
       })
     );
   }
-  override delete(id: number): Observable<void> {
-    console.log(id);
-    throw new Error('Method not implemented.');
+  delete(id: number): Observable<void> {
+    return this.httpClient.delete<void>(this.baseUrl + this.parentId + "/movements/" + id.toString());
   }
 
 
