@@ -30,8 +30,8 @@ export class AccountComponent {
       }
     );
     const movementModal = this.getType(type!);
-    
-    if (movementModal === AccountMovementsUpsertComponent){
+
+    if (movementModal === AccountMovementsUpsertComponent) {
       parentId = 1;
     } else {
       await this.modalService.open(AssetsComponent).result.then(
@@ -45,13 +45,13 @@ export class AccountComponent {
     await modal.result.then(
       () => {
         this.showMovements = false;
+        this.showMovements = true;
       }
     );
-    this.showMovements = true;
 
   }
 
-  getType(type: string) : any{
+  getType(type: string): any {
     switch (type) {
       case "ACCOUNT":
         return AccountMovementsUpsertComponent;
