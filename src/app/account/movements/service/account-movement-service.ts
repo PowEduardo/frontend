@@ -51,7 +51,7 @@ export class AccountMovementService extends MovementService<AccountMovementModel
     throw new Error("Method not implemented.");
   }
   delete(id: number): Observable<void> {
-    throw new Error("Method not implemented.");
+    return this.httpClient.delete<void>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/" + id.toString());
   }
   search(query: PageQuery): Observable<Page<AccountMovementModel>> {
     return this.httpClient.get<PageModel<AccountMovementModel>>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + ":search?" + query.toString());
