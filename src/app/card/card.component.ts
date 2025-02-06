@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CardModule } from './card.module';
 import { CardMovementsUpsertComponent } from './movements/card-movements-upsert/card-movements-upsert.component';
 import { InstallmentComponent } from "./movements/installment/installment.component";
+import { StatementUpsertComponent } from './statement/statement-upsert/statement-upsert.component';
 
 @Component({
   selector: 'app-card',
@@ -19,5 +20,9 @@ export class CardComponent {
   addMovement() {
     const modalRef = this.modalService.open(CardMovementsUpsertComponent);
     modalRef.componentInstance.parentId = 1;
+  }
+
+  closeStatement() {
+    const modalRef = this.modalService.open(StatementUpsertComponent);
   }
 }
