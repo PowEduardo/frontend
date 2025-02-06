@@ -1,0 +1,8 @@
+<form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="referenceMonth">Reference Month</label>
+        <input type="string" class="form-control" id="referenceMonth" name="referenceMonth" [(ngModel)]="model.referenceMonth"
+            placeholder="2025-02">
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

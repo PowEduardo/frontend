@@ -18,7 +18,6 @@ export class AssetReturnServiceImpl extends MovementService<AssetMovementReturnM
   }
 
   override read(id: number): Observable<AssetMovementReturnModel> {
-    console.log(id);
     throw new Error('Method not implemented.');
   }
   override readAll(pageQuery: PageQuery): Observable<AssetMovementReturnModel[]> {

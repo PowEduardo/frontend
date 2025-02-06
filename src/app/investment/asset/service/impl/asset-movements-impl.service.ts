@@ -17,7 +17,6 @@ export class AssetMovementsServiceImpl extends MovementService<AssetMovementMode
    }
 
   override read(id: number): Observable<AssetMovementModel> {
-    console.log(id);
     throw new Error('Method not implemented.');
   }
   override readAll(pageQuery: PageQuery): Observable<AssetMovementModel[]> {
