@@ -1,5 +1,6 @@
 <app-movements-table>
   <ng-container headers>
+    <th>Id</th>
     <th>Description</th>
     <th (click)="getMovements('value')">Total Value</th>
     <th (click)="getMovements('date')">Date</th>
@@ -8,6 +9,7 @@
   </ng-container>
   <ng-container row>
     <tr *ngFor="let movement of movements">
+      <td>{{movement.id}}</td>
       <td>
         {{movement.description}}
       </td>
