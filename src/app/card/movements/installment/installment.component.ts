@@ -20,7 +20,7 @@ export class InstallmentComponent implements OnInit {
   installments!: InstallmentModel[];
   sort: string = 'id';
   @Input()
-  referenceMonth: string = '2025-02';
+  referenceMonth: string = '2025-03';
 
   constructor(private modalService: NgbModal,
     private service: InstallmentService
