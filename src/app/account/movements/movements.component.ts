@@ -56,7 +56,7 @@ export class MovementsComponent extends MovementsTableComponent<AccountMovementM
   }
 
   deleteMovement(id: number) {
-    this.service.delete(id);
+    this.service.delete(id).subscribe();
   }
 
 }
