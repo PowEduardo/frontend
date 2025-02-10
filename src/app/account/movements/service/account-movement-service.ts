@@ -21,7 +21,7 @@ export class AccountMovementService extends MovementService<AccountMovementModel
     return this.httpClient.post<AccountMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()), request);
   }
   read(id: number): Observable<AccountMovementModel> {
-    throw new Error("Method not implemented.");
+    return this.httpClient.get<AccountMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/" + id.toString());
   }
   readAll(pageQuery: PageQuery): Observable<AccountMovementModel[]> {
     return this.search(pageQuery).pipe(
@@ -48,7 +48,7 @@ export class AccountMovementService extends MovementService<AccountMovementModel
     );
   }
   update(request: MovementHttpInterface): Observable<AccountMovementModel> {
-    throw new Error("Method not implemented.");
+    return this.httpClient.put<AccountMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/" + request.id!.toString(), request);
   }
   delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/" + id.toString());
