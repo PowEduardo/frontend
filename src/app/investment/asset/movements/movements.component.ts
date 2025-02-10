@@ -57,6 +57,6 @@ export class MovementsComponent extends MovementsTableComponent<AssetMovementMod
   }
 
   deleteMovement(id: number){
-    this.service.delete(id).subscribe;
+    this.service.delete(id).subscribe();
   }
 }
