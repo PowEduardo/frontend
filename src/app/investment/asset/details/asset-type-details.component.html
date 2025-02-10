@@ -30,6 +30,7 @@
       <th (click)="getAssets('returns')">Returns</th>
       <th>Next Dividend</th>
       <th class="text-center" (click)="addAsset()">+</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -39,7 +40,11 @@
         <td class="text-center"><button class="btn" (click)="openAssetOperations(asset.id)"><u>Details</u></button></td>
         <td class="text-center"><button class="btn" (click)="updateAsset(asset)"><u>Edit</u></button></td>
       </tr>
+      <tr *ngIf="showAssetOperations === asset.id">
+        <td colspan="17">
+          <app-operations [assetId]="showAssetOperations!"></app-operations>
+        </td>
+      </tr>
     </ng-container>
   </tbody>
 </table>
-<app-operations *ngIf="showAssetOperations !== undefined" [assetId]="showAssetOperations!"></app-operations>

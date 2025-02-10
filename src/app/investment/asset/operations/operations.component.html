@@ -1,11 +1,11 @@
-<div class="row">
-  <div class="col-md-6 font-weight-bold text-center py-3 bg-light border rounded" (click)="openMovements()">
-    Movements
-    <!-- <button (click)="openMovements()">Movements</button> -->
-  </div>
-  <div class="col-md-6 font-weight-bold text-center py-3 bg-light border rounded" (click)="openReturns()">
-    Returns
-    <!-- <button (click)="openReturns()">Returns</button> -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 font-weight-bold text-center py-3 bg-light border rounded" (click)="openMovements()">
+      Movements
+    </div>
+    <div class="col-md-6 font-weight-bold text-center py-3 bg-light border rounded" (click)="openReturns()">
+      Returns
+    </div>
   </div>
 </div>
 <app-movements *ngIf="isMovementsEnabled" [parentId]="assetId"></app-movements>
