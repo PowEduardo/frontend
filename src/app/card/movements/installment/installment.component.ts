@@ -7,6 +7,7 @@ import { } from "../../../pipe/currency-format.pipe";
 import { PageQueryModel } from '../../../commons/base/model/page-query-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { CardMovementsUpsertComponent } from '../card-movements-upsert/card-movements-upsert.component';
+import { UpsertComponent } from './upsert/upsert.component';
 
 @Component({
   selector: 'app-installment',
@@ -48,8 +49,8 @@ export class InstallmentComponent implements OnInit {
     });
   }
 
-  edit(movementId: number) {
-    const modalRef = this.modalService.open(CardMovementsUpsertComponent);
-    modalRef.componentInstance.toUpdate(movementId);
+  edit(installment: InstallmentModel) {
+    const modalRef = this.modalService.open(UpsertComponent);
+    modalRef.componentInstance.setModel(installment);
   }
 }

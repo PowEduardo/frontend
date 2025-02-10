@@ -9,38 +9,38 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class InstallmentService implements Crud<InstallmentModel>{
-  baseUrl: string = 'http://localhost:8080/cards/1/installments:search';
+export class InstallmentService implements Crud<InstallmentModel> {
+  baseUrl: string = 'http://localhost:8080/cards/1/installments';
   parentId!: number;
   constructor(private readonly httpClient: HttpClient) {
   }
 
   search(pageQuery: PageQuery): Observable<PageModel<InstallmentModel>> {
-    return this.httpClient.get<PageModel<InstallmentModel>>(this.baseUrl + "?" + pageQuery.toString());
+    return this.httpClient.get<PageModel<InstallmentModel>>(this.baseUrl + ":search?" + pageQuery.toString());
   }
   getAll(pageQuery: PageQuery): Observable<InstallmentModel[]> {
     return this.search(pageQuery).pipe(
-          mergeMap(firstPage => {
-            if (firstPage.last) {
-              return of(firstPage.content);
-            }
-            const otherPagesQueries: PageQuery[] = [];
-            for (let i = 1; i < firstPage.totalPages; i++) {
-              const pageClone: PageQuery = new PageQuery();
-              pageClone.offset = i;
-              pageClone.sort = pageQuery.sort;
-              pageClone.limit = pageQuery.limit;
-              pageClone.query = pageQuery.query;
-              otherPagesQueries.push(pageClone);
-            }
-            return forkJoin(otherPagesQueries.map(pageQuery => this.search(pageQuery)))
-              .pipe(
-                map(otherPages => [firstPage].concat(otherPages)
-                  .map(page => page.content)
-                  .reduce((allContent, pageContent) => allContent.concat(pageContent))
-                ));
-          })
-        );
+      mergeMap(firstPage => {
+        if (firstPage.last) {
+          return of(firstPage.content);
+        }
+        const otherPagesQueries: PageQuery[] = [];
+        for (let i = 1; i < firstPage.totalPages; i++) {
+          const pageClone: PageQuery = new PageQuery();
+          pageClone.offset = i;
+          pageClone.sort = pageQuery.sort;
+          pageClone.limit = pageQuery.limit;
+          pageClone.query = pageQuery.query;
+          otherPagesQueries.push(pageClone);
+        }
+        return forkJoin(otherPagesQueries.map(pageQuery => this.search(pageQuery)))
+          .pipe(
+            map(otherPages => [firstPage].concat(otherPages)
+              .map(page => page.content)
+              .reduce((allContent, pageContent) => allContent.concat(pageContent))
+            ));
+      })
+    );
   }
   findById(id: number): Observable<InstallmentModel> {
     throw new Error('Method not implemented.');
@@ -49,6 +49,7 @@ export class InstallmentService implements Crud<InstallmentModel>{
     throw new Error('Method not implemented.');
   }
   update(body: InstallmentModel): Observable<InstallmentModel> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.put<InstallmentModel>(this.baseUrl + "/" + body.id, body);
+
   }
 }
