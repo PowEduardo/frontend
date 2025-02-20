@@ -37,4 +37,14 @@ export class AccountMovementsUpsertComponent extends MovementUpsertComponent<Acc
     }
 
   }
+
+  override async onSubmit() {
+    super.onSubmit();
+    console.log(this.model);
+    if (this.model.id === undefined) {
+      this.model = new AccountMovementModel();
+      this.model.type = '';
+      this.model.value = 0;
+    }
+  }
 }

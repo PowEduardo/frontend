@@ -53,4 +53,9 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
     const factor = Math.pow(10, precision);
     return Math.round(value * factor) / factor;
   }
+
+  override async onSubmit(): Promise<void> {
+      super.onSubmit();
+      this.activeModal.close('Created');
+  }
 }

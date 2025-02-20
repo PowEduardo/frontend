@@ -15,6 +15,8 @@ export class MovementUpsertComponent<T extends MovementModelInterface> {
   model!: T;
   @Output()
   modelChange = new EventEmitter<T>();
+  @Output()
+  submitEvent = new EventEmitter<void>();
   movementTypes!: string[];
   @Input()
   parentId!: number;
@@ -30,8 +32,12 @@ export class MovementUpsertComponent<T extends MovementModelInterface> {
       await this.service.create(this.model).subscribe();
     } else {
       await this.service.update(this.model).subscribe();
+      await this.activeModal.close('saved');
     }
-    await this.activeModal.close('saved');
+  }
+
+  async submit() {
+    this.submitEvent.emit();
   }
 
   async toUpdate(id: number) {

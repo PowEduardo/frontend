@@ -53,4 +53,8 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
     return Math.round(value * factor) / factor;
   }
 
+  override async onSubmit(): Promise<void> {
+    super.onSubmit();
+    this.activeModal.close('Created');
+}
 }

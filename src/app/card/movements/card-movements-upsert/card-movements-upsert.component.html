@@ -1,4 +1,4 @@
-<app-movement-upsert [(model)]="model" [parentId]="parentId">
+<app-movement-upsert [(model)]="model" [parentId]="parentId" (submitEvent)="onSubmit()">
   <div class="form-group">
     <label for="description">Description</label>
     <input type="string" class="form-control" id="description" name="description" [(ngModel)]="model.description"
