@@ -57,7 +57,7 @@ export class AssetReturnServiceImpl extends MovementService<AssetMovementReturnM
     return this.httpClient.post<AssetMovementReturnModel>(this.baseUrl + this.parentId + "/returns", movement);
   }
   update(movement: AssetMovementReturnModel): Observable<AssetMovementReturnModel> {
-    return this.httpClient.post<AssetMovementReturnModel>(this.baseUrl + this.parentId + "/returns/" + movement.id, movement);
+    return this.httpClient.put<AssetMovementReturnModel>(this.baseUrl + this.parentId + "/returns/" + movement.id, movement);
 
   }
 }
