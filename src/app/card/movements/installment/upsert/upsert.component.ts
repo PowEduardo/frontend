@@ -21,6 +21,7 @@ export class UpsertComponent {
 
   async onSubmit() {
     this.service.update(this.model).subscribe();
+    this.activeModal.close('Sucess');
   }
 
   setModel(model: InstallmentModel) {
