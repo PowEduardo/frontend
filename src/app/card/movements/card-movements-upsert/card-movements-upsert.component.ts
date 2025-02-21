@@ -14,13 +14,13 @@ import { MovementType } from '../../../commons/base/movement/enum/movement-type'
   selector: 'app-card-movements-upsert',
   standalone: true,
   imports: [CommonModule, FormsModule, MovementUpsertModule],
-    providers: [
-      {provide: MovementService, useClass: CardMovementService}
-    ],
+  providers: [
+    { provide: MovementService, useClass: CardMovementService }
+  ],
   templateUrl: './card-movements-upsert.component.html',
   styleUrl: './card-movements-upsert.component.css'
 })
-export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMovementModel>{
+export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMovementModel> {
   @Input()
   updateOperation: boolean = false;
   movementCategory!: string[];
@@ -32,12 +32,26 @@ export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMo
     this.parentId = 1;
     this.movementCategory = Object.values(MovementCategory);
     if (this.model === undefined) {
-      this.model = new CardMovementModel();
-      this.model.type = '';
-      this.model.value = 0;
-      this.model.type = MovementType.CREDIT;
-      this.model.paid = false;
-      this.model.date = new Date();
+      this.initializeModel();
     }
+  }
+
+  override async onSubmit(): Promise<void> {
+    super.onSubmit();
+    console.log(this.model.date);
+    console.log(typeof this.model.date);
+    if (this.model.id === undefined) {
+      this.initializeModel();
+    }
+  }
+
+  initializeModel() {
+    this.model = new CardMovementModel();
+    this.model.type = '';
+    this.model.value = 0;
+    this.model.type = MovementType.CREDIT;
+    this.model.paid = false;
+    this.model.date = new Date();
+    this.model.installment = 1;
   }
 }
