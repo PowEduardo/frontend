@@ -22,6 +22,7 @@ export class InstallmentComponent implements OnInit {
   @Input()
   referenceMonth: string = '2025-03';
   @Input() movementAdded!: EventEmitter<void>;
+  @Input() resetVerification!: EventEmitter<void>;
 
   constructor(private modalService: NgbModal,
     private service: InstallmentService
@@ -30,6 +31,9 @@ export class InstallmentComponent implements OnInit {
   ngOnInit(): void {
     this.getInstallments('id');
     this.movementAdded.subscribe(() => {
+      this.onMovementAdded();
+    });
+    this.resetVerification.subscribe(() => {
       this.onMovementAdded();
     });
   }

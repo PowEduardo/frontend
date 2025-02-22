@@ -1,21 +1,25 @@
 <div class="card-body" *ngIf="isReady">
-  <div class="row">
-      <div class="col-md-4">
-          <p><strong>Name: </strong>{{model.name}}</p>
-      </div>
-      <div class="col-md-4">
-          <p><strong>Statement Day: </strong>{{model.statementDay}}</p>
-      </div>
-      <div class="col-md-4">
-          <p><strong>Created Date: </strong>{{model.createDate}}</p>
-      </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-        <p><strong>Current Statement Value: </strong>{{model.currentStatementValue | currency:'BRL':'symbol':'1.2-2'}}</p>
+    <div class="row">
+        <div class="col-md-4">
+            <p><strong>Name: </strong>{{model.name}}</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>Statement Day: </strong>{{model.statementDay}}</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>Created Date: </strong>{{model.createDate}}</p>
+        </div>
     </div>
-    <div class="col-md-6">
-        <p><strong>Last Statement Value: </strong>{{model.lastStatementValue | currency:'BRL':'symbol':'1.2-2'}}</p>
+    <div class="row">
+        <div class="col-md-4">
+            <p><strong>Last Statement Value: </strong>{{model.lastStatementValue | currency:'BRL':'symbol':'1.2-2'}}</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>Current Statement Value: </strong>{{model.currentStatementValue |
+                currency:'BRL':'symbol':'1.2-2'}}</p>
+        </div>
+        <div class="col-md-4">
+            <p><strong>Next Statement Value: </strong>{{model.nextStatementValue | currency:'BRL':'symbol':'1.2-2'}}</p>
+        </div>
     </div>
-  </div>
 </div>
