@@ -4,10 +4,19 @@
       <h4>Card Details</h4>
     </div>
     <app-details></app-details>
-    <button (click)="addMovement()">Add movement</button>
-    <button (click)="closeStatement()">Close Statement</button>
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <button (click)="addMovement()">Add movement</button>
+      </div>
+      <div class="col-md-4 text-center">
+        <button (click)="closeStatement()">Close Statement</button>
+      </div>
+      <div class="col-md-4 text-center">
+        <button (click)="resetVerification.emit()">Reset Verification</button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="container mt-5">
-  <app-installment [movementAdded]="movementAdded"></app-installment>
+  <app-installment [movementAdded]="movementAdded" [resetVerification]="resetVerification"></app-installment>
 </div>

@@ -14,6 +14,7 @@ import { StatementUpsertComponent } from './statement/statement-upsert/statement
 })
 export class CardComponent {
   @Output() movementAdded = new EventEmitter<void>();
+  @Output() resetVerification = new EventEmitter<void>();
   constructor(private modalService: NgbModal) {
   }
 
@@ -28,4 +29,5 @@ export class CardComponent {
   closeStatement() {
     const modalRef = this.modalService.open(StatementUpsertComponent);
   }
+
 }
