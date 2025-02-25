@@ -1,12 +1,16 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-6 font-weight-bold text-center py-3 bg-light border rounded" (click)="openMovements()">
+    <div class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openMovements()">
       Movements
     </div>
-    <div class="col-md-6 font-weight-bold text-center py-3 bg-light border rounded" (click)="openReturns()">
+    <div class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openReturns()">
       Returns
+    </div>
+    <div class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openIrpf()">
+      IRPF
     </div>
   </div>
 </div>
 <app-movements *ngIf="isMovementsEnabled" [parentId]="assetId"></app-movements>
 <app-returns *ngIf="isReturnsEnabled" [parentId]="assetId"></app-returns>
+<app-irpf *ngIf="isIrpfEnabled" [parentId]="assetId"></app-irpf>

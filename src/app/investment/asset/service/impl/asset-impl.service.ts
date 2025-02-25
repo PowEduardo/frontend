@@ -7,6 +7,7 @@ import { AssetConsolidateHttpModel } from '../../../model/http/asset-consolidate
 import { AssetModel } from '../../model/asset-model';
 import { AssetDetailsModel } from '../../model/asset-model-details';
 import { PageModel } from '../../model/page-model';
+import { IrpfModel } from '../../irpf/model/irpf-model';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +61,9 @@ export class AssetServiceImpl implements Crud<AssetModel> {
 
   consolidated(assetType: string): Observable<AssetConsolidateHttpModel> {
     return this.httpClient.get<AssetConsolidateHttpModel>(this.baseUrl + "/consolidate", { params: { type: assetType } });
+  }
+
+  irpf(id: number, year: number): Observable<IrpfModel> {
+    return this.httpClient.get<IrpfModel>(this.baseUrl + "/" + id.toString() + "/irpf", { params: { year: year } });
   }
 }
