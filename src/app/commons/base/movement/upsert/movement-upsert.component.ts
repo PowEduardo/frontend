@@ -21,10 +21,10 @@ export class MovementUpsertComponent<T extends MovementModelInterface> {
   @Input()
   parentId!: number;
 
-  constructor (
+  constructor(
     protected service: MovementService<T>,
     protected activeModal: NgbActiveModal
-  ) {}
+  ) { }
 
   async onSubmit() {
     this.service.parentId = this.parentId;
@@ -47,5 +47,10 @@ export class MovementUpsertComponent<T extends MovementModelInterface> {
         this.model = movement;
       }
     );
+  }
+
+  roundHalfUp(value: number, precision: number): number {
+    const factor = Math.pow(10, precision);
+    return Math.round(value * factor) / factor;
   }
 }
