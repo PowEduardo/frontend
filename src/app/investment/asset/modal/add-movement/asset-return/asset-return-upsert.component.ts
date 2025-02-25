@@ -20,8 +20,8 @@ import { MovementCategory } from '../../../../../commons/base/movement/enum/move
     { provide: MovementService, useClass: AssetReturnServiceImpl },
     FormsModule
   ],
-  templateUrl: './asset-return.component.html',
-  styleUrl: './asset-return.component.css'
+  templateUrl: './asset-return-upsert.component.html',
+  styleUrl: './asset-return-upsert.component.css'
 })
 export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<AssetMovementReturnModel> {
   overrideValue: boolean = false;
@@ -48,4 +48,8 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
     }
   }
 
+  override async onSubmit(): Promise<void> {
+    super.onSubmit();
+    this.activeModal.close('Created');
+  }
 }

@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
 import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
-import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return.component';
+import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return-upsert.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';

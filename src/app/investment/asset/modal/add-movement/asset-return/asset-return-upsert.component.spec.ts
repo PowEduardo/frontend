@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetReturnMovementUpsertComponent } from './asset-return.component';
+import { AssetReturnMovementUpsertComponent } from './asset-return-upsert.component';
 
 describe('AddReturnComponent', () => {
   let component: AssetReturnMovementUpsertComponent;
