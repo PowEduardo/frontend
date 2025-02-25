@@ -16,20 +16,16 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-movements',
   standalone: true,
   imports: [CurrencyFormatPipe, CommonModule, MovementsTableComponent, MatIconModule],
-  providers: [{provide: MovementService, useClass:AccountMovementService}, NgbModal, DecimalPipe],
+  providers: [{ provide: MovementService, useClass: AccountMovementService }, NgbModal, DecimalPipe],
   templateUrl: './movements.component.html',
   styleUrl: './movements.component.css'
 })
-export class MovementsComponent extends MovementsTableComponent<AccountMovementModel>{
+export class MovementsComponent extends MovementsTableComponent<AccountMovementModel> {
 
   constructor(protected override service: MovementService<AccountMovementModel>,
     protected override modal: NgbModal
   ) {
     super(service, modal);
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  override ngOnChanges(changes: SimpleChanges): void {
-    this.getMovements('-date');
   }
 
   override async getMovements(attribute: string) {
