@@ -37,7 +37,6 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
       this.model.irFee = 0;
       this.model.type = MovementType.CREDIT;
       this.model.category = MovementCategory.INVESTMENT;
-      
     }
     this.movementTypes = Object.values(AssetMovementReturnType);
   }
@@ -49,13 +48,4 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
     }
   }
 
-  roundHalfUp(value: number, precision: number): number {
-    const factor = Math.pow(10, precision);
-    return Math.round(value * factor) / factor;
-  }
-
-  override async onSubmit(): Promise<void> {
-      super.onSubmit();
-      this.activeModal.close('Created');
-  }
 }
