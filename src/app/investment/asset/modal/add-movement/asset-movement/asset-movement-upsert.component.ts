@@ -17,16 +17,16 @@ import { MovementCategory } from '../../../../../commons/base/movement/enum/move
   standalone: true,
   imports: [FormsModule, CommonModule, MovementUpsertModule, MovementModule],
   providers: [
-    {provide: MovementService, useClass: AssetMovementsServiceImpl},
+    { provide: MovementService, useClass: AssetMovementsServiceImpl },
     FormsModule
   ],
   templateUrl: './asset-movement-upsert.component.html',
   styleUrl: './asset-movement-upsert.component.css'
 })
-export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetMovementModel> implements OnInit{
+export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetMovementModel> implements OnInit {
   overrideValue: boolean = false;
 
-  constructor (protected override service: MovementService<AssetMovementModel>,
+  constructor(protected override service: MovementService<AssetMovementModel>,
     protected override activeModal: NgbActiveModal,
     private modalService: NgbModal) {
     super(service, activeModal);
@@ -48,13 +48,8 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
     }
   }
 
-  roundHalfUp(value: number, precision: number): number {
-    const factor = Math.pow(10, precision);
-    return Math.round(value * factor) / factor;
-  }
-
   override async onSubmit(): Promise<void> {
     super.onSubmit();
     this.activeModal.close('Created');
-}
+  }
 }

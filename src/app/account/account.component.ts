@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssetsComponent } from '../commons/modal/search/assets/assets.component';
 import { AssetMovementUpsertComponent } from '../investment/asset/modal/add-movement/asset-movement/asset-movement-upsert.component';
-import { AssetReturnMovementUpsertComponent } from '../investment/asset/modal/add-movement/asset-return/asset-return.component';
+import { AssetReturnMovementUpsertComponent } from '../investment/asset/modal/add-movement/asset-return/asset-return-upsert.component';
 import { AssetDetailsModel } from '../investment/asset/model/asset-model-details';
 import { AccountModule } from './account.module';
 import { DetailsComponent } from './details/details.component';
