@@ -19,7 +19,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let installment of installments">
-      <td>
+      <td (click)="editMovement(installment)">
         {{installment.id}}
       </td>
       <td>
