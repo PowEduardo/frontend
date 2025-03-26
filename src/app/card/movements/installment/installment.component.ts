@@ -7,6 +7,8 @@ import { } from "../../../pipe/currency-format.pipe";
 import { PageQueryModel } from '../../../commons/base/model/page-query-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { UpsertComponent } from './upsert/upsert.component';
+import { CardMovementService } from '../service/card-movement.service';
+import { ManagementComponent } from '../management/management.component';
 
 @Component({
   selector: 'app-installment',
@@ -20,12 +22,13 @@ export class InstallmentComponent implements OnInit {
   installments!: InstallmentModel[];
   sort: string = 'id';
   @Input()
-  referenceMonth: string = '2025-03';
+  referenceMonth: string = '2025-04';
   @Input() movementAdded!: EventEmitter<void>;
   @Input() resetVerification!: EventEmitter<void>;
 
   constructor(private modalService: NgbModal,
-    private service: InstallmentService
+    private service: InstallmentService,
+    private movementService: CardMovementService
   ) { }
 
   ngOnInit(): void {
@@ -64,5 +67,10 @@ export class InstallmentComponent implements OnInit {
   onMovementAdded() {
     this.sort = 'id';
     this.getInstallments('id');
+  }
+
+  editMovement(installment: InstallmentModel) {
+    const modalRef = this.modalService.open(ManagementComponent);
+    modalRef.componentInstance.setMovement(installment.movement.id);
   }
 }
