@@ -2,7 +2,7 @@
   <ng-container headers>
     <th>Id</th>
     <th *ngIf="parentId===0">Asset</th>
-    <th>Operation</th>
+    <th (click)="getMovements('-operation')">Operation</th>
     <th>Amount</th>
     <th>Unit Value</th>
     <th (click)="getMovements('-value')">Value</th>
