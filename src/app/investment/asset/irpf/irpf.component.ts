@@ -18,12 +18,11 @@ export class IrpfComponent implements OnInit {
   constructor(private service: AssetServiceImpl) {
 
   }
-  ngOnInit(): void {
-    this.service.irpf(this.parentId, 2024).subscribe((response) => {
-      console.log(response);
+  async ngOnInit(): Promise<void> {
+    await this.service.irpf(this.parentId, 2024).subscribe((response) => {
       this.model = response;
     });
-    this.service.findById(this.parentId).subscribe((response) => {
+    await this.service.findById(this.parentId).subscribe((response) => {
       this.ticker = response.ticker;
     });
   }

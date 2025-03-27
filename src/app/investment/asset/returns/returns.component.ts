@@ -34,8 +34,8 @@ export class ReturnsComponent extends MovementsTableComponent<AssetMovementRetur
   override async getMovements(attribute: string) {
     if (this.sort === attribute) {
       attribute = '-' + attribute;
-      this.sort = attribute;
     }
+    this.sort = attribute;
     this.movements = [];
     const query: PageQuery = new PageQuery();
     if (attribute) {
