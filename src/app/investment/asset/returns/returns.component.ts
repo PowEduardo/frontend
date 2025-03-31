@@ -28,7 +28,7 @@ export class ReturnsComponent extends MovementsTableComponent<AssetMovementRetur
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override ngOnChanges(changes: SimpleChanges): void {
-    this.getMovements('-date');
+    this.getMovements('-exDividendDate');
   }
 
   override async getMovements(attribute: string) {
