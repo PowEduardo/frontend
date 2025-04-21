@@ -57,7 +57,7 @@ export class AssetTypeDetailsComponent implements OnInit {
         query.sort = attribute;
         this.sort = attribute;
       }
-      this.assetService.getAll(query).subscribe(async (asset: AssetModel[]) => {
+      await this.assetService.getAll(query).subscribe(async (asset: AssetModel[]) => {
         const assetDetailsList: AssetDetailsModel[] = [];
         const pieValues: PieChartModel[] = [];
 

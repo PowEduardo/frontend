@@ -6,5 +6,6 @@ export enum MovementCategory {
   HEALTH = 'HEALTH',
   MONTHLY_EXPENSES = 'MONTHLY_EXPENSES',
   VEHICLES = 'VEHICLES',
-  TRIP = 'TRIP'
+  TRIP = 'TRIP',
+  OTHERS = 'OTHERS'
 }

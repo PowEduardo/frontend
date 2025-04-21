@@ -6,6 +6,7 @@ import { AssetTypeDetailsComponent } from './investment/asset/details/asset-type
 import { InvestmentComponent } from './investment/investment.component';
 import { AccountComponent } from './account/account.component';
 import { CardComponent } from './card/card.component';
+import { BatchComponent } from './batch/batch.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, children: [
@@ -18,7 +19,8 @@ export const routes: Routes = [
     ]
   },
     { path: 'account', component: AccountComponent},
-    { path: 'card', component: CardComponent}
+    { path: 'card', component: CardComponent},
+    { path: 'batch', component: BatchComponent},
 ]
 },
   
