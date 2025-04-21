@@ -22,14 +22,17 @@ export class InstallmentComponent implements OnInit {
   installments!: InstallmentModel[];
   sort: string = 'id';
   @Input()
-  referenceMonth: string = '2025-04';
+  referenceMonth: string = '2025-05';
   @Input() movementAdded!: EventEmitter<void>;
   @Input() resetVerification!: EventEmitter<void>;
+  ready: boolean = false;
 
   constructor(private modalService: NgbModal,
     private service: InstallmentService,
     private movementService: CardMovementService
-  ) { }
+  ) { 
+    movementService.parentId = 1;
+  }
 
   ngOnInit(): void {
     this.getInstallments('id');
@@ -55,8 +58,12 @@ export class InstallmentComponent implements OnInit {
     await this.service.getAll(query).subscribe((data: InstallmentModel[]) => {
       data.map(element => {
         this.installments!.push(element);
+        this.movementService.read(element.movement.id!).subscribe((movement) => {
+          element.movement = movement;
+        });
       });
     });
+    this.ready = true;
   }
 
   edit(installment: InstallmentModel) {

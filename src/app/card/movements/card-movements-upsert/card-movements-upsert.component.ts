@@ -38,10 +38,11 @@ export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMo
 
   override async onSubmit(): Promise<void> {
     super.onSubmit();
-    console.log(this.model.date);
-    console.log(typeof this.model.date);
     if (this.model.id === undefined) {
-      this.initializeModel();
+      this.model.value = 0.0;
+      this.model.installment = 1;
+      this.model.description = '';
+      this.model.category = '';
     }
   }
 
