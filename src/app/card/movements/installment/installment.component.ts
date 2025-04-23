@@ -9,6 +9,8 @@ import { PageQuery } from '../../../commons/base/model/page-query';
 import { UpsertComponent } from './upsert/upsert.component';
 import { CardMovementService } from '../service/card-movement.service';
 import { ManagementComponent } from '../management/management.component';
+import { MovementUpsertComponent } from '../../../commons/base/movement/upsert/movement-upsert.component';
+import { CardMovementsUpsertComponent } from '../card-movements-upsert/card-movements-upsert.component';
 
 @Component({
   selector: 'app-installment',
@@ -77,7 +79,7 @@ export class InstallmentComponent implements OnInit {
   }
 
   editMovement(installment: InstallmentModel) {
-    const modalRef = this.modalService.open(ManagementComponent);
-    modalRef.componentInstance.setMovement(installment.movement.id);
+    const modalRef = this.modalService.open(CardMovementsUpsertComponent);
+    modalRef.componentInstance.toUpdate(installment.movement.id);
   }
 }
