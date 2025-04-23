@@ -4,8 +4,7 @@
       <h4>Account Details</h4>
     </div>
     <app-details *ngIf="showMovements"></app-details>
-    <button (click)="addMovement()">Add movement</button>
+    <button class="btn btn-primary btn-sm" (click)="addMovement()">Add movement</button>
   </div>
-
-  <app-movements [parentId]="(1)" *ngIf="showMovements"></app-movements>
 </div>
+<app-movements [parentId]="(1)" *ngIf="showMovements"></app-movements>
