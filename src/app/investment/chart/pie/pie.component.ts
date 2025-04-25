@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
 import { PieChartModel } from '../../model/pie-chart-model';
 
@@ -11,7 +11,7 @@ import { PieChartModel } from '../../model/pie-chart-model';
   templateUrl: './pie.component.html',
   styleUrl: './pie.component.css'
 })
-export class PieComponent implements OnInit {
+export class PieComponent implements OnInit, OnChanges {
   @Input()
   public pieChartData!: PieChartModel[];
 
@@ -24,6 +24,10 @@ export class PieComponent implements OnInit {
   public legendPosition: LegendPosition = LegendPosition.Right;
 
   ngOnInit() {
+    this.calculatePercentages();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.calculatePercentages();
   }
 
