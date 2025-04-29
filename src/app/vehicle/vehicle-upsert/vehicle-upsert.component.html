@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title text-center w-100">Upsert Vehicle</h4>
+</div>
+<div class="modal-body">
+    <form #assetForm="ngForm" (ngSubmit)="submit()">
+        <div>
+            <div class="form-group">
+                <label for="manufacturer">Manufacturer</label>
+                <input type="string" class="form-control" id="manufacturer" name="manufacturer"
+                    [(ngModel)]="model.manufacturer" placeholder="Toyota">
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+</div>

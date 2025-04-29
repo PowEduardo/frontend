@@ -1,0 +1,26 @@
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Version</th>
+                <th>Year</th>
+                <th>Milage</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let model of list">
+                <td>{{model.id}}</td>
+                <td>{{model.manufacturer}}</td>
+                <td>{{model.model}}</td>
+                <td>{{model.version}}</td>
+                <td>{{model.year}}</td>
+                <td>{{model.milage}}</td>
+                <td>{{model.value | currencyFormat}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
