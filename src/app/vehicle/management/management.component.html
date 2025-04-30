@@ -1,5 +1,5 @@
 <h4 class="text text-center">Management</h4>
-<app-vehicle-table [list]="list" *ngIf="list"></app-vehicle-table>
+<app-vehicle-table [list]="list" (selectedVehicle)="updateVehicle($event)" *ngIf="list"></app-vehicle-table>
 <div class="text text-center">
   <button class="btn btn-primary" (click)="addVehicle()">Add Vehicle</button>
 </div>

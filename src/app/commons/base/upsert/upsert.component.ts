@@ -16,7 +16,7 @@ export class UpsertComponent<T> {
 
   constructor(protected activeModal: NgbActiveModal,
     protected service: CrudService<T | any | null>
-  ) {}
+  ) { }
 
   async onSubmit() {
     if (this.model.id == null) {
@@ -32,7 +32,12 @@ export class UpsertComponent<T> {
     this.activeModal.close(this.model);
   }
 
-  setModel(model: T) {
-    this.model = model;
+  setModel(id: number) {
+    this.service.read(id).subscribe(response => {
+      this.model = response;
+    }, error => {
+      alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
+      this.activeModal.close('error');
+    });
   }
 }

@@ -35,4 +35,14 @@ export class ManagementComponent implements OnInit {
       this.list.push(result);
     });
   }
+
+  updateVehicle(id: number) {
+    const modalRef = this.modal.open(VehicleUpsertComponent);
+    modalRef.componentInstance.setModel(id);
+    modalRef.result.then((result: VehicleModel) => {
+      this.list = this.list.map(vehicle =>
+        vehicle.id === result.id ? result : vehicle
+      );
+    });
+  }
 }

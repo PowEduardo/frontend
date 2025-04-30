@@ -1,5 +1,5 @@
 <div class="container">
-    <table class="table table-striped table-bordered" *ngIf="list.length > 0">
+    <table class="table table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
                 <th>Id</th>
@@ -11,9 +11,9 @@
                 <th>Value</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="list.length > 0">
             <tr *ngFor="let model of list">
-                <td>{{model.id}}</td>
+                <td (click)="emitterId(model.id)">{{model.id}}</td>
                 <td>{{model.manufacturer}}</td>
                 <td>{{model.model}}</td>
                 <td>{{model.version}}</td>
