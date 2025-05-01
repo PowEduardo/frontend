@@ -11,7 +11,7 @@ import { PieChartModel } from '../../model/pie-chart-model';
   templateUrl: './pie.component.html',
   styleUrl: './pie.component.css'
 })
-export class PieComponent implements OnInit, OnChanges {
+export class PieComponent implements OnChanges {
   @Input()
   public pieChartData!: PieChartModel[];
 
@@ -22,10 +22,6 @@ export class PieComponent implements OnInit, OnChanges {
   public isDoughnut: boolean = false;
 
   public legendPosition: LegendPosition = LegendPosition.Right;
-
-  ngOnInit() {
-    this.calculatePercentages();
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.calculatePercentages();
