@@ -28,7 +28,7 @@ export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMo
   constructor(override activeModal: NgbActiveModal,
     override service: MovementService<CardMovementModel>
   ) {
-    super(service, activeModal);
+    super(activeModal, service);
     this.parentId = 1;
     this.movementCategory = Object.values(MovementCategory);
     if (this.model === undefined) {

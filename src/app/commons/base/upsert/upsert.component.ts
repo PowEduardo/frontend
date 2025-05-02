@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './upsert.component.css'
 })
 export class UpsertComponent<T> {
-  model: T | any;
-  title!: string | null;
+  protected model: T | any;
+  protected title!: string | null;
 
   constructor(protected activeModal: NgbActiveModal,
     protected service: CrudService<T | any | null>
