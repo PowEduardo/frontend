@@ -6,7 +6,7 @@ import { InstallmentModel } from './model/installment-model';
 import { } from "../../../pipe/currency-format.pipe";
 import { PageQueryModel } from '../../../commons/base/model/page-query-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { UpsertComponent } from './upsert/upsert.component';
+import { CardMovementUpsertComponent } from './upsert/card-movement-upsert.component';
 import { CardMovementService } from '../service/card-movement.service';
 import { ManagementComponent } from '../management/management.component';
 import { MovementUpsertComponent } from '../../../commons/base/movement/upsert/movement-upsert.component';
@@ -57,7 +57,7 @@ export class InstallmentComponent implements OnInit {
     if (attribute) {
       query.sort = attribute;
     }
-    await this.service.getAll(query).subscribe((data: InstallmentModel[]) => {
+    await this.service.readAll(query).subscribe((data: InstallmentModel[]) => {
       data.map(element => {
         this.installments!.push(element);
         this.movementService.read(element.movement.id!).subscribe((movement) => {
@@ -69,8 +69,8 @@ export class InstallmentComponent implements OnInit {
   }
 
   edit(installment: InstallmentModel) {
-    const modalRef = this.modalService.open(UpsertComponent);
-    modalRef.componentInstance.setModel(installment);
+    const modalRef = this.modalService.open(CardMovementUpsertComponent);
+    modalRef.componentInstance.setModel(installment.id);
   }
 
   onMovementAdded() {

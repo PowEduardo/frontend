@@ -29,7 +29,7 @@ export class ManagementComponent {
     });
     var query: PageQuery = new PageQuery();
     query.addQuery('movement', id.toString());
-    this.installmentService.getAll(query).subscribe((data: InstallmentModel[]) => {
+    this.installmentService.readAll(query).subscribe((data: InstallmentModel[]) => {
       this.installments = data;
     });
   }

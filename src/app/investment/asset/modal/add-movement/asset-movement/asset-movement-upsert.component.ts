@@ -23,22 +23,22 @@ import { MovementCategory } from '../../../../../commons/base/movement/enum/move
   templateUrl: './asset-movement-upsert.component.html',
   styleUrl: './asset-movement-upsert.component.css'
 })
-export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetMovementModel> implements OnInit {
+export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetMovementModel> {
   overrideValue: boolean = false;
 
-  constructor(protected override service: MovementService<AssetMovementModel>,
-    protected override activeModal: NgbActiveModal,
-    private modalService: NgbModal) {
-    super(service, activeModal);
+  constructor(service: MovementService<AssetMovementModel>,
+    activeModal: NgbActiveModal) {
+    super(activeModal, service);
+    this.movementTypes = Object.values(AssetOperationType);
+    this.createMovement();
   }
 
-  async ngOnInit(): Promise<void> {
+  createMovement(): void {
     if (!this.model) {
       this.model = new AssetMovementModel();
       this.model.type = MovementType.DEBIT;
       this.model.category = MovementCategory.INVESTMENT;
     }
-    this.movementTypes = Object.values(AssetOperationType);
   }
 
   calculateValue() {
@@ -46,10 +46,5 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
       const result = this.model!.amount * this.model!.unitValue + this.model.liquidationFee;
       this.model!.value = this.roundHalfUp(result, 3);
     }
-  }
-
-  override async onSubmit(): Promise<void> {
-    super.onSubmit();
-    this.activeModal.close('Created');
   }
 }

@@ -24,27 +24,26 @@ export class AccountMovementsUpsertComponent extends MovementUpsertComponent<Acc
   updateOperation: boolean = false;
   movementCategory!: string[];
 
-  constructor(override activeModal: NgbActiveModal,
-    override service: MovementService<AccountMovementModel>
+  constructor(activeModal: NgbActiveModal,
+    service: MovementService<AccountMovementModel>
   ) {
-    super(service, activeModal);
+    super(activeModal, service);
     this.parentId = 1;
     this.movementCategory = Object.values(MovementCategory);
-    if (this.model === undefined) {
-      this.model = new AccountMovementModel();
-      this.model.type = '';
-      this.model.value = 0;
-    }
+    this.cleanModel();
 
   }
 
   override async onSubmit() {
     super.onSubmit();
-    console.log(this.model);
     if (this.model.id === undefined) {
-      this.model = new AccountMovementModel();
-      this.model.type = '';
-      this.model.value = 0;
+      this.cleanModel();
     }
+  }
+
+  cleanModel() {
+    this.model = new AccountMovementModel();
+    this.model.type = '';
+    this.model.value = 0;
   }
 }

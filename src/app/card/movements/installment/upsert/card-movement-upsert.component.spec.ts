@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpsertComponent } from './upsert.component';
+import { CardMovementUpsertComponent } from './card-movement-upsert.component';
 
 describe('UpsertComponent', () => {
-  let component: UpsertComponent;
-  let fixture: ComponentFixture<UpsertComponent>;
+  let component: CardMovementUpsertComponent;
+  let fixture: ComponentFixture<CardMovementUpsertComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UpsertComponent]
+      imports: [CardMovementUpsertComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(UpsertComponent);
+    fixture = TestBed.createComponent(CardMovementUpsertComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

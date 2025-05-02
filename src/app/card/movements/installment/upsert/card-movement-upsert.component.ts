@@ -4,27 +4,21 @@ import { FormsModule } from '@angular/forms';
 import { InstallmentModel } from '../model/installment-model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstallmentService } from '../service/installment.service';
+import { UpsertComponent } from '../../../../commons/base/upsert/upsert.component';
 
 @Component({
   selector: 'app-upsert',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './upsert.component.html',
-  styleUrl: './upsert.component.css'
+  templateUrl: './card-movement-upsert.component.html',
+  styleUrl: './card-movement-upsert.component.css'
 })
-export class UpsertComponent {
-  model!: InstallmentModel;
+export class CardMovementUpsertComponent extends UpsertComponent<InstallmentModel> {
 
-  constructor (protected activeModal: NgbActiveModal,
-      private service: InstallmentService
-  ) {}
-
-  async onSubmit() {
-    this.service.update(this.model).subscribe();
-    this.activeModal.close('Sucess');
+  constructor(activeModal: NgbActiveModal,
+    service: InstallmentService
+  ) {
+    super(activeModal, service);
   }
 
-  setModel(model: InstallmentModel) {
-    this.model = model;
-  }
 }
