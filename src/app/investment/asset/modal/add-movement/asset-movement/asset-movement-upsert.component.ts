@@ -29,7 +29,7 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
   constructor(protected override service: MovementService<AssetMovementModel>,
     protected override activeModal: NgbActiveModal,
     private modalService: NgbModal) {
-    super(service, activeModal);
+    super(activeModal, service);
   }
 
   async ngOnInit(): Promise<void> {
