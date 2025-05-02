@@ -14,8 +14,6 @@ export class MovementUpsertComponent<T extends MovementModelInterface> extends U
   override model!: T;
   @Output()
   modelChange = new EventEmitter<T>();
-  @Output()
-  submitEvent = new EventEmitter<void>();
   movementTypes!: string[];
   @Input()
   parentId!: number;

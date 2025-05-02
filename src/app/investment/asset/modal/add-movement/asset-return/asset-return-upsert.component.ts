@@ -26,19 +26,19 @@ import { MovementCategory } from '../../../../../commons/base/movement/enum/move
 export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<AssetMovementReturnModel> {
   overrideValue: boolean = false;
 
+
   constructor(protected override service: MovementService<AssetMovementReturnModel>,
     protected override activeModal: NgbActiveModal) {
     super(activeModal, service);
+    this.movementTypes = Object.values(AssetMovementReturnType);
+    this.createMovement();
   }
 
-  ngOnInit(): void {
-    if (!this.model) {
-      this.model = new AssetMovementReturnModel();
-      this.model.irFee = 0;
-      this.model.type = MovementType.CREDIT;
-      this.model.category = MovementCategory.INVESTMENT;
-    }
-    this.movementTypes = Object.values(AssetMovementReturnType);
+  private createMovement(): void {
+    this.model = new AssetMovementReturnModel();
+    this.model.irFee = 0;
+    this.model.type = MovementType.CREDIT;
+    this.model.category = MovementCategory.INVESTMENT;
   }
 
   calculateValue() {
@@ -46,10 +46,5 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
       const result = this.model!.amount * this.model!.unitValue - this.model!.irFee;
       this.model!.value = this.roundHalfUp(result, 3);
     }
-  }
-
-  override async onSubmit(): Promise<void> {
-    super.onSubmit();
-    this.activeModal.close('Created');
   }
 }
