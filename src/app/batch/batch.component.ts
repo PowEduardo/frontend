@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Execution } from './model/execution';
+import { Step } from './model/step';
 
 @Component({
   selector: 'app-batch',
@@ -11,7 +13,7 @@ import { Component } from '@angular/core';
 })
 export class BatchComponent {
   jobs: string[] = [];
-  executions: any[] = [];
+  executions: Execution[] = [];
   selectedJob: string | null = null;
   showDetails: number | null = null;
 
@@ -29,11 +31,12 @@ export class BatchComponent {
 
   viewExecutions(jobName: string): void {
     this.selectedJob = jobName;
-    this.http.get<any[]>(`http://localhost:8080/jobs/${jobName}/executions`).subscribe((data) => {
-      this.executions = data.map((execution) => ({
-        ...execution,
-        stepDetails: [] // Initialize step details
-      }));
+    this.http.get<Execution[]>(`http://localhost:8080/jobs/${jobName}/executions`).subscribe((data) => {
+      this.executions = data.map((execution) => {
+        var exec = new Execution(execution.job_execution_id, execution.status, execution.start_time, execution.end_time, execution.stepDetails);
+        exec.totalTime = (execution.end_time.getTime() - execution.start_time.getTime()) / 1000;
+        return exec;
+      });
     });
   }
 
@@ -45,7 +48,7 @@ export class BatchComponent {
       const execution = this.executions.find((e) => e.job_execution_id === executionId);
       if (execution && execution.stepDetails.length === 0) {
         // Fetch step details if not already loaded
-        this.http.get<any[]>(`http://localhost:8080/executions/${executionId}/steps`).subscribe((data) => {
+        this.http.get<Step[]>(`http://localhost:8080/executions/${executionId}/steps`).subscribe((data) => {
           execution.stepDetails = data;
         });
       }
