@@ -27,16 +27,18 @@
                 <th>Status</th>
                 <th>Start Time</th>
                 <th>End Time</th>
+                <th>Total Time Seconds</th>
                 <th>Details</th>
             </tr>
         </thead>
-        <tbody>
-            <ng-container *ngFor="let execution of executions">
+        <tbody *ngIf="executions.length > 0">
+            <ng-container *ngFor="let execution of executions" >
                 <tr>
                     <td>{{ execution.job_execution_id }}</td>
                     <td>{{ execution.status }}</td>
-                    <td>{{ execution.start_time }}</td>
-                    <td>{{ execution.end_time }}</td>
+                    <td>{{ execution.start_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{ execution.end_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{ execution.totalTime | number:'1.0-2' }} seconds</td>
                     <td>
                         <button class="btn btn-info btn-sm" (click)="toggleDetails(execution.job_execution_id)">
                             {{ showDetails === execution.job_execution_id ? 'Hide Details' : 'View Details' }}
@@ -64,16 +66,16 @@
                                     <tr *ngFor="let step of execution.stepDetails">
                                         <td>{{ step.step_name }}</td>
                                         <td>{{ step.status }}</td>
-                                        <td>{{ step.start_time }}</td>
-                                        <td>{{ step.end_time }}</td>
+                                        <td>{{ step.start_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{ step.end_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
                                         <td>{{ step.read_count }}</td>
                                         <td>{{ step.write_count }}</td>
                                         <td>{{ step.skip_count }}</td>
-                                        <td *ngIf="step.exit_message?.length <= 30">{{ step.exit_message }}</td>
-                                        <td *ngIf="step.exit_message?.length > 30">
+                                        <td *ngIf="step.exit_message!.length <= 30">{{ step.exit_message }}</td>
+                                        <td *ngIf="step.exit_message!.length > 30">
                                             <button  
                                                     class="btn btn-warning btn-sm" 
-                                                    (click)="showFullMessage(step.exit_message)">
+                                                    (click)="showFullMessage(step.exit_message!)">
                                                 View Full Message
                                             </button>
                                         </td>
