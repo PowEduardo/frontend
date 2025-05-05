@@ -35,4 +35,10 @@ export class MovementUpsertComponent<T extends MovementModelInterface> extends U
     const factor = Math.pow(10, precision);
     return Math.round(value * factor) / factor;
   }
+
+  override setModel(id: number) {
+    const service = this.service as MovementService<T>;
+    service.parentId = this.parentId;
+    super.setModel(id);
+  }
 }

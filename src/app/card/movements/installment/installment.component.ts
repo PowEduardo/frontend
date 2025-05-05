@@ -80,6 +80,6 @@ export class InstallmentComponent implements OnInit {
 
   editMovement(installment: InstallmentModel) {
     const modalRef = this.modalService.open(CardMovementsUpsertComponent);
-    modalRef.componentInstance.toUpdate(installment.movement.id);
+    modalRef.componentInstance.setModel(installment.movement.id);
   }
 }
