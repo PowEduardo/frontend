@@ -48,7 +48,7 @@ export class MovementsComponent extends MovementsTableComponent<AccountMovementM
 
   updateMovement(id: number) {
     const modalRef = this.modal.open(AccountMovementsUpsertComponent);
-    modalRef.componentInstance.toUpdate(id);
+    modalRef.componentInstance.setModel(id);
   }
 
   deleteMovement(id: number) {
