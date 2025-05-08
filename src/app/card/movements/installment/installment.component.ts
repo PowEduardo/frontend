@@ -24,7 +24,7 @@ export class InstallmentComponent implements OnInit {
   installments!: InstallmentModel[];
   sort: string = 'id';
   @Input()
-  referenceMonth: string = '2025-05';
+  referenceMonth: string = '2025-06';
   @Input() movementAdded!: EventEmitter<void>;
   @Input() resetVerification!: EventEmitter<void>;
   ready: boolean = false;
