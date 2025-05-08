@@ -20,11 +20,14 @@ export class UpsertComponent<T> {
 
   async onSubmit() {
     if (this.model.id == null) {
-      this.service.create(this.model).subscribe(response => {
-        this.model.id = response.id;
-      }, error => {
-        alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
-        this.activeModal.close('error');
+      this.service.create(this.model).subscribe({
+        next: (response) => {
+          this.model.id = response.id;
+        },
+        error: (error) => {
+          alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
+          this.activeModal.close('error');
+        }
       });
     } else {
       this.service.update(this.model).subscribe();
@@ -33,11 +36,14 @@ export class UpsertComponent<T> {
   }
 
   setModel(id: number) {
-    this.service.read(id).subscribe(response => {
-      this.model = response;
-    }, error => {
-      alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
-      this.activeModal.close('error');
+    this.service.read(id).subscribe({
+      next: (response) => {
+        this.model = response;
+      },
+      error: (error) => {
+        alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
+        this.activeModal.close('error');
+      }
     });
   }
 }

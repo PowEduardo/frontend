@@ -1,25 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { PageQuery } from '../../commons/base/model/page-query';
-import { VehicleModel } from '../model/vehicle-model';
-import { VehicleService } from '../service/vehicle.service';
-import { VehicleTableComponent } from "../vehicle-table/vehicle-table.component";
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PageQuery } from '../../commons/base/model/page-query';
+import { CrudService } from '../../commons/service/crud.service';
+import { VehicleModel } from '../model/vehicle-model';
 import { VehicleUpsertComponent } from '../vehicle-upsert/vehicle-upsert.component';
+import { VehicleModule } from '../vehicle.module';
 import { ManageVehicleComponent } from './manage-vehicle/manage-vehicle.component';
+import { Management } from '../../commons/page/management';
 
 @Component({
   selector: 'app-management',
   standalone: true,
-  imports: [VehicleTableComponent, CommonModule],
-  templateUrl: './management.component.html',
-  styleUrl: './management.component.css'
+  imports: [CommonModule, VehicleModule],
+  templateUrl: './management-vehicle.component.html',
+  styleUrl: './management-vehicle.component.css'
 })
-export class ManagementComponent implements OnInit {
+export class ManagementVehiclesComponent implements OnInit, Management {
 
   list: VehicleModel[] = [];
   selectedVehicles: number[] = [];
-  constructor(private service: VehicleService,
+  constructor(private service: CrudService<VehicleModel>,
     private modal: NgbModal
   ) {
   }

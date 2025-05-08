@@ -8,7 +8,7 @@ import { AccountComponent } from './account/account.component';
 import { CardComponent } from './card/card.component';
 import { BatchComponent } from './batch/batch.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
-import { ManagementComponent } from './vehicle/management/management.component';
+import { ManagementVehiclesComponent } from './vehicle/management/management-vehicle.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   {
@@ -28,7 +28,7 @@ export const routes: Routes = [
       { path: 'batch', component: BatchComponent },
       {
         path: 'vehicles', component: VehicleComponent, children: [
-          { path: 'management', component: ManagementComponent }
+          { path: 'management', component: ManagementVehiclesComponent }
         ]
       }
     ]

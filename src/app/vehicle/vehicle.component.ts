@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { SubmenuComponent } from "../commons/submenu/submenu.component";
+import { SubmenuComponent } from "../commons/page/submenu/submenu.component";
 import { RouterModule } from '@angular/router';
-import { SubmenuItem } from '../commons/submenu/model/submenu-item';
+import { SubmenuItem } from '../commons/page/submenu/model/submenu-item';
 
 @Component({
   selector: 'app-vehicle',

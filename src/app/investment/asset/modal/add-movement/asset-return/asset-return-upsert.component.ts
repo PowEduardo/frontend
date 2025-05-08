@@ -44,7 +44,7 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
   calculateValue() {
     if (!this.overrideValue) {
       const result = this.model!.amount * this.model!.unitValue - this.model!.irFee;
-      this.model!.value = this.roundHalfUp(result, 3);
+      this.model!.value = this.roundHalfUp(result, 2);
     }
   }
 }

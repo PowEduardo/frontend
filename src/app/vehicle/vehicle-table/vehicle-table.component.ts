@@ -1,12 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
-import { CurrencyFormatPipe } from "../../pipe/currency-format.pipe";
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-vehicle-table',
-  standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule],
-  providers: [DecimalPipe],
+  standalone: false,
   templateUrl: './vehicle-table.component.html',
   styleUrl: './vehicle-table.component.css'
 })
@@ -48,7 +44,7 @@ export class VehicleTableComponent implements OnChanges {
     this.emitterSelectedVehicles();
   }
 
-  emitterSelectedVehicles(): void {
+  private emitterSelectedVehicles(): void {
     this.selectedVehiclesEmitter.emit(this.selectedVehicles);
   }
 }

@@ -21,8 +21,11 @@ export class CardComponent {
   addMovement() {
     const modalRef = this.modalService.open(CardMovementsUpsertComponent);
     modalRef.componentInstance.parentId = 1;
-    modalRef.result.then(() => {
+    modalRef.result.then((result) => {
       this.movementAdded.emit();
+      if (result != 'Close') {
+        this.addMovement();
+      }
     });
   }
 

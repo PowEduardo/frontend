@@ -3,9 +3,7 @@ import { BaseCrudService } from '../../commons/service/base-crud.service';
 import { VehicleModel } from '../model/vehicle-model';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class VehicleService extends BaseCrudService<VehicleModel>{
 
   constructor(override readonly httpClient: HttpClient) {
