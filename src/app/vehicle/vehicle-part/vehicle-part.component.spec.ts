@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageVehicleComponent } from './manage-vehicle.component';
+import { VehiclePartComponent } from './vehicle-part.component';
 
-describe('ManageVehicleComponent', () => {
-  let component: ManageVehicleComponent;
-  let fixture: ComponentFixture<ManageVehicleComponent>;
+describe('VehiclePartComponent', () => {
+  let component: VehiclePartComponent;
+  let fixture: ComponentFixture<VehiclePartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ManageVehicleComponent]
+      imports: [VehiclePartComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ManageVehicleComponent);
+    fixture = TestBed.createComponent(VehiclePartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

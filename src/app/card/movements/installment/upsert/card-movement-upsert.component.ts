@@ -7,7 +7,7 @@ import { InstallmentService } from '../service/installment.service';
 import { UpsertComponent } from '../../../../commons/base/upsert/upsert.component';
 
 @Component({
-  selector: 'app-upsert',
+  selector: 'app-card-upsert',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './card-movement-upsert.component.html',
