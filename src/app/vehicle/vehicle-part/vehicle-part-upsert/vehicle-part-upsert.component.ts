@@ -9,6 +9,7 @@ import { VehiclePartService } from '../../service/vehicle-part.service';
 import { VehicleService } from '../../service/vehicle.service';
 import { VehicleModel } from '../../model/vehicle-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-part-upsert',
@@ -21,10 +22,12 @@ import { PageQuery } from '../../../commons/base/model/page-query';
 export class VehiclePartUpsertComponent extends UpsertComponent<VehiclePartModel> {
 
   vehicles: VehicleModel[] = [];
+  parentId: number | null = null;
   
   constructor(override activeModal: NgbActiveModal,
     override service: CrudService<VehiclePartModel>,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private route: ActivatedRoute
   ) {
     super(activeModal, service);
     this.model = new VehiclePartModel();
@@ -33,16 +36,19 @@ export class VehiclePartUpsertComponent extends UpsertComponent<VehiclePartModel
       this.vehicles = data;
     }
     );
+    this.route.paramMap.subscribe(params => {
+    this.parentId = Number(params.get('id'));
+    });
   }
 
   override async onSubmit(): Promise<void> {
-    console.log(this.model);
-    this.service.baseUrl = this.service.baseUrl.replace('{parentId}', this.model.vehicle.id.toString());
+    
+    this.service.baseUrl = this.service.baseUrl.replace('{parentId}', this.parentId!.toString());
     super.onSubmit();
   }
 
   override async setModel(id: number): Promise<void> {
-    this.service.baseUrl = this.service.baseUrl.replace('{parentId}', '0');
+    this.service.baseUrl = this.service.baseUrl.replace('{parentId}', this.parentId!.toString());
     super.setModel(id);
   }
 

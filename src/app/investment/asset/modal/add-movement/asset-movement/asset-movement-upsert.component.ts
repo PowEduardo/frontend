@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
 import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
 import { MovementModule } from '../../../../../commons/base/movement/movement.module';
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
 import { MovementUpsertModule } from '../../../../../commons/base/movement/upsert/movement-upsert.module';
+import { CrudService } from '../../../../../commons/service/crud.service';
 import { AssetOperationType } from '../../../enum/asset-operation-type';
 import { AssetMovementModel } from '../../../model/asset-movement-model';
 import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements-impl.service';
-import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
 
 @Component({
   selector: 'app-asset-movement',
@@ -18,6 +19,7 @@ import { MovementCategory } from '../../../../../commons/base/movement/enum/move
   imports: [FormsModule, CommonModule, MovementUpsertModule, MovementModule],
   providers: [
     { provide: MovementService, useClass: AssetMovementsServiceImpl },
+    { provide: CrudService, useClass: AssetMovementsServiceImpl },
     FormsModule
   ],
   templateUrl: './asset-movement-upsert.component.html',

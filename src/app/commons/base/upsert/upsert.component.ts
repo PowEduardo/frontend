@@ -26,7 +26,6 @@ export class UpsertComponent<T> {
   }
 
   async onSubmit() {
-    console.log('Deu bom');
     if (this.model.id == null) {
       this.service.create(this.model).subscribe({
         next: (response) => {

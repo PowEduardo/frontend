@@ -7,11 +7,13 @@ import { VehiclePartModel } from './model/vehicle-part-model';
 import { VehiclePartModule } from './vehicle-part.module';
 import { VehiclePartUpsertComponent } from './vehicle-part-upsert/vehicle-part-upsert.component';
 import { CommonModule } from '@angular/common';
+import { ChooseVehicleComponent } from "../modal/choose-vehicle/choose-vehicle.component";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-part',
   standalone: true,
-  imports: [CommonModule, VehiclePartModule],
+  imports: [CommonModule, VehiclePartModule, ChooseVehicleComponent],
   templateUrl: './vehicle-part.component.html',
   styleUrl: './vehicle-part.component.css'
 })
@@ -19,19 +21,28 @@ export class VehiclePartComponent implements OnInit {
 
   list: VehiclePartModel[] = [];
   selectedValues: number[] = [];
-  parentId: number = 0;
+  parentId: number | null = null;
 
-  constructor(private service: CrudService<VehiclePartModel>,
-    private modal: NgbModal
-  ) {
-  }
+  constructor(
+    private service: CrudService<VehiclePartModel>,
+    private modal: NgbModal,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    const query: PageQuery = new PageQuery();
-    this.service.readAll(query).subscribe((response: VehiclePartModel[]) => {
-      this.list = response;
-    }
-    );
+    this.route.paramMap.subscribe(params => {
+      this.parentId = Number(params.get('id'));
+      // Update the baseUrl with the correct parentId
+      if (isNaN(this.parentId)) {
+        return;
+      }
+      this.service.baseUrl = `http://localhost:8080/vehicles/${this.parentId}/parts`;
+      const query: PageQuery = new PageQuery();
+      this.service.readAll(query).subscribe((response: VehiclePartModel[]) => {
+        this.list = response;
+      });
+    });
+
   }
 
   create() {

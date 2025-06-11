@@ -1,4 +1,4 @@
-<app-upsert>
+<app-upsert (submitEventEmitter)="onSubmit()">
     <div class="form-group">
         <label for="manufacturer">Manufacturer</label>
         <input type="string" class="form-control" id="manufacturer" name="manufacturer" [(ngModel)]="model.manufacturer"

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MovementUpsertComponent } from './movement-upsert.component';
 import { MovementModule } from '../movement.module';
+import { UpsertComponent } from "../../upsert/upsert.component";
 
 
 
@@ -11,8 +12,9 @@ import { MovementModule } from '../movement.module';
   imports: [
     CommonModule,
     FormsModule,
-    MovementModule
-  ],
+    MovementModule,
+    UpsertComponent
+],
   exports: [MovementUpsertComponent]
 })
 export class MovementUpsertModule { }
