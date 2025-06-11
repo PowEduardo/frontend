@@ -6,7 +6,7 @@ import { CrudService } from '../../commons/service/crud.service';
 import { VehicleModel } from '../model/vehicle-model';
 import { VehicleUpsertComponent } from '../vehicle-upsert/vehicle-upsert.component';
 import { VehicleModule } from '../vehicle.module';
-import { ManageVehicleComponent } from './manage-vehicle/manage-vehicle.component';
+import { ManageComponent } from '../../commons/modal/manage/manage.component';
 import { Management } from '../../commons/page/management';
 
 @Component({
@@ -35,6 +35,9 @@ export class ManagementVehiclesComponent implements OnInit, Management {
 
   addVehicle() {
     this.modal.open(VehicleUpsertComponent).result.then((result) => {
+      if (result === 'Close click') {
+        return;
+      }
       this.list.push(result);
     });
   }
@@ -45,7 +48,7 @@ export class ManagementVehiclesComponent implements OnInit, Management {
   }
 
   manageVehicle(): void {
-    const userOption = this.modal.open(ManageVehicleComponent);
+    const userOption = this.modal.open(ManageComponent);
     userOption.result.then((result: string) => {
       if (result === 'delete') {
         this.selectedVehicles.forEach(id => {

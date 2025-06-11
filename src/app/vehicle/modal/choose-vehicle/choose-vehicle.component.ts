@@ -1,0 +1,39 @@
+import { Component, OnInit } from '@angular/core';
+import { CrudService } from '../../../commons/service/crud.service';
+import { VehicleModel } from '../../model/vehicle-model';
+import { PageQuery } from '../../../commons/base/model/page-query';
+import { CommonModule } from '@angular/common';
+import { VehicleService } from '../../service/vehicle.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-choose-vehicle',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  providers: [{ provide: CrudService, useClass: VehicleService }],
+  templateUrl: './choose-vehicle.component.html',
+  styleUrl: './choose-vehicle.component.css'
+})
+export class ChooseVehicleComponent implements OnInit {
+  vehicles: VehicleModel[] = [];
+  selectedVehicleId: number | null = null;
+  constructor(
+    private service: CrudService<VehicleModel>,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.selectedVehicleId = Number(params.get('id'));
+      this.service.readAll(new PageQuery()).subscribe((data: VehicleModel[]) => {
+        this.vehicles = data;
+      });
+    });
+  }
+
+  onVehicleSelected(event: Event) {
+    const selectedId = (event.target as HTMLSelectElement).value;
+    this.router.navigate([`/vehicles/${selectedId}/parts/`]);
+  }
+}

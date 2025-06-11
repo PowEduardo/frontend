@@ -1,24 +1,7 @@
-<div class="modal-header">
-  <button
-    type="button"
-    class="close"
-    aria-label="Close"
-    (click)="activeModal.dismiss('Close')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <h4 class="modal-title text-center w-100">Add Movement</h4>
-</div>
-<div class="modal-body">
-  <form #assetForm="ngForm" (ngSubmit)="onSubmit()">
-    <div app-movement [renderType]="'form'" [(movement)]="model">
+<app-upsert (submitEventEmitter)="eventSubmit()" [title]="title">
+  <div app-movement [renderType]="'form'" [(movement)]="model">
       <div form>
         <ng-content></ng-content>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close')">Close</button>
-  </div>
-</div>
+</app-upsert>

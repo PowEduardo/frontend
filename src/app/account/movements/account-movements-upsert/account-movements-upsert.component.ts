@@ -8,13 +8,15 @@ import { MovementUpsertComponent } from '../../../commons/base/movement/upsert/m
 import { MovementUpsertModule } from '../../../commons/base/movement/upsert/movement-upsert.module';
 import { AccountMovementModel } from '../../model/account-movement-model';
 import { AccountMovementService } from '../service/account-movement-service';
+import { CrudService } from '../../../commons/service/crud.service';
 
 @Component({
   selector: 'app-account-movements-upsert',
   standalone: true,
   imports: [CommonModule, FormsModule, MovementUpsertModule],
   providers: [
-    {provide: MovementService, useClass: AccountMovementService}
+    {provide: MovementService, useClass: AccountMovementService},
+    {provide: CrudService, useClass: AccountMovementService}
   ],
   templateUrl: './account-movements-upsert.component.html',
   styleUrl: './account-movements-upsert.component.css'
@@ -31,7 +33,7 @@ export class AccountMovementsUpsertComponent extends MovementUpsertComponent<Acc
     this.parentId = 1;
     this.movementCategory = Object.values(MovementCategory);
     this.cleanModel();
-
+    this.title = 'Account';
   }
 
   override async onSubmit() {

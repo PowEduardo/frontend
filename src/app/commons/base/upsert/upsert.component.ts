@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CrudService } from '../../service/crud.service';
 import { FormsModule } from '@angular/forms';
@@ -12,11 +12,18 @@ import { FormsModule } from '@angular/forms';
 })
 export class UpsertComponent<T> {
   protected model: T | any;
-  protected title!: string | null;
+  @Input()
+  public title!: string | null;
+  @Output()
+  public submitEventEmitter: EventEmitter<T | any> = new EventEmitter<T | any>();
 
   constructor(protected activeModal: NgbActiveModal,
     protected service: CrudService<T | any | null>
   ) { }
+
+  eventSubmit() {
+    this.submitEventEmitter.emit();
+  }
 
   async onSubmit() {
     if (this.model.id == null) {

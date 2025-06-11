@@ -1,6 +1,7 @@
-export class VehicleModel {
+import { GenericT } from "../../commons/model/generic-t";
+
+export class VehicleModel extends GenericT {
     manufacturer: string | null = null;
-    id: number | null = null;
     model: string | null = null;
     year: number | null = null;
     milage: number | null = null;

@@ -1,0 +1,31 @@
+<app-upsert (submitEventEmitter)="onSubmit()" [title]="'Vehicle Part'">
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="string" class="form-control" id="description" name="description" [(ngModel)]="model.description"
+            placeholder="Freio de Disco">
+        <label for="partNumber">Part Number</label>
+        <input type="string" class="form-control" id="partNumber" name="partNumber" [(ngModel)]="model.partNumber"
+            placeholder="20001JHK">
+        <label for="isUpgrade">Upgrade</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="isUpgradeYes" name="isUpgrade" [value]="true" [(ngModel)]="model.isUpgrade">
+                <label class="form-check-label" for="isUpgradeYes">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="isUpgradeNo" name="isUpgrade" [value]="false" [(ngModel)]="model.isUpgrade">
+                <label class="form-check-label" for="isUpgradeNo">No</label>
+            </div>
+        </div>
+        <label for="shop">Shop</label>
+        <input type="string" class="form-control" id="shop" name="shop" [(ngModel)]="model.shop" placeholder="https://mercadolivre.com.br/url">
+        <label for="vehicle">Vehicle</label>
+        <select class="form-control" id="vehicle" name="vehicle" [(ngModel)]="model.vehicle">
+            <option value="">Select a vehicle</option>
+            <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle">{{ vehicle.model }}</option>
+        </select>
+        <label for="value">Value</label>
+        <input type="number" class="form-control" id="value" name="value" [(ngModel)]="model.value"
+            placeholder="356,30">
+    </div>
+</app-upsert>
