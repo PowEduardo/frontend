@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-welcome',
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterModule],
   providers: [ ],

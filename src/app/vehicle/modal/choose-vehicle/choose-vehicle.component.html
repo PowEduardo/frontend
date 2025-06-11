@@ -1,0 +1,7 @@
+<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px;">
+
+  <select id="vehicle" name="vehicle" class="form-select w-auto" (change)="onVehicleSelected($event)" [(ngModel)]="selectedVehicleId">
+      <option value="">Select a vehicle</option>
+      <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{ vehicle.model }}</option>
+  </select>
+</div>

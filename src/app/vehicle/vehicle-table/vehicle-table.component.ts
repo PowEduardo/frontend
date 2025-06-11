@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Table } from '../../commons/base/table/table';
+import { VehicleModel } from '../model/vehicle-model';
 
 @Component({
   selector: 'app-vehicle-table',
@@ -6,45 +8,6 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
   templateUrl: './vehicle-table.component.html',
   styleUrl: './vehicle-table.component.css'
 })
-export class VehicleTableComponent implements OnChanges {
+export class VehicleTableComponent extends Table<VehicleModel> implements OnChanges {
 
-  @Input()
-  list: any[] = [];
-  @Output()
-  selectedVehiclesEmitter: EventEmitter<number[]> = new EventEmitter<number[]>();
-  selectedVehicles: number[] = [];
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.list = changes['list'].currentValue;
-    this.selectedVehicles = [];
-  }
-
-  selectAll(): void {
-    if (this.selectedVehicles.length === this.list.length) {
-      this.selectedVehicles = [];
-    } else {
-      this.list.forEach((vehicle) => {
-        if (this.selectedVehicles.includes(vehicle.id)) {
-          return;
-        } else {
-          this.selectedVehicles.push(vehicle.id);
-        }
-      });
-    }
-    this.emitterSelectedVehicles();
-  }
-
-  selectOne(id: number): void {
-    if (this.selectedVehicles.includes(id)) {
-      this.selectedVehicles.splice(this.selectedVehicles.indexOf(id), 1);
-    } else {
-      this.selectedVehicles.push(id);
-    }
-    this.emitterSelectedVehicles();
-  }
-
-  private emitterSelectedVehicles(): void {
-    this.selectedVehiclesEmitter.emit(this.selectedVehicles);
-  }
 }
