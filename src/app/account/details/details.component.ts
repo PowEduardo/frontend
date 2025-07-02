@@ -15,20 +15,16 @@ export class DetailsComponent {
 
   model!: AccountDetailsModel;
   isReady: boolean = false;
-  id: number = 0;
+  id: number | null = null;
 
   constructor(service: AccountService,
     route: ActivatedRoute
   ) {
     route.paramMap.subscribe(params => {
-      this.id = Number(params.get('id'));
-      if (isNaN(this.id)) {
-        return;
-      }
-    });
-    service.read(this.id).subscribe(model => {
-      this.model = model;
-      this.isReady = true;
+      service.details(this.id).subscribe(model => {
+        this.model = model;
+        this.isReady = true;
+      });
     });
   }
 
