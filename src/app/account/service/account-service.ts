@@ -14,4 +14,11 @@ export class AccountService extends BaseCrudService<AccountDetailsModel> {
     constructor(override readonly httpClient: HttpClient) {
         super(httpClient);
     }
+
+    details(id: number | null): Observable<AccountDetailsModel> {
+        if (id === null) {
+            return this.httpClient.get<AccountDetailsModel>(`${this.baseUrl}/details`);
+        }
+        return this.httpClient.get<AccountDetailsModel>(`${this.baseUrl}/${id}/details`);
+    }
 }

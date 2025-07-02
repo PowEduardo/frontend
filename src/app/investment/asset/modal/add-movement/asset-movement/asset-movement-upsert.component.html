@@ -1,4 +1,10 @@
-<app-movement-upsert [(model)]="model" [parentId]="parentId" (submitEvent)="onSubmit()">
+<app-movement-upsert [(model)]="model" [parentId]="parentId" (submitEventEmitter)="onSubmit()">
+  <div class="form-group">
+    <label for="operation">Operation</label>
+    <select class="form-control" id="operation" name="operation" [(ngModel)]="model.operation" (input)="calculateValue()">
+      <option *ngFor="let operation of movementTypes" [value]="operation">{{operation}}</option>
+    </select>
+  </div>
   <div class="form-group">
     <label for="unitValue">Unit Value</label>
     <input type="number" class="form-control" id="unitValue" name="unitValue" [(ngModel)]="model.unitValue"
@@ -13,11 +19,5 @@
     <label for="liquidationFee">Liquidation Fee</label>
     <input type="number" class="form-control" id="liquidationFee" name="liquidationFee"
       [(ngModel)]="model.liquidationFee" placeholder="10" (input)="calculateValue()">
-  </div>
-  <div class="form-group">
-    <label for="operation">Operation</label>
-    <select class="form-control" id="operation" name="operation" [(ngModel)]="model.operation" (input)="calculateValue()">
-      <option *ngFor="let operation of movementTypes" [value]="operation">{{operation}}</option>
-    </select>
   </div>
 </app-movement-upsert>

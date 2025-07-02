@@ -16,36 +16,39 @@ export class BaseCrudService<T> extends CrudService<T> {
     // Get current route and add to baseUrl
     const currentRoute = window.location.pathname;
     this.baseUrl = `http://localhost:8080${currentRoute}`;
-   }
+  }
 
   create(request: any): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl, request);
   }
-  read(id: number): Observable<any> {
+  read(id: number | null): Observable<any> {
+    if (id === null) {
+      return this.httpClient.get<any>(this.baseUrl);
+    }
     return this.httpClient.get<any>(this.baseUrl + "/" + id);
   }
   readAll(pageQuery: PageQuery): Observable<any[]> {
     return this.search(pageQuery).pipe(
-          mergeMap(firstPage => {
-            if (firstPage.last) {
-              return of(firstPage.content);
-            }
-            const otherPagesQueries: PageQuery[] = [];
-            for (let i = 1; i < firstPage.totalPages; i++) {
-              const newPage = new PageQuery();
-              newPage.offset = i;
-              newPage.query = pageQuery.query;
-              newPage.sort = pageQuery.sort;
-              otherPagesQueries.push(newPage);
-            }
-            return forkJoin(otherPagesQueries.map(pageQuery => this.search(pageQuery)))
-              .pipe(
-                map(otherPages => [firstPage].concat(otherPages)
-                  .map(page => page.content)
-                  .reduce((allContent, pageContent) => allContent.concat(pageContent))
-                ));
-          })
-        );
+      mergeMap(firstPage => {
+        if (firstPage.last) {
+          return of(firstPage.content);
+        }
+        const otherPagesQueries: PageQuery[] = [];
+        for (let i = 1; i < firstPage.totalPages; i++) {
+          const newPage = new PageQuery();
+          newPage.offset = i;
+          newPage.query = pageQuery.query;
+          newPage.sort = pageQuery.sort;
+          otherPagesQueries.push(newPage);
+        }
+        return forkJoin(otherPagesQueries.map(pageQuery => this.search(pageQuery)))
+          .pipe(
+            map(otherPages => [firstPage].concat(otherPages)
+              .map(page => page.content)
+              .reduce((allContent, pageContent) => allContent.concat(pageContent))
+            ));
+      })
+    );
   }
   update(request: any): Observable<any> {
     return this.httpClient.put<any>(this.baseUrl + "/" + request.id, request);

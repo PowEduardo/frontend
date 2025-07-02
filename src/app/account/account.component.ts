@@ -40,14 +40,20 @@ export class AccountComponent {
         }
       );
     }
-    const modal = this.modalService.open(movementModal);
-    modal.componentInstance.parentId = parentId;
-    await modal.result.then(
-      () => {
-        this.showMovements = false;
-        this.showMovements = true;
-      }
-    );
+    var whileLoop = true;
+    do {
+      const modal = this.modalService.open(movementModal);
+      modal.componentInstance.parentId = parentId;
+      await modal.result.then(
+        (result) => {
+          this.showMovements = false;
+          this.showMovements = true;
+          if (result === 'Close') {
+            whileLoop = false;
+          }
+        }
+      );
+    } while (whileLoop);
 
   }
 
