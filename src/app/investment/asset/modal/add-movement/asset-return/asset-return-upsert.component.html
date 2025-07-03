@@ -1,4 +1,4 @@
-<app-movement-upsert [(model)]="model" [parentId]="parentId" (submitEvent)="onSubmit()">
+<app-movement-upsert [(model)]="model" [parentId]="parentId" (submitEventEmitter)="onSubmit()">
   <div class="form-group">
     <label for="exDividendDate">Ex-Dividend Date</label>
     <input type="date" class="form-control" id="exDividendDate" name="exDividendDate" [(ngModel)]="model.exDividendDate"

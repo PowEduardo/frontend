@@ -1,16 +1,14 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-import { InstallmentModule } from './installment.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { InstallmentService } from './service/installment.service';
-import { InstallmentModel } from './model/installment-model';
-import { } from "../../../pipe/currency-format.pipe";
-import { PageQueryModel } from '../../../commons/base/model/page-query-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { CardMovementUpsertComponent } from './upsert/card-movement-upsert.component';
-import { CardMovementService } from '../service/card-movement.service';
-import { ManagementComponent } from '../management/management.component';
-import { MovementUpsertComponent } from '../../../commons/base/movement/upsert/movement-upsert.component';
+import { PageQueryModel } from '../../../commons/base/model/page-query-model';
+import { } from "../../../pipe/currency-format.pipe";
 import { CardMovementsUpsertComponent } from '../card-movements-upsert/card-movements-upsert.component';
+import { CardMovementService } from '../service/card-movement.service';
+import { InstallmentModule } from './installment.module';
+import { InstallmentModel } from './model/installment-model';
+import { InstallmentService } from './service/installment.service';
+import { CardMovementUpsertComponent } from './upsert/card-movement-upsert.component';
 
 @Component({
   selector: 'app-installment',
@@ -24,7 +22,7 @@ export class InstallmentComponent implements OnInit {
   installments!: InstallmentModel[];
   sort: string = 'id';
   @Input()
-  referenceMonth: string = '2025-06';
+  referenceMonth: string = '2025-08';
   @Input() movementAdded!: EventEmitter<void>;
   @Input() resetVerification!: EventEmitter<void>;
   ready: boolean = false;
