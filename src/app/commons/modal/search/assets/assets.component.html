@@ -2,5 +2,7 @@
     <select [(ngModel)]="selectedOption" class="form-select">
         <option *ngFor="let asset of assets" [value]="asset.id">{{asset.ticker}}</option>
     </select>
-    <button (click)="close()">Select</button>
+    <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-primary" (click)="close()">Select</button>
+    </div>
 </div>

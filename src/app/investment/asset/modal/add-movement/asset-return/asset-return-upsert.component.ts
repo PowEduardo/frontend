@@ -2,15 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
+import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
 import { MovementModule } from '../../../../../commons/base/movement/movement.module';
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
 import { MovementUpsertModule } from '../../../../../commons/base/movement/upsert/movement-upsert.module';
+import { CrudService } from '../../../../../commons/service/crud.service';
 import { AssetMovementReturnType } from '../../../enum/asset-movement-return-type';
 import { AssetMovementReturnModel } from '../../../model/asset-movement-return-model';
 import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-return-impl.service';
-import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
-import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
 
 @Component({
   selector: 'app-add-return',
@@ -18,6 +19,7 @@ import { MovementCategory } from '../../../../../commons/base/movement/enum/move
   imports: [FormsModule, CommonModule, MovementUpsertModule, MovementModule],
   providers: [
     { provide: MovementService, useClass: AssetReturnServiceImpl },
+    { provide: CrudService, useClass: AssetReturnServiceImpl },
     FormsModule
   ],
   templateUrl: './asset-return-upsert.component.html',
