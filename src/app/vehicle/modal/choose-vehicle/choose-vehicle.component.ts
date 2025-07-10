@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CrudService } from '../../../commons/service/crud.service';
 import { VehicleModel } from '../../model/vehicle-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
@@ -18,6 +18,8 @@ import { FormsModule } from '@angular/forms';
 export class ChooseVehicleComponent implements OnInit {
   vehicles: VehicleModel[] = [];
   selectedVehicleId: number | null = null;
+  @Output()
+  selectedVehicleIdEmitter: EventEmitter<number> = new EventEmitter<number>();
   constructor(
     private service: CrudService<VehicleModel>,
     private route: ActivatedRoute,
@@ -34,6 +36,7 @@ export class ChooseVehicleComponent implements OnInit {
 
   onVehicleSelected(event: Event) {
     const selectedId = (event.target as HTMLSelectElement).value;
-    this.router.navigate([`/vehicles/${selectedId}/parts/`]);
+    this.selectedVehicleIdEmitter.emit(Number(selectedId));
+    // this.router.navigate([`/vehicles/${selectedId}/parts/`]);
   }
 }

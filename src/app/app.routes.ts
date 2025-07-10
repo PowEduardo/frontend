@@ -9,6 +9,7 @@ import { InvestmentComponent } from './investment/investment.component';
 import { ManagementVehiclesComponent } from './vehicle/management/management-vehicle.component';
 import { VehiclePartComponent } from './vehicle/vehicle-part/vehicle-part.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
+import { VehicleFuelComponent } from './vehicle/vehicle-fuel/vehicle-fuel.component';
 export const routes: Routes = [
   {
     path: 'investments', component: InvestmentComponent, children: [
@@ -27,7 +28,10 @@ export const routes: Routes = [
     path: 'vehicles', component: VehicleComponent, children: [
       { path: 'management', component: ManagementVehiclesComponent },
       { path: ':id/parts', component: VehiclePartComponent },
-      { path: 'parts', component: VehiclePartComponent }
+      { path: 'parts', component: VehiclePartComponent },
+      { path: 'fuel', component: VehicleFuelComponent },
+      { path: ':id/fuel', component: VehicleFuelComponent }
+
     ]
   }
 
