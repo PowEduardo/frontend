@@ -1,5 +1,5 @@
 <h4 class="text text-center">Vehicle Parts</h4>
-<app-choose-vehicle></app-choose-vehicle>
+<app-choose-vehicle (selectedVehicleIdEmitter)="onVehicleSelected($event)"></app-choose-vehicle>
 <div *ngIf="parentId">
   <app-vehicle-part-table [list]="list" (selectedValuesEmitter)="selectedValues = $event"></app-vehicle-part-table>
   <div class="text text-center" *ngIf="selectedValues.length === 0">

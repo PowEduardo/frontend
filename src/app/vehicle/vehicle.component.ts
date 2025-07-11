@@ -16,7 +16,7 @@ export class VehicleComponent {
     { label: 'Management', route: 'management', icon: 'pi pi-fw pi-car', isDisabled: false },
     { label: 'Parts', route: 'parts', icon: 'pi pi-fw pi-cog', isDisabled: false },
     { label: 'Maintenance', route: 'maintenance', icon: 'pi pi-fw pi-wrench', isDisabled: true },
-    { label: 'Fuel', route: 'fuel', icon: 'pi pi-fw pi-gas-pump', isDisabled: true }
+    { label: 'Fuel', route: 'fuel', icon: 'pi pi-fw pi-gas-pump', isDisabled: false }
   ]
   constructor() {
 

@@ -8,7 +8,7 @@ import { VehiclePartModule } from './vehicle-part.module';
 import { VehiclePartUpsertComponent } from './vehicle-part-upsert/vehicle-part-upsert.component';
 import { CommonModule } from '@angular/common';
 import { ChooseVehicleComponent } from "../modal/choose-vehicle/choose-vehicle.component";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-part',
@@ -26,7 +26,8 @@ export class VehiclePartComponent implements OnInit {
   constructor(
     private service: CrudService<VehiclePartModel>,
     private modal: NgbModal,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -42,7 +43,6 @@ export class VehiclePartComponent implements OnInit {
         this.list = response;
       });
     });
-
   }
 
   create() {
@@ -79,5 +79,9 @@ export class VehiclePartComponent implements OnInit {
         vehicle.id === result.id ? result : vehicle
       );
     });
+  }
+
+  onVehicleSelected(id: number) {
+    this.router.navigate([`/vehicles/${id}/parts/`]);
   }
 }
