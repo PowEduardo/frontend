@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
 import { AssetDetailsModel } from './model/asset-model-details';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: '[app-asset]',
   standalone: true,
-  imports: [CurrencyFormatPipe],
+  imports: [CurrencyPipe],
   templateUrl: './asset.component.html',
   styleUrl: './asset.component.css'
 })

@@ -14,7 +14,7 @@
         {{movement.description}}
       </td>
       <td>
-        {{movement.value | currencyFormat}}
+        {{movement.value | currency:'BRL':'symbol':'1.2-2'}}
       </td>
       <td>
         {{movement.date | date:'dd/MM/yyyy'}}

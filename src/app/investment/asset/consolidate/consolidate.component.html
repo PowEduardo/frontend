@@ -30,16 +30,16 @@
         {{consolidate.category}}
       </td>
       <td>
-        {{consolidate.paidValue | currencyFormat}}
+        {{consolidate.paidValue | currency:'BRL':'symbol':'1.2-2'}}
       </td>
       <td>
-        {{consolidate.currentValue | currencyFormat}}
+        {{consolidate.currentValue | currency:'BRL':'symbol':'1.2-2'}}
       </td>
       <td>
-        {{consolidate.wantedValue | currencyFormat}}
+        {{consolidate.wantedValue | currency:'BRL':'symbol':'1.2-2'}}
       </td>
       <td>
-        {{consolidate.returnsValue | currencyFormat}}
+        {{consolidate.returnsValue | currency:'BRL':'symbol':'1.2-2'}}
       </td>
       <td>
         {{consolidate.difference}} %

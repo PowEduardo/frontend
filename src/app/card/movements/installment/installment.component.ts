@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { PageQueryModel } from '../../../commons/base/model/page-query-model';
-import { } from "../../../pipe/currency-format.pipe";
 import { CardMovementsUpsertComponent } from '../card-movements-upsert/card-movements-upsert.component';
 import { CardMovementService } from '../service/card-movement.service';
 import { InstallmentModule } from './installment.module';

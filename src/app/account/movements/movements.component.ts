@@ -1,21 +1,20 @@
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { Component, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { PageQueryModel } from '../../commons/base/model/page-query-model';
-import { MovementsTableComponent } from '../../commons/base/movement/table/movements-table.component';
-import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
-import { AccountMovementModel } from '../model/account-movement-model';
-import { AccountMovementService } from './service/account-movement-service';
-import { AccountMovementsUpsertComponent } from './account-movements-upsert/account-movements-upsert.component';
 import { MovementService } from '../../commons/base/movement/service/movement.service';
-import { MatIconModule } from '@angular/material/icon';
+import { MovementsTableComponent } from '../../commons/base/movement/table/movements-table.component';
+import { AccountMovementModel } from '../model/account-movement-model';
+import { AccountMovementsUpsertComponent } from './account-movements-upsert/account-movements-upsert.component';
+import { AccountMovementService } from './service/account-movement-service';
 
 
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule, MovementsTableComponent, MatIconModule],
+  imports: [CommonModule, MovementsTableComponent, MatIconModule],
   providers: [{ provide: MovementService, useClass: AccountMovementService }, NgbModal, DecimalPipe],
   templateUrl: './movements.component.html',
   styleUrl: './movements.component.css'

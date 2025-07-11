@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { PageQuery } from '../../../commons/base/model/page-query';
 import { MovementService } from '../../../commons/base/movement/service/movement.service';
 import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
-import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { AssetMovementUpsertComponent } from '../modal/add-movement/asset-movement/asset-movement-upsert.component';
 import { AssetMovementModel } from '../model/asset-movement-model';
-import { PageQuery } from '../../../commons/base/model/page-query';
 import { AssetMovementsServiceImpl } from '../service/impl/asset-movements-impl.service';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule, MovementsTableComponent, MatIconModule],
+  imports: [CommonModule, MovementsTableComponent, MatIconModule],
   providers: [{ provide: MovementService, useClass: AssetMovementsServiceImpl }
   ],
   templateUrl: './movements.component.html',

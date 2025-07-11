@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PageQuery } from '../../../commons/base/model/page-query';
 import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
-import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
 import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return-upsert.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
-import { PageQuery } from '../../../commons/base/model/page-query';
 import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';
-import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-returns',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule],
   providers: [],
   templateUrl: './returns.component.html',
   styleUrl: './returns.component.css'
