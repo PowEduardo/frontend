@@ -39,7 +39,7 @@ export class VehicleFuelComponent implements OnInit {
       }
       this.service.baseUrl = `http://localhost:8080/vehicles/${this.parentId}/fuel`;
       const query: PageQuery = new PageQuery();
-      query.sort = '-date';
+      query.sort = '-date,-id';
       this.service.readAll(query).subscribe((response: VehicleFuelModel[]) => {
         this.list = response;
       });
