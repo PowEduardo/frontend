@@ -1,4 +1,4 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
@@ -16,7 +16,7 @@ import { AssetServiceImpl } from '../service/impl/asset-impl.service';
 @Component({
   selector: 'app-asset-type-details',
   standalone: true,
-  imports: [CommonModule, AssetComponent, OperationsComponent, MovementsComponent, ReturnsComponent],
+  imports: [AssetComponent, OperationsComponent, MovementsComponent, ReturnsComponent],
   providers: [DecimalPipe],
   templateUrl: './asset-type-details.component.html',
   styleUrl: './asset-type-details.component.css'

@@ -22,17 +22,14 @@ export const routes: Routes = [
     ]
   },
   { path: 'accounts/:id', component: AccountComponent },
-  { path: 'card', component: CardComponent },
+  { path: 'cards', component: CardComponent },
   { path: 'batch', component: BatchComponent },
-  {
-    path: 'vehicles', component: VehicleComponent, children: [
+  // Add route for 'vehicle' and 'vehicle/:id' to VehicleComponent
+  { path: 'vehicles', component: VehicleComponent },
+  { path: 'vehicles/:id', component: VehicleComponent, children: [
       { path: 'management', component: ManagementVehiclesComponent },
-      { path: ':id/parts', component: VehiclePartComponent },
       { path: 'parts', component: VehiclePartComponent },
       { path: 'fuel', component: VehicleFuelComponent },
-      { path: ':id/fuel', component: VehicleFuelComponent }
-
     ]
   }
-
 ];

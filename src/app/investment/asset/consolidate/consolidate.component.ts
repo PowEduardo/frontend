@@ -7,6 +7,7 @@ import { AssetType } from '../enum/asset-type';
 
 @Component({
   selector: 'app-consolidate',
+  standalone: false,
   templateUrl: './consolidate.component.html',
   styleUrl: './consolidate.component.css'
 })

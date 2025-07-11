@@ -1,7 +1,9 @@
-<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px;">
+<div class="nav-item ">
 
-  <select id="vehicle" name="vehicle" class="form-select w-auto" (change)="onVehicleSelected($event)" [(ngModel)]="selectedVehicleId">
-      <option value="">Select a vehicle</option>
-      <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{ vehicle.model }}</option>
+  <select id="vehicle" name="vehicle" class="nav-item form-select w-auto" (change)="onVehicleSelected($event)" [(ngModel)]="selectedVehicleId">
+    <option value="">Select a vehicle</option>
+    @for (vehicle of vehicles; track vehicle) {
+      <option [value]="vehicle.id">{{ vehicle.model }}</option>
+    }
   </select>
 </div>

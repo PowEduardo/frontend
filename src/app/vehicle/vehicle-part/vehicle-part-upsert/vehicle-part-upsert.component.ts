@@ -3,7 +3,7 @@ import { UpsertComponent } from '../../../commons/base/upsert/upsert.component';
 import { VehiclePartModel } from '../model/vehicle-part-model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CrudService } from '../../../commons/service/crud.service';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { VehiclePartService } from '../../service/vehicle-part.service';
 import { VehicleService } from '../../service/vehicle.service';
@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-vehicle-part-upsert',
   standalone: true,
-  imports: [UpsertComponent, FormsModule, CommonModule],
+  imports: [UpsertComponent, FormsModule],
   providers: [{ provide: CrudService, useClass: VehiclePartService }, VehicleService],
   templateUrl: './vehicle-part-upsert.component.html',
   styleUrl: './vehicle-part-upsert.component.css'

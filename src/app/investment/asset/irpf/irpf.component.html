@@ -1,10 +1,12 @@
-<div *ngIf="ticker && model">
+@if (ticker && model) {
+  <div>
     <p>Posição de {{model.totalAmount}} ações de {{ticker}}, custo de aquisição R$ {{model.averagePrice |
-        number:'1.2-2':'pt-BR'}}.</p>
+    number:'1.2-2':'pt-BR'}}.</p>
     <p>Tendo recebido o valor de R$ {{model.totalJCP | number:'1.2-2':'pt-BR'}} de JCP e R$ {{model.totalDividend |
-        number:'1.2-2':'pt-BR'}} de dividendos.</p>
+    number:'1.2-2':'pt-BR'}} de dividendos.</p>
     <p>JCP creditado e não pago do ativo {{ticker}}, no valor de R$ {{model.totalFutureJCP | number:'1.2-2':'pt-BR'}} </p>
     <p>Dividendo creditado e não pago do ativo {{ticker}}, no valor de R$ {{model.totalFutureDividend | number:'1.2-2':'pt-BR'}} </p>
     <p>Valor em 2023 {{model.totalValueLastYear | number:'1.2-2':'pt-BR'}}</p>
     <p>Valor em 2024 {{model.totalValue | number:'1.2-2':'pt-BR'}}</p>
-</div>
+  </div>
+}

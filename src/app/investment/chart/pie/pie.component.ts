@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
 import { PieChartModel } from '../../model/pie-chart-model';
@@ -6,7 +6,7 @@ import { PieChartModel } from '../../model/pie-chart-model';
 @Component({
   selector: 'app-pie',
   standalone: true,
-  imports: [NgxChartsModule, CommonModule],
+  imports: [NgxChartsModule],
   providers: [],
   templateUrl: './pie.component.html',
   styleUrl: './pie.component.css'

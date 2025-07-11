@@ -13,7 +13,7 @@ import { VehicleTableComponent } from './vehicle-table/vehicle-table.component';
     CommonModule,
     FormsModule
   ],
-  exports: [VehicleTableComponent],
+  exports: [VehicleTableComponent, CommonModule],
   providers: [{ provide: CrudService, useClass: VehicleService }, DecimalPipe],
 })
 export class VehicleModule { }

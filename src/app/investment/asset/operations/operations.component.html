@@ -11,6 +11,12 @@
     </div>
   </div>
 </div>
-<app-movements *ngIf="isMovementsEnabled" [parentId]="assetId"></app-movements>
-<app-returns *ngIf="isReturnsEnabled" [parentId]="assetId"></app-returns>
-<app-irpf *ngIf="isIrpfEnabled" [parentId]="assetId"></app-irpf>
+@if (isMovementsEnabled) {
+  <app-movements [parentId]="assetId"></app-movements>
+}
+@if (isReturnsEnabled) {
+  <app-returns [parentId]="assetId"></app-returns>
+}
+@if (isIrpfEnabled) {
+  <app-irpf [parentId]="assetId"></app-irpf>
+}

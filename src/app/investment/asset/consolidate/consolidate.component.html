@@ -25,28 +25,30 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let consolidate of assetConsolidateList">
-      <td>
-        {{consolidate.category}}
-      </td>
-      <td>
-        {{consolidate.paidValue | currency:'BRL':'symbol':'1.2-2'}}
-      </td>
-      <td>
-        {{consolidate.currentValue | currency:'BRL':'symbol':'1.2-2'}}
-      </td>
-      <td>
-        {{consolidate.wantedValue | currency:'BRL':'symbol':'1.2-2'}}
-      </td>
-      <td>
-        {{consolidate.returnsValue | currency:'BRL':'symbol':'1.2-2'}}
-      </td>
-      <td>
-        {{consolidate.difference}} %
-      </td>
-      <td class="text-center">
-        <a (click)="openAssetTypeDetails(consolidate.category)">+</a>
-      </td>
-    </tr>
+    @for (consolidate of assetConsolidateList; track consolidate) {
+      <tr>
+        <td>
+          {{consolidate.category}}
+        </td>
+        <td>
+          {{consolidate.paidValue | currency:'BRL':'symbol':'1.2-2'}}
+        </td>
+        <td>
+          {{consolidate.currentValue | currency:'BRL':'symbol':'1.2-2'}}
+        </td>
+        <td>
+          {{consolidate.wantedValue | currency:'BRL':'symbol':'1.2-2'}}
+        </td>
+        <td>
+          {{consolidate.returnsValue | currency:'BRL':'symbol':'1.2-2'}}
+        </td>
+        <td>
+          {{consolidate.difference}} %
+        </td>
+        <td class="text-center">
+          <a (click)="openAssetTypeDetails(consolidate.category)">+</a>
+        </td>
+      </tr>
+    }
   </tbody>
 </table>

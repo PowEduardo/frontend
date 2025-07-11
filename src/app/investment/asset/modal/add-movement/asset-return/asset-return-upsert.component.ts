@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +16,7 @@ import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-ret
 @Component({
   selector: 'app-add-return',
   standalone: true,
-  imports: [FormsModule, CommonModule, MovementUpsertModule, MovementModule],
+  imports: [FormsModule, MovementUpsertModule, MovementModule],
   providers: [
     { provide: MovementService, useClass: AssetReturnServiceImpl },
     { provide: CrudService, useClass: AssetReturnServiceImpl },

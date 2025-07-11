@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CrudService } from '../../../commons/service/crud.service';
 import { VehicleModel } from '../../model/vehicle-model';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { CommonModule } from '@angular/common';
+
 import { VehicleService } from '../../service/vehicle.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-choose-vehicle',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   providers: [{ provide: CrudService, useClass: VehicleService }],
   templateUrl: './choose-vehicle.component.html',
   styleUrl: './choose-vehicle.component.css'

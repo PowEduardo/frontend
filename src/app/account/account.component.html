@@ -3,8 +3,12 @@
     <div class="card-header text-center">
       <h4>Account Details</h4>
     </div>
-    <app-details *ngIf="showMovements"></app-details>
+    @if (showMovements) {
+      <app-details></app-details>
+    }
     <button class="btn btn-primary btn-sm" (click)="addMovement()">Add movement</button>
   </div>
 </div>
-<app-movements [parentId]="(1)" *ngIf="showMovements"></app-movements>
+@if (showMovements) {
+  <app-movements [parentId]="(1)"></app-movements>
+}

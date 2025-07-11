@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../commons/base/model/page-query';
@@ -12,7 +12,7 @@ import { Management } from '../../commons/page/management';
 @Component({
   selector: 'app-management',
   standalone: true,
-  imports: [CommonModule, VehicleModule],
+  imports: [VehicleModule],
   templateUrl: './management-vehicle.component.html',
   styleUrl: './management-vehicle.component.css'
 })

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,7 @@ import { CrudService } from '../../../commons/service/crud.service';
 @Component({
   selector: 'app-card-movements-upsert',
   standalone: true,
-  imports: [CommonModule, FormsModule, MovementUpsertModule],
+  imports: [FormsModule, MovementUpsertModule],
   providers: [
     { provide: MovementService, useClass: CardMovementService },
     { provide: CrudService, useClass: CardMovementService }

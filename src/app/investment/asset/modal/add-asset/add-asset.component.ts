@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,7 @@ import { AssetModel } from '../../model/asset-model';
 @Component({
   selector: 'app-add-asset',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   providers: [AssetServiceImpl],
   templateUrl: './add-asset.component.html',
   styleUrl: './add-asset.component.css'

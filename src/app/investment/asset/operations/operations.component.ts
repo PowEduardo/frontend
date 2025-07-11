@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 import { MovementsComponent } from '../movements/movements.component';
 import { ReturnsComponent } from '../returns/returns.component';
@@ -7,7 +7,7 @@ import { IrpfComponent } from "../irpf/irpf.component";
 @Component({
   selector: 'app-operations',
   standalone: true,
-  imports: [MovementsComponent, ReturnsComponent, CommonModule, IrpfComponent],
+  imports: [MovementsComponent, ReturnsComponent, IrpfComponent],
   providers: [],
   templateUrl: './operations.component.html',
   styleUrl: './operations.component.css'

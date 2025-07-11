@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +16,7 @@ import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements
 @Component({
   selector: 'app-asset-movement',
   standalone: true,
-  imports: [FormsModule, CommonModule, MovementUpsertModule, MovementModule],
+  imports: [FormsModule, MovementUpsertModule, MovementModule],
   providers: [
     { provide: MovementService, useClass: AssetMovementsServiceImpl },
     { provide: CrudService, useClass: AssetMovementsServiceImpl },

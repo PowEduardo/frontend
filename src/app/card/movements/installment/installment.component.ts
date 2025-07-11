@@ -55,10 +55,10 @@ export class InstallmentComponent implements OnInit {
       query.sort = attribute;
     }
     await this.service.readAll(query).subscribe((data: InstallmentModel[]) => {
-      data.map(element => {
-        this.installments!.push(element);
+      data.forEach(element => {
         this.movementService.read(element.movement.id!).subscribe((movement) => {
           element.movement = movement;
+        this.installments!.push(element);
         });
       });
     });

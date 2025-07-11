@@ -6,22 +6,24 @@ import { CrudService } from '../../commons/service/crud.service';
 import { VehiclePartModel } from './model/vehicle-part-model';
 import { VehiclePartModule } from './vehicle-part.module';
 import { VehiclePartUpsertComponent } from './vehicle-part-upsert/vehicle-part-upsert.component';
-import { CommonModule } from '@angular/common';
+
 import { ChooseVehicleComponent } from "../modal/choose-vehicle/choose-vehicle.component";
 import { ActivatedRoute, Router } from '@angular/router';
+import { Page } from '../../commons/base/model/page';
 
 @Component({
   selector: 'app-vehicle-part',
   standalone: true,
-  imports: [CommonModule, VehiclePartModule, ChooseVehicleComponent],
+  imports: [VehiclePartModule],
   templateUrl: './vehicle-part.component.html',
   styleUrl: './vehicle-part.component.css'
 })
 export class VehiclePartComponent implements OnInit {
 
-  list: VehiclePartModel[] = [];
-  selectedValues: number[] = [];
-  parentId: number | null = null;
+  page!: Page<VehiclePartModel>
+    selectedValues: number[] = [];
+    parentId!: number;
+    query!: PageQuery;
 
   constructor(
     private service: CrudService<VehiclePartModel>,
@@ -31,17 +33,13 @@ export class VehiclePartComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.parent?.paramMap.subscribe(params => {
       this.parentId = Number(params.get('id'));
-      // Update the baseUrl with the correct parentId
       if (isNaN(this.parentId)) {
         return;
       }
-      this.service.baseUrl = `http://localhost:8080/vehicles/${this.parentId}/parts`;
       const query: PageQuery = new PageQuery();
-      this.service.readAll(query).subscribe((response: VehiclePartModel[]) => {
-        this.list = response;
-      });
+      this.search(query);
     });
   }
 
@@ -50,7 +48,6 @@ export class VehiclePartComponent implements OnInit {
       if (result === 'Close click') {
         return;
       }
-      this.list.push(result);
     });
   }
 
@@ -60,7 +57,7 @@ export class VehiclePartComponent implements OnInit {
       if (result === 'delete') {
         this.selectedValues.forEach(id => {
           this.service.delete(id).subscribe(() => {
-            this.list.splice(this.list.findIndex(vehicle => vehicle.id === id), 1);
+            this.page.content.splice(this.page.content.findIndex(vehicle => vehicle.id === id), 1);
           });
         });
       } else if (result === 'update') {
@@ -75,13 +72,28 @@ export class VehiclePartComponent implements OnInit {
     const upsert = this.modal.open(VehiclePartUpsertComponent);
     upsert.componentInstance.setModel(id);
     upsert.result.then((result: VehiclePartModel) => {
-      this.list = this.list.map(vehicle =>
+      this.page.content = this.page.content.map(vehicle =>
         vehicle.id === result.id ? result : vehicle
       );
     });
   }
 
-  onVehicleSelected(id: number) {
-    this.router.navigate([`/vehicles/${id}/parts/`]);
+  nextPage() {
+    if (this.query) {
+      this.query.offset++;
+      this.search(this.query);
+    }
   }
+  previousPage() {
+    if (this.query && this.query.offset > 0) {
+      this.query.offset--;
+      this.search(this.query);
+    }
+  }
+
+  private search(query: PageQuery) {
+      this.service.search(query).subscribe((response: Page<VehiclePartModel>) => {
+        this.page = response;
+      });
+    }
 }

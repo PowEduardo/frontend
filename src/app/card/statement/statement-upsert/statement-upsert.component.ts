@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StatementService } from '../service/statement.service';
@@ -7,7 +7,7 @@ import { StatementModel } from '../model/statement-model';
 @Component({
   selector: 'app-statement-upsert',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './statement-upsert.component.html',
   styleUrl: './statement-upsert.component.css'
 })

@@ -6,6 +6,7 @@ import { UpsertComponent } from '../../upsert/upsert.component';
 
 @Component({
   selector: 'app-movement-upsert',
+  standalone: false,
   templateUrl: './movement-upsert.component.html',
   styleUrl: './movement-upsert.component.css'
 })

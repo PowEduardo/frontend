@@ -1,12 +1,25 @@
 <h4 class="text text-center">Fuel History</h4>
-<app-choose-vehicle (selectedVehicleIdEmitter)="onVehicleSelected($event)"></app-choose-vehicle>
-<div *ngIf="parentId">
-    <div class="text text-center" *ngIf="selectedValues.length === 0">
+@if (parentId) {
+  <div>
+    @if (selectedValues.length === 0) {
+      <div class="text text-center">
         <button class="btn btn-primary" (click)="create()">Add Fuel</button>
-    </div>
-    <div class="text text-center" *ngIf="selectedValues.length > 0">
+      </div>
+    }
+    @if (selectedValues.length > 0) {
+      <div class="text text-center">
         <button class="btn btn-primary" (click)="manage()">Manage Fuel</button>
-    </div>
+      </div>
+    }
     <div class="mb-3"></div>
-    <app-vehicle-fuel-table [list]="list" (selectedValuesEmitter)="selectedValues = $event"></app-vehicle-fuel-table>
-</div>
+    @if (page) {
+      <app-vehicle-fuel-table [list]="page.content" (selectedValuesEmitter)="selectedValues = $event"></app-vehicle-fuel-table>
+    }
+    @if (page) {
+      <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-outline-secondary me-2" (click)="previousPage()" [disabled]="page.first">&lt;</button>
+        <button class="btn btn-outline-secondary" (click)="nextPage()" [disabled]="page.last">&gt;</button>
+      </div>
+    }
+  </div>
+}

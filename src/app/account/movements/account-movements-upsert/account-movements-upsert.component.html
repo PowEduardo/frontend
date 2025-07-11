@@ -14,7 +14,9 @@
   <div class="form-group">
     <label for="category">Category</label>
     <select class="form-control" id="category" name="category" [(ngModel)]="model.category">
-      <option *ngFor="let category of movementCategory" [value]="category">{{category}}</option>
+      @for (category of movementCategory; track category) {
+        <option [value]="category">{{category}}</option>
+      }
     </select>
   </div>
 </app-movement-upsert>

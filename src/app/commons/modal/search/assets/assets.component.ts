@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssetServiceImpl } from '../../../../investment/asset/service/impl/asset-impl.service';
 import { AssetDetailsModel } from '../../../../investment/asset/model/asset-model-details';
 import { PageQuery } from '../../../base/model/page-query';
-import { CommonModule } from '@angular/common';
+
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AssetModel } from '../../../../investment/asset/model/asset-model';
@@ -10,7 +10,7 @@ import { AssetModel } from '../../../../investment/asset/model/asset-model';
 @Component({
   selector: 'app-assets',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.css'
 })

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { VehicleFuelService } from '../../service/vehicle-fuel.service';
   selector: 'app-vehicle-fuel-upsert',
   standalone: true,
   providers: [{ provide: CrudService, useClass: VehicleFuelService }],
-  imports: [UpsertComponent, FormsModule, CommonModule],
+  imports: [UpsertComponent, FormsModule],
   templateUrl: './vehicle-fuel-upsert.component.html',
   styleUrl: './vehicle-fuel-upsert.component.css'
 })

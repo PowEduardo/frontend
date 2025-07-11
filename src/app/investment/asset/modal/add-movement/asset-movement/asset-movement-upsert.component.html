@@ -2,7 +2,9 @@
   <div class="form-group">
     <label for="operation">Operation</label>
     <select class="form-control" id="operation" name="operation" [(ngModel)]="model.operation" (input)="calculateValue()">
-      <option *ngFor="let operation of movementTypes" [value]="operation">{{operation}}</option>
+      @for (operation of movementTypes; track operation) {
+        <option [value]="operation">{{operation}}</option>
+      }
     </select>
   </div>
   <div class="form-group">

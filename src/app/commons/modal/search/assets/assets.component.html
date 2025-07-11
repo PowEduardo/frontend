@@ -1,8 +1,12 @@
-<div class="modal-body" *ngIf="assets">
+@if (assets) {
+  <div class="modal-body">
     <select [(ngModel)]="selectedOption" class="form-select">
-        <option *ngFor="let asset of assets" [value]="asset.id">{{asset.ticker}}</option>
+      @for (asset of assets; track asset) {
+        <option [value]="asset.id">{{asset.ticker}}</option>
+      }
     </select>
     <div class="d-flex justify-content-center mt-3">
-        <button class="btn btn-primary" (click)="close()">Select</button>
+      <button class="btn btn-primary" (click)="close()">Select</button>
     </div>
-</div>
+  </div>
+}

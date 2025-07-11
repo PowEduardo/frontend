@@ -3,6 +3,7 @@ import { MovementModelInterface } from './model/movement-model-interface';
 
 @Component({
   selector: '[app-movement]',
+  standalone: false,
   templateUrl: './movement.component.html',
   styleUrl: './movement.component.css'
 })
