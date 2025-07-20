@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Page } from '../../commons/base/model/page';
 import { PageQuery } from '../../commons/base/model/page-query';
-import { CardDetailsModel } from '../model/account-details-model';
+import { CardDetailsModel } from '../model/card-details-model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

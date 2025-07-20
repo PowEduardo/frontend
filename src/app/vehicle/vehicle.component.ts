@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { SubmenuItem } from '../commons/page/submenu/model/submenu-item';
+import { PageQuery } from '../commons/base/model/page-query';
+import { BasePage } from '../commons/base/page/base-page';
 import { SubmenuComponent } from "../commons/page/submenu/submenu.component";
 import { CrudService } from '../commons/service/crud.service';
+import { ChooseVehicleComponent } from "./modal/choose-vehicle/choose-vehicle.component";
 import { VehicleModel } from './model/vehicle-model';
 import { VehicleModule } from './vehicle.module';
-import { PageQuery } from '../commons/base/model/page-query';
-import { ChooseVehicleComponent } from "./modal/choose-vehicle/choose-vehicle.component";
 
 @Component({
   selector: 'app-vehicle',
@@ -15,20 +15,19 @@ import { ChooseVehicleComponent } from "./modal/choose-vehicle/choose-vehicle.co
   templateUrl: './vehicle.component.html',
   styleUrl: './vehicle.component.css'
 })
-export class VehicleComponent implements OnInit {
+export class VehicleComponent extends BasePage<VehicleModel> implements OnInit {
 
-  entities: VehicleModel[] = [];
-  entitySelected: number | null = null;
-  submenuItems: SubmenuItem[] = [
-    { label: 'Management', route: 'management', icon: 'pi pi-fw pi-car', isDisabled: false },
-    { label: 'Parts', route: 'parts', icon: 'pi pi-fw pi-cog', isDisabled: false },
-    { label: 'Maintenance', route: 'maintenance', icon: 'pi pi-fw pi-wrench', isDisabled: true },
-    { label: 'Fuel', route: 'fuel', icon: 'pi pi-fw pi-gas-pump', isDisabled: false }
-  ]
-  constructor(private service: CrudService<VehicleModel>,
-    private route: ActivatedRoute,
-    private router: Router
+  constructor(service: CrudService<VehicleModel>,
+    route: ActivatedRoute,
+    router: Router
   ) {
+    super(service, route, router);
+    this.submenuItems = [
+      { label: 'Management', route: 'management', icon: 'pi pi-fw pi-car', isDisabled: false },
+      { label: 'Parts', route: 'parts', icon: 'pi pi-fw pi-cog', isDisabled: false },
+      { label: 'Maintenance', route: 'maintenance', icon: 'pi pi-fw pi-wrench', isDisabled: true },
+      { label: 'Fuel', route: 'fuel', icon: 'pi pi-fw pi-gas-pump', isDisabled: false }
+    ];
   }
 
   async ngOnInit(): Promise<void> {
@@ -42,40 +41,8 @@ export class VehicleComponent implements OnInit {
     if (this.entitySelected) {
 
     } else {
-      await this.loadEntities();
+      await this.loadEntities('model');
     }
   }
 
-  async loadEntities() {
-    const page: PageQuery = new PageQuery();
-    page.sort = 'model';
-    this.service.readAll(page).subscribe({
-      next: entities => {
-        this.entities = entities;
-        if (entities.length === 1) {
-          this.changeEntitySelected(entities[0].id!);
-        }
-      },
-      error: error => {
-        alert('Error loading entities: ' + error);
-      }
-    });
-  }
-
-  changeEntitySelected(id: number) {
-    // If entitySelected is set, you are on /vehicles/:id or a child
-    if (this.entitySelected) {
-      // Replace only the id segment, keep children
-      this.router.navigate(['../', id], {
-        relativeTo: this.route,
-        replaceUrl: true,
-      });
-    } else {
-      // You are on /vehicles, go to /vehicles/:id
-      this.router.navigate([id], {
-        relativeTo: this.route,
-        replaceUrl: true,
-      });
-    }
-  }
 }
