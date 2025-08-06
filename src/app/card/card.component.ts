@@ -1,24 +1,30 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CardModule } from './card.module';
-import { CardMovementsUpsertComponent } from './movements/card-movements-upsert/card-movements-upsert.component';
-import { InstallmentComponent } from "./movements/installment/installment.component";
-import { StatementUpsertComponent } from './statement/statement-upsert/statement-upsert.component';
-import { CardModel } from './model/card-model';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { BasePage } from '../commons/base/page/base-page';
-import { ActivatedRoute, Router } from '@angular/router';
+import { SubmenuComponent } from "../commons/page/submenu/submenu.component";
+import { BaseCrudService } from '../commons/service/base-crud.service';
 import { CrudService } from '../commons/service/crud.service';
+import { CardListComponent } from "../shared/ui/card/card-list/card-list.component";
+import { SimpleEntityDropdownComponent } from "../shared/ui/simple-entity-dropdown/simple-entity-dropdown.component";
+import { SimpleEntityModel } from '../shared/ui/simple-entity.model';
+import { DetailsComponent } from './details/details.component';
+import { CardModel } from './model/card-model';
+import { InstallmentComponent } from "./movements/installment/installment.component";
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CardModule, InstallmentComponent],
+  imports: [InstallmentComponent, SubmenuComponent, DetailsComponent, CardListComponent, RouterOutlet, SimpleEntityDropdownComponent],
+  providers: [
+    { provide: CrudService, useClass: BaseCrudService<CardModel> }
+  ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })
-export class CardComponent extends BasePage<CardModel> {
+export class CardComponent extends BasePage<CardModel> implements OnInit {
   @Output() movementAdded = new EventEmitter<void>();
   @Output() resetVerification = new EventEmitter<void>();
+  list: SimpleEntityModel[] = [];
   constructor(service: CrudService<CardModel>,
     route: ActivatedRoute,
     router: Router
@@ -26,10 +32,33 @@ export class CardComponent extends BasePage<CardModel> {
     super(service, route, router);
     this.submenuItems = [
       { label: 'Management', route: 'management', icon: 'pi pi-fw pi-car', isDisabled: false },
-      { label: 'Parts', route: 'parts', icon: 'pi pi-fw pi-cog', isDisabled: false },
-      { label: 'Maintenance', route: 'maintenance', icon: 'pi pi-fw pi-wrench', isDisabled: true },
-      { label: 'Fuel', route: 'fuel', icon: 'pi pi-fw pi-gas-pump', isDisabled: false }
+      { label: 'Statement', route: 'statement', icon: 'pi pi-fw pi-cog', isDisabled: true },
+      { label: 'Installment', route: 'installment', icon: 'pi pi-fw pi-wrench', isDisabled: true },
+      { label: 'Movement', route: 'movement', icon: 'pi pi-fw pi-gas-pump', isDisabled: true }
     ];
+  }
+  async ngOnInit(): Promise<void> {
+    await this.route.paramMap.subscribe(params => {
+      this.entitySelected = Number(params.get('id'));
+      // Update the baseUrl with the correct parentId
+      if (isNaN(this.entitySelected)) {
+        return;
+      }
+    });
+    if (this.entitySelected) {
+    } else {
+      await this.loadEntities();
+      this.entities.forEach(entity => {
+        this.list.push({ id: entity.id!, title: entity.name });
+      });
+      this.pageReady = true;
+    }
+    this.list.push({ id: 0, title: '+' });
+  }
+
+  receive(id: number): void {
+    this.entitySelected = id;
+    this.router.navigate(['cards', this.entitySelected]);
   }
 
 }

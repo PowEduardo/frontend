@@ -1,10 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { PageQueryModel } from '../../../commons/base/model/page-query-model';
 import { CardMovementsUpsertComponent } from '../card-movements-upsert/card-movements-upsert.component';
 import { CardMovementService } from '../service/card-movement.service';
-import { InstallmentModule } from './installment.module';
 import { InstallmentModel } from './model/installment-model';
 import { InstallmentService } from './service/installment.service';
 import { CardMovementUpsertComponent } from './upsert/card-movement-upsert.component';
@@ -12,7 +12,7 @@ import { CardMovementUpsertComponent } from './upsert/card-movement-upsert.compo
 @Component({
   selector: 'app-installment',
   standalone: true,
-  imports: [InstallmentModule],
+  imports: [CommonModule],
   templateUrl: './installment.component.html',
   styleUrl: './installment.component.css'
 })

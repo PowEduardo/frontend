@@ -22,7 +22,7 @@ export const routes: Routes = [
     ]
   },
   { path: 'accounts/:id', component: AccountComponent },
-  { path: 'cards', component: CardComponent },
+  { path: 'cards', loadChildren: () => import('./card/card.routes').then(m => m.CARD_ROUTES) },
   { path: 'batch', component: BatchComponent },
   // Add route for 'vehicle' and 'vehicle/:id' to VehicleComponent
   { path: 'vehicles', component: VehicleComponent },

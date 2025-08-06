@@ -1,3 +1,10 @@
+<app-submenu [submenuItems]="submenuItems">
+  <app-simple-entity-dropdown [list]="list" (onValueSelected)="receive($event)" [valueSelected]="entitySelected"></app-simple-entity-dropdown>
+</app-submenu>
+@if(pageReady) {
+<app-card-list [list]="list" (valueSelected)="receive($event)"></app-card-list>
+}
+<router-outlet></router-outlet>
 <div class="container mt-5">
   <div class="card">
     <div class="card-header text-center">

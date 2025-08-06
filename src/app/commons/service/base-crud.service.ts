@@ -6,9 +6,7 @@ import { PageQuery } from '../base/model/page-query';
 import { HttpClient } from '@angular/common/http';
 import { PageModel } from '../base/model/page-model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BaseCrudService<T> extends CrudService<T> {
 
   constructor(protected readonly httpClient: HttpClient) {
@@ -18,16 +16,16 @@ export class BaseCrudService<T> extends CrudService<T> {
     this.baseUrl = this.baseUrl +`${currentRoute}`;
   }
 
-  create(request: any): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl, request);
+  create(request: any): Observable<T> {
+    return this.httpClient.post<T>(this.baseUrl, request);
   }
-  read(id: number | null): Observable<any> {
+  read(id: number | null): Observable<T> {
     if (id === null) {
-      return this.httpClient.get<any>(this.baseUrl);
+      return this.httpClient.get<T>(this.baseUrl);
     }
-    return this.httpClient.get<any>(this.baseUrl + "/" + id);
+    return this.httpClient.get<T>(this.baseUrl + "/" + id);
   }
-  readAll(pageQuery: PageQuery): Observable<any[]> {
+  readAll(pageQuery: PageQuery): Observable<T[]> {
     return this.search(pageQuery).pipe(
       mergeMap(firstPage => {
         if (firstPage.last) {
@@ -50,13 +48,13 @@ export class BaseCrudService<T> extends CrudService<T> {
       })
     );
   }
-  update(request: any): Observable<any> {
-    return this.httpClient.put<any>(this.baseUrl + "/" + request.id, request);
+  update(request: any): Observable<T> {
+    return this.httpClient.put<T>(this.baseUrl + "/" + request.id, request);
   }
   delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(this.baseUrl + "/" + id);
   }
-  search(query: PageQuery): Observable<Page<any>> {
-    return this.httpClient.get<PageModel<any>>(this.baseUrl + ":search?" + query.toString());
+  search(query: PageQuery): Observable<Page<T>> {
+    return this.httpClient.get<PageModel<T>>(this.baseUrl + ":search?" + query.toString());
   }
 }
