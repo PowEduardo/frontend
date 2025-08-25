@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StatementModel } from '../model/statement-model';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatementService {
-  baseUrl: string = "http://localhost:8080/";
+  baseUrl: string = environment.apiBaseUrl;
   constructor(private readonly httpClient: HttpClient) {
-    this.baseUrl = this.baseUrl.concat("cards/1/statements");
+    this.baseUrl = this.baseUrl.concat("/cards/1/statements");
   }
 
   create(request: StatementModel): Observable<StatementModel> {

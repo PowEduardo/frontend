@@ -10,10 +10,11 @@ import { CrudService } from '../../../../commons/service/crud.service';
 @Injectable({
   providedIn: 'root'
 })
-export class InstallmentService implements CrudService<InstallmentModel> {
-  baseUrl: string = 'http://localhost:8080/cards/1/installments';
+export class InstallmentService extends CrudService<InstallmentModel> {
   parentId!: number;
   constructor(private readonly httpClient: HttpClient) {
+    super();
+    this.baseUrl = this.baseUrl + `/cards/1/installments`;
   }
 
   search(pageQuery: PageQuery): Observable<PageModel<InstallmentModel>> {

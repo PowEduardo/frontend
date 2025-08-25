@@ -13,7 +13,7 @@ export class CardMovementService extends MovementService<CardMovementModel> {
 
   constructor(private readonly httpClient: HttpClient) {
     super();
-    this.baseUrl = this.baseUrl.concat("cards/{parentId}/movements");
+    this.baseUrl = this.baseUrl.concat("/cards/{parentId}/movements");
   }
 
   create(request: CardMovementModel): Observable<CardMovementModel> {

@@ -15,7 +15,7 @@ export class BaseCrudService<T> extends CrudService<T> {
     super();
     // Get current route and add to baseUrl
     const currentRoute = window.location.pathname;
-    this.baseUrl = `http://localhost:8080${currentRoute}`;
+    this.baseUrl = this.baseUrl +`${currentRoute}`;
   }
 
   create(request: any): Observable<any> {

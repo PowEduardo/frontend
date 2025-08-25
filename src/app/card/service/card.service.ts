@@ -4,17 +4,18 @@ import { Observable } from 'rxjs';
 import { Page } from '../../commons/base/model/page';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { CardDetailsModel } from '../model/account-details-model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardService {
 
-  baseUrl: string = "http://localhost:8080/";
+  baseUrl: string = environment.apiBaseUrl;
       cardId: number = 1;
   
       constructor(private readonly httpClient: HttpClient) {
-          this.baseUrl = this.baseUrl.concat("cards/{cardId}/details");
+          this.baseUrl = this.baseUrl.concat("/cards/{cardId}/details");
       }
       create(request: CardDetailsModel): Observable<CardDetailsModel> {
           throw new Error("Method not implemented.");

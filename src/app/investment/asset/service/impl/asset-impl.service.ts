@@ -8,13 +8,14 @@ import { AssetModel } from '../../model/asset-model';
 import { AssetDetailsModel } from '../../model/asset-model-details';
 import { PageModel } from '../../model/page-model';
 import { IrpfModel } from '../../irpf/model/irpf-model';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssetServiceImpl implements Crud<AssetModel> {
 
-  baseUrl: string = "http://localhost:8080/assets";
+  baseUrl: string = environment.apiBaseUrl + "/assets";
 
   constructor(private readonly httpClient: HttpClient) { }
 

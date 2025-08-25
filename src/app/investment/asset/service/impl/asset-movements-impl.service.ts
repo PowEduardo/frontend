@@ -13,7 +13,7 @@ export class AssetMovementsServiceImpl extends MovementService<AssetMovementMode
   
   constructor(private readonly httpClient: HttpClient) {
     super();
-    this.baseUrl = this.baseUrl + "assets/";
+    this.baseUrl = this.baseUrl + "/assets/";
    }
 
   override read(id: number): Observable<AssetMovementModel> {

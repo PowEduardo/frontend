@@ -14,7 +14,7 @@ export class AccountMovementService extends MovementService<AccountMovementModel
 
   constructor(private readonly httpClient: HttpClient) {
     super();
-    this.baseUrl = this.baseUrl.concat("accounts/{parentId}/movements");
+    this.baseUrl = this.baseUrl.concat("/accounts/{parentId}/movements");
   }
 
   create(request: AccountMovementModel): Observable<AccountMovementModel> {
