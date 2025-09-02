@@ -1,6 +1,5 @@
-
 # Use an official Node.js runtime as a parent image
-FROM node:18-bullseye-slim AS build
+FROM node:latest AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -15,13 +14,14 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Build the Angular application
-RUN npm run build -- --output-path=dist
+RUN npm run build
 
 # Use an official Nginx image to serve the Angular app
 FROM nginx:alpine
 
-# Copy the built Angular app from the previous stage to the Nginx HTML directory
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copy only the browser build output
+COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
