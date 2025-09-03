@@ -1,0 +1,1 @@
+docker run -m 1g --name frontend -p 9010:80 -d frontend 
