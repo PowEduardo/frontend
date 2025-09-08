@@ -11,14 +11,14 @@ export class Execution {
   constructor(
     job_execution_id: number,
     status: string,
-    start_time: Date,
-    end_time: Date,
+    start_time: string,
+    end_time: string,
     stepDetails: Step[]
   ) {
     this.job_execution_id = job_execution_id;
     this.status = status;
-    this.start_time = start_time;
-    this.end_time = end_time;
+    this.start_time = new Date(start_time);
+    this.end_time = new Date(end_time);
     this.stepDetails = stepDetails;
   }
 
