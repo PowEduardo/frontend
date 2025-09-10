@@ -1,29 +1,10 @@
+@if(!(entitySelected === null) && entitySelected > 0) {
 <app-submenu [submenuItems]="submenuItems">
-  <app-simple-entity-dropdown [list]="list" (onValueSelected)="receive($event)" [valueSelected]="entitySelected"></app-simple-entity-dropdown>
+  <app-simple-entity-dropdown [list]="list" (onValueSelected)="receive($event)"
+    [valueSelected]="entitySelected"></app-simple-entity-dropdown>
 </app-submenu>
+}
 @if(pageReady) {
 <app-card-list [list]="list" (valueSelected)="receive($event)"></app-card-list>
 }
 <router-outlet></router-outlet>
-<div class="container mt-5">
-  <div class="card">
-    <div class="card-header text-center">
-      <h4>Card Details</h4>
-    </div>
-    <app-details></app-details>
-    <div class="row">
-      <div class="col-md-4 text-center">
-        <button class="btn btn-primary btn-sm">Add movement</button>
-      </div>
-      <div class="col-md-4 text-center">
-        <button class="btn btn-primary btn-sm">Close Statement</button>
-      </div>
-      <div class="col-md-4 text-center">
-        <button class="btn btn-primary btn-sm" (click)="resetVerification.emit()">Reset Verification</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container mt-5">
-  <app-installment [movementAdded]="movementAdded" [resetVerification]="resetVerification"></app-installment>
-</div>

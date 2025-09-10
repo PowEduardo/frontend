@@ -14,7 +14,7 @@ import { InstallmentComponent } from "./movements/installment/installment.compon
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [InstallmentComponent, SubmenuComponent, DetailsComponent, CardListComponent, RouterOutlet, SimpleEntityDropdownComponent],
+  imports: [SubmenuComponent, CardListComponent, RouterOutlet, SimpleEntityDropdownComponent],
   providers: [
     { provide: CrudService, useClass: BaseCrudService<CardModel> }
   ],
@@ -31,15 +31,14 @@ export class CardComponent extends BasePage<CardModel> implements OnInit {
   ) {
     super(service, route, router);
     this.submenuItems = [
-      { label: 'Management', route: 'management', icon: 'pi pi-fw pi-car', isDisabled: false },
-      { label: 'Statement', route: 'statement', icon: 'pi pi-fw pi-cog', isDisabled: true },
-      { label: 'Installment', route: 'installment', icon: 'pi pi-fw pi-wrench', isDisabled: true },
-      { label: 'Movement', route: 'movement', icon: 'pi pi-fw pi-gas-pump', isDisabled: true }
+      { label: 'Management', route: '', icon: 'pi pi-fw pi-car', isDisabled: false },
+      { label: 'Statement', route: 'statements', icon: 'pi pi-fw pi-cog', isDisabled: false },
     ];
   }
   async ngOnInit(): Promise<void> {
     await this.route.paramMap.subscribe(params => {
       this.entitySelected = Number(params.get('id'));
+      console.log(this.entitySelected);
       // Update the baseUrl with the correct parentId
       if (isNaN(this.entitySelected)) {
         return;
@@ -58,7 +57,7 @@ export class CardComponent extends BasePage<CardModel> implements OnInit {
 
   receive(id: number): void {
     this.entitySelected = id;
-    this.router.navigate(['cards', this.entitySelected]);
+    this.router.navigate(['cards', this.entitySelected, 'statements']);
   }
 
 }

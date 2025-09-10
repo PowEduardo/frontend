@@ -19,7 +19,7 @@ export class Execution {
     this.status = status;
     this.start_time = new Date(start_time);
     this.end_time = new Date(end_time);
-    this.stepDetails = stepDetails;
+    this.stepDetails = [];
+    
   }
-
 }
