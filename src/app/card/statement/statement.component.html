@@ -1,1 +1,5 @@
-<p>statement works!</p>
+<app-table
+  [columns]="columns"
+  [data]="data"
+  (rowSelected)="onValueSelected($event)">
+</app-table>
