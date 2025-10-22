@@ -1,5 +1,10 @@
+@if (this.isActive) {
 <app-table
   [columns]="columns"
   [data]="data"
   (rowSelected)="onValueSelected($event)">
 </app-table>
+} @else {
+  <button (click)="onAddMovement()">Add Movement</button>
+  <router-outlet></router-outlet>
+}

@@ -1,4 +1,4 @@
-import { CardMovementModel } from "../../model/card-movement-model";
+import { CardMovementModel } from "../../../movements/model/card-movement-model";
 
 export class InstallmentModel {
   description!: string;

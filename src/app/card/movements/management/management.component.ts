@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { InstallmentModel } from '../installment/model/installment-model';
-import { InstallmentService } from '../installment/service/installment.service';
+import { InstallmentModel } from '../../statement/installment/model/installment-model';
+import { InstallmentService } from '../../statement/installment/service/installment.service';
 import { CardMovementModel } from '../model/card-movement-model';
 import { CardMovementService } from '../service/card-movement.service';
 import { CommonModule } from '@angular/common';

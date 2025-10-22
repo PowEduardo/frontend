@@ -7,9 +7,7 @@ import { CrudService } from '../commons/service/crud.service';
 import { CardListComponent } from "../shared/ui/card/card-list/card-list.component";
 import { SimpleEntityDropdownComponent } from "../shared/ui/simple-entity-dropdown/simple-entity-dropdown.component";
 import { SimpleEntityModel } from '../shared/ui/simple-entity.model';
-import { DetailsComponent } from './details/details.component';
 import { CardModel } from './model/card-model';
-import { InstallmentComponent } from "./movements/installment/installment.component";
 
 @Component({
   selector: 'app-card',
@@ -37,8 +35,7 @@ export class CardComponent extends BasePage<CardModel> implements OnInit {
   }
   async ngOnInit(): Promise<void> {
     await this.route.paramMap.subscribe(params => {
-      this.entitySelected = Number(params.get('id'));
-      console.log(this.entitySelected);
+      this.entitySelected = Number(params.get('cardId'));
       // Update the baseUrl with the correct parentId
       if (isNaN(this.entitySelected)) {
         return;

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { CardComponent } from './card.component';
-import { InstallmentComponent } from './movements/installment/installment.component';
+import { InstallmentComponent } from './statement/installment/installment.component';
 import { StatementComponent } from './statement/statement.component';
 
 export const CARD_ROUTES: Routes = [
@@ -9,7 +9,7 @@ export const CARD_ROUTES: Routes = [
     component: CardComponent
   },
   {
-    path: ':id',
+    path: ':cardId',
     component: CardComponent,
     children: [
       {
@@ -17,7 +17,7 @@ export const CARD_ROUTES: Routes = [
         component: StatementComponent,
         children: [
           {
-            path: 'installments',
+            path: ':statementId/installments',
             component: InstallmentComponent
           }
         ]

@@ -10,7 +10,6 @@ import { SimpleEntityModel } from '../../simple-entity.model';
 })
 export class CardListComponent implements OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('Changes:', changes);
     this.list = changes['list']?.currentValue || [];
   }
   @Input()
