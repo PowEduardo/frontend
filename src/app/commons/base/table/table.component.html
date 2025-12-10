@@ -5,7 +5,6 @@
         @for (col of columns; track $index) {
         <th>{{ col.label }}</th>
         }
-        <th>Ações</th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +16,13 @@
         </td>
         }
         <td>
-          <button class="btn btn-sm btn-primary" (click)="onRowClick(row)">Editar</button>
+          <ng-container *ngIf="rowTemplate; else projectedColumn">
+            <ng-container *ngTemplateOutlet="rowTemplate; context: { $implicit: row, index: $index }"></ng-container>
+          </ng-container>
+          <ng-template #projectedColumn>
+            <!-- fallback: existing projected content (note: this is not repeated per-row) -->
+            <ng-content select="[column]"></ng-content>
+          </ng-template>
         </td>
       </tr>
       }

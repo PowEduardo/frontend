@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { PageQueryModel } from '../../../commons/base/model/page-query-model';
@@ -8,7 +8,7 @@ import { CardMovementService } from '../../movements/service/card-movement.servi
 import { InstallmentModel } from './model/installment-model';
 import { InstallmentService } from './service/installment.service';
 import { CardMovementUpsertComponent } from './upsert/card-movement-upsert.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-installment',
