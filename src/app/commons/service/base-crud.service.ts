@@ -55,6 +55,6 @@ export class BaseCrudService<T> extends CrudService<T> {
     return this.httpClient.delete<void>(this.baseUrl + "/" + id);
   }
   search(query: PageQuery): Observable<Page<T>> {
-    return this.httpClient.get<PageModel<T>>(this.baseUrl + ":search?" + query.toString());
+    return this.httpClient.get<PageModel<T>>(this.baseUrl + "/search?" + query.toString());
   }
 }

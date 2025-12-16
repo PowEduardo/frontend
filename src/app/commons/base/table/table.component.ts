@@ -1,16 +1,37 @@
 import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { TableColumn } from '../../model/table-column';
+import { TableAction } from '../../model/table-action';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Generic Table Component
+ * Displays data in a responsive Bootstrap table with optional actions.
+ * 
+ * Usage:
+ * ```html
+ * <app-table 
+ *   [columns]="columns"
+ *   [data]="items"
+ *   [actions]="actions"
+ *   (rowSelected)="onRowSelect($event)">
+ * </app-table>
+ * ```
+ */
 @Component({
   selector: 'app-table',
   standalone: true,
   templateUrl: './table.component.html',
   imports: [CommonModule]
 })
-export class TableComponent {
+export class TableComponent<T = unknown> {
   @Input() columns: TableColumn[] = [];
-  @Input() data: any[] = [];
+  @Input() data: T[] = [];
+  
+  /**
+   * Optional action buttons to display in each row.
+   * If provided, a new "Actions" column will be added.
+   */
+  @Input() actions?: TableAction<T>[];
 
   /**
    * Optional template that the consumer can provide to render per-row custom
@@ -18,16 +39,32 @@ export class TableComponent {
    * `<ng-template let-row let-i="index">...</ng-template>` and the template
    * will receive the current row as `$implicit` and the index as `index`.
    */
-  @ContentChild(TemplateRef) rowTemplate?: TemplateRef<any>;
+  @ContentChild(TemplateRef) rowTemplate?: TemplateRef<{ $implicit: T; index: number }>;
 
-  @Output() rowSelected = new EventEmitter<any>();
+  @Output() rowSelected = new EventEmitter<T>();
 
-  onRowClick(row: any) {
+  onRowClick(row: T): void {
     this.rowSelected.emit(row);
   }
 
-  formatCell(col: TableColumn, row: { [key:string]:any  }): string {
-    const value = row[col.key];
-    return col.format ? col.format(value, row) : value;
+  formatCell(col: TableColumn, row: T): string {
+    const value = (row as Record<string, unknown>)[col.key];
+    return col.format ? col.format(value, row as unknown) : String(value);
+  }
+
+  /**
+   * Execute an action on a row.
+   */
+  executeAction(action: TableAction<T>, row: T, index: number): void {
+    if (!action.disabled) {
+      action.action(row, index);
+    }
+  }
+
+  /**
+   * Check if actions column should be displayed.
+   */
+  hasActions(): boolean {
+    return !!(this.actions && this.actions.length > 0);
   }
 }

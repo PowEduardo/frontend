@@ -10,11 +10,13 @@ import { CrudService } from '../../commons/service/crud.service';
 import { StatementModel } from './model/statement-model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CardMovementsUpsertComponent } from '../movements/card-movements-upsert/card-movements-upsert.component';
+import { StatementService } from './service/statement.service';
 
 @Component({
   selector: 'app-statement',
   standalone: true,
   imports: [CommonModule, TableComponent, RouterOutlet],
+  providers: [{ provide: CrudService, useClass: StatementService }],
   templateUrl: './statement.component.html',
   styleUrls: ['./statement.component.css']
 })
@@ -24,10 +26,11 @@ export class StatementComponent implements OnInit, OnDestroy {
     { key: 'id', label: 'Id' },
     { key: 'referenceMonth', label: 'Reference Month' },
     { key: 'value', label: 'Value' },
-    { key: 'discount', label: 'Discount' }
+    { key: 'discounts', label: 'Discount' }
   ];
   data: StatementModel[] = [];
   isActive: boolean = true; // true when no active child route (show table)
+  loading: boolean = true; // show spinner while loading statements
   private routerSub?: Subscription;
 
   constructor(protected service: CrudService<StatementModel>,
@@ -40,8 +43,15 @@ export class StatementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const page: PageQuery = new PageQuery()
     page.sort = '-referenceMonth';
-    this.service.readAll(page).subscribe(data => {
-      this.data = data;
+    this.loading = true;
+    this.service.readAll(page).subscribe({
+      next: (data: StatementModel[]) => {
+        this.data = data;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
     });
     // initialize visibility based on whether there is an active child
     this.isActive = !this.hasActiveChild();

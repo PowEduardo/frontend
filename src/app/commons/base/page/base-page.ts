@@ -27,7 +27,6 @@ export class BasePage<T extends GenericT> {
   }
 
   changeEntitySelected(id: number) {
-    console.log('changeEntitySelected', id);
     // If entitySelected is set, you are on /vehicles/:id or a child
     if (this.entitySelected) {
       // Replace only the id segment, keep children

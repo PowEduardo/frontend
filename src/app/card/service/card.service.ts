@@ -1,41 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Page } from '../../commons/base/model/page';
-import { PageQuery } from '../../commons/base/model/page-query';
-import { CardDetailsModel } from '../model/card-details-model';
+import { BaseCrudService } from '../../commons/service/base-crud.service';
+import { CardModel } from '../model/card-model';
 import { environment } from '../../../environments/environment';
 
+/**
+ * Service for Credit Card API operations.
+ * Extends BaseCrudService for standardized CRUD operations.
+ * Provides additional custom methods for card-specific operations.
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class CardService {
+export class CardService extends BaseCrudService<CardModel> {
 
-  baseUrl: string = environment.apiBaseUrl;
-      cardId: number = 1;
-  
-      constructor(private readonly httpClient: HttpClient) {
-          this.baseUrl = this.baseUrl.concat("/cards/{cardId}/details");
-      }
-      create(request: CardDetailsModel): Observable<CardDetailsModel> {
-          throw new Error("Method not implemented.");
-      }
-      read(id: number): Observable<CardDetailsModel> {
-          throw new Error("Method not implemented.");
-      }
-      readAll(pageQuery: PageQuery): Observable<CardDetailsModel[]> {
-          throw new Error("Method not implemented.");
-      }
-      update(request: CardDetailsModel, id: number): Observable<CardDetailsModel> {
-          throw new Error("Method not implemented.");
-      }
-      delete(id: number): Observable<void> {
-          throw new Error("Method not implemented.");
-      }
-      search(query: PageQuery): Observable<Page<CardDetailsModel>> {
-          throw new Error("Method not implemented.");
-      }
-      details(): Observable<CardDetailsModel> {
-          return this.httpClient.get<CardDetailsModel>(this.baseUrl.replace("{cardId}", this.cardId.toString()));
-      }
+  constructor(override readonly httpClient: HttpClient) {
+    super(httpClient);
+    this.baseUrl = environment.apiBaseUrl + '/api/v1/cards';
+  }
+
+  /**
+   * GET /api/v1/cards/{id}/details
+   * Get detailed card info with statements and movements.
+   * Custom method specific to Card operations.
+   */
+  getDetails(id: number): Observable<CardModel> {
+    return this.httpClient.get<CardModel>(`${this.baseUrl}/${id}/details`);
+  }
 }

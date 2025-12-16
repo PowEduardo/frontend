@@ -9,74 +9,105 @@ import { InstallmentModel } from './model/installment-model';
 import { InstallmentService } from './service/installment.service';
 import { CardMovementUpsertComponent } from './upsert/card-movement-upsert.component';
 import { ActivatedRoute } from '@angular/router';
+import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableColumn } from '../../../commons/model/table-column';
+import { TableAction } from '../../../commons/model/table-action';
 
 @Component({
   selector: 'app-installment',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TableComponent],
   templateUrl: './installment.component.html',
   styleUrl: './installment.component.css'
 })
 export class InstallmentComponent implements OnInit {
 
-  installments!: InstallmentModel[];
-  movements!: Map<number, string | null>;
+  installments: InstallmentModel[] = [];
   sort: string = 'id';
-  ready: boolean = false;
+  loading: boolean = true;
   cardSelected!: number;
 
-  constructor(private modalService: NgbModal,
+  // Table configuration
+  installmentColumns: TableColumn[] = [
+    { label: 'Id', key: 'id' },
+    { label: 'Descrição', key: 'description' },
+    { label: 'Valor', key: 'value', format: (value: unknown) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` },
+    { label: 'Parcela', key: 'installment', format: (value: unknown, row) => {
+      const inst = row as InstallmentModel;
+      return `${value}/${inst.movement?.installment || value}`;
+    } },
+    { label: 'Data', key: 'date', format: (value: unknown) => new Date(value as string | Date).toLocaleDateString('pt-BR') }
+  ];
+
+  installmentActions: TableAction<InstallmentModel>[] = [
+    {
+      label: 'Editar Parcela',
+      icon: 'bi bi-pencil',
+      cssClass: 'primary',
+      action: (installment: InstallmentModel) => this.edit(installment)
+    },
+    {
+      label: 'Editar Movimento',
+      icon: 'bi bi-arrow-left-right',
+      cssClass: 'info',
+      action: (installment: InstallmentModel) => this.editMovement(installment)
+    }
+  ];
+
+  constructor(
+    private modalService: NgbModal,
     private service: InstallmentService,
     private movementService: CardMovementService,
     private route: ActivatedRoute
-  ) {
-    this.movements = new Map<number, string | null>();
-  }
+  ) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.route.paramMap.subscribe(params => {
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
       this.cardSelected = Number(params.get('cardId'));
       this.movementService.parentId = this.cardSelected;
-      // Update the baseUrl with the correct parentId
-      if (isNaN(this.cardSelected)) {
-        return;
+      if (!isNaN(this.cardSelected)) {
+        this.getInstallments('id');
       }
     });
-    await this.getInstallments('id');
   }
 
-  async getInstallments(attribute: string) {
+  /**
+   * Load installments with sorting
+   */
+  getInstallments(attribute: string): void {
+    this.loading = true;
     if (this.sort === attribute) {
       attribute = '-' + attribute;
     }
     this.sort = attribute;
     this.installments = [];
+
     const query: PageQuery = new PageQueryModel();
-    if (attribute) {
-      query.sort = attribute;
-    }
-    await this.service.readAll(query).subscribe(async (data: InstallmentModel[]) => {
-      await Promise.all(data.map(async (element) => {
-        if (this.movements.get(element.movement.id!)) {
-          element.movement.description = this.movements.get(element.movement.id!)!;
-        } else {
-          this.movementService.read(element.movement.id!).subscribe((movement) => {
-            this.movements.set(element.movement.id!, movement.description);
-            element.movement = movement;
-            this.installments!.push(element);
-          });
-        }
-      }));
-      this.ready = true;
+    query.sort = attribute;
+
+    this.service.readAll(query).subscribe({
+      next: (data: InstallmentModel[]) => {
+        this.installments = data;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
     });
   }
 
-  edit(installment: InstallmentModel) {
+  /**
+   * Edit installment
+   */
+  edit(installment: InstallmentModel): void {
     const modalRef = this.modalService.open(CardMovementUpsertComponent);
     modalRef.componentInstance.setModel(installment.id);
   }
 
-  editMovement(installment: InstallmentModel) {
+  /**
+   * Edit movement associated with installment
+   */
+  editMovement(installment: InstallmentModel): void {
     const modalRef = this.modalService.open(CardMovementsUpsertComponent);
     modalRef.componentInstance.setModel(installment.movement.id);
   }

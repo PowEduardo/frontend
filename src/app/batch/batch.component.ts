@@ -22,7 +22,6 @@ export class BatchComponent {
 
   ngOnInit(): void {
     this.fetchJobs();
-    console.log(environment);
   }
 
   fetchJobs(): void {
