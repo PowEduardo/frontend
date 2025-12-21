@@ -11,6 +11,7 @@ import { StatementModel } from './model/statement-model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CardMovementsUpsertComponent } from '../movements/card-movements-upsert/card-movements-upsert.component';
 import { StatementService } from './service/statement.service';
+import { TableAction } from '../../commons/model/table-action';
 
 @Component({
   selector: 'app-statement',
@@ -21,6 +22,7 @@ import { StatementService } from './service/statement.service';
   styleUrls: ['./statement.component.css']
 })
 export class StatementComponent implements OnInit, OnDestroy {
+  
 
   columns: TableColumn[] = [
     { key: 'id', label: 'Id' },
@@ -33,7 +35,16 @@ export class StatementComponent implements OnInit, OnDestroy {
   loading: boolean = true; // show spinner while loading statements
   private routerSub?: Subscription;
 
-  constructor(protected service: CrudService<StatementModel>,
+  statementActions: TableAction<StatementModel>[] = [
+      {
+        label: 'Fechar Fatura',
+        icon: 'bi bi-pencil',
+        cssClass: 'primary',
+        action: (statement: StatementModel) => this.closeStatement(statement)
+      }
+    ];
+
+  constructor(protected service: StatementService,
     protected router: Router,
     protected route: ActivatedRoute,
     protected modal: NgbModal
@@ -78,5 +89,13 @@ export class StatementComponent implements OnInit, OnDestroy {
 
   onAddMovement() {
     this.modal.open(CardMovementsUpsertComponent, { size: 'lg', centered: true });
+  }
+
+  closeStatement(statement: StatementModel): void {
+    this.service.close(1,statement.id).subscribe({
+      next: () => {
+        this.router.navigate(['../'], { relativeTo: this.route });
+      }
+    });
   }
 }

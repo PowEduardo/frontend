@@ -9,7 +9,8 @@
     <app-table
       [columns]="columns"
       [data]="data"
-      (rowSelected)="onValueSelected($event)">
+      (rowSelected)="onValueSelected($event)"
+      [actions]="statementActions">
     </app-table>
   } @else {
     <div class="alert alert-info m-4">
