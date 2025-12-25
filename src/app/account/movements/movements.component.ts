@@ -52,6 +52,9 @@ export class MovementsComponent implements OnInit, OnDestroy {
   /** Flag to show/hide table based on active child route */
   isActive: boolean = true;
 
+  /** Track loading state for individual movements (for spinner during operations) */
+  movementLoadingState: Map<number, boolean> = new Map();
+
   /** Table action buttons for edit/delete/mark as paid */
   movementActions: TableAction<AccountMovementModel>[] = [
     {
@@ -128,6 +131,9 @@ export class MovementsComponent implements OnInit, OnDestroy {
    */
   private loadMovements(): void {
     this.loading = true;
+    // Clear any previous loading states when reloading data
+    this.movementLoadingState.clear();
+    
     const query: PageQuery = new PageQueryModel();
     query.sort = '-date';
 
@@ -188,6 +194,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.setMovementLoading(id, true);
     this.service.delete(id).subscribe({
       next: () => {
         this.notificationService.success('Movimento deletado com sucesso');
@@ -195,6 +202,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this.notificationService.error(`Erro ao deletar movimento: ${error.message}`);
+        this.setMovementLoading(id, false);
       }
     });
   }
@@ -206,6 +214,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
    * @param id Movement ID to mark as paid
    */
   private markAsPaid(id: number): void {
+    this.setMovementLoading(id, true);
     this.service.markAsPaid(id).subscribe({
       next: (updatedMovement) => {
         this.notificationService.success('Movimento marcado como pago');
@@ -213,8 +222,31 @@ export class MovementsComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this.notificationService.error(`Erro ao marcar como pago: ${error.message}`);
+        this.setMovementLoading(id, false);
       }
     });
+  }
+
+  /**
+   * Set loading state for a specific movement
+   * Used to show/hide spinner for individual row operations
+   * 
+   * @param movementId Movement ID
+   * @param isLoading Loading state
+   */
+  private setMovementLoading(movementId: number, isLoading: boolean): void {
+    this.movementLoadingState.set(movementId, isLoading);
+  }
+
+  /**
+   * Check if a specific movement is loading
+   * 
+   * @param movementId Movement ID
+   * @returns true if movement is currently loading
+   */
+  isMovementLoading(movementId: number | null): boolean {
+    if (!movementId) return false;
+    return this.movementLoadingState.get(movementId) ?? false;
   }
 
   /**
