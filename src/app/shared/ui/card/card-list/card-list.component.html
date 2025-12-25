@@ -1,0 +1,7 @@
+<div class="row">
+  @for (item of list; track item) {
+  <div class="col-12 col-md-6 mb-3 ">
+    <app-card [model]="item" (valueSelected)="emitValue($event)"></app-card>
+  </div>
+  }
+</div>

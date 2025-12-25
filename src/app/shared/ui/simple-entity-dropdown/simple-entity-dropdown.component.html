@@ -1,0 +1,8 @@
+<div class="nav-item ">
+  <select id="entity" name="entity" class="nav-item form-select w-auto" (change)="onEntitySelected($event)" [(ngModel)]="valueSelected">
+    <option value="">Select an entity</option>
+    @for (item of list; track item) {
+      <option [value]="item.id">{{ item.title }}</option>
+    }
+  </select>
+</div>

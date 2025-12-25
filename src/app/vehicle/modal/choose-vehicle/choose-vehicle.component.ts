@@ -22,9 +22,9 @@ export class ChooseVehicleComponent implements OnInit {
   selectedVehicleIdEmitter: EventEmitter<number> = new EventEmitter<number>();
   constructor(
     private service: CrudService<VehicleModel>,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) { }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.selectedVehicleId = Number(params.get('id'));
@@ -37,6 +37,5 @@ export class ChooseVehicleComponent implements OnInit {
   onVehicleSelected(event: Event) {
     const selectedId = (event.target as HTMLSelectElement).value;
     this.selectedVehicleIdEmitter.emit(Number(selectedId));
-    // this.router.navigate([`/vehicles/${selectedId}/parts/`]);
   }
 }

@@ -1,10 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { CardDetailsModel } from '../model/account-details-model';
+import { CardDetailsModel } from '../model/card-details-model';
 import { CardService } from '../service/card.service';
 
 @Component({
   selector: 'app-details',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })

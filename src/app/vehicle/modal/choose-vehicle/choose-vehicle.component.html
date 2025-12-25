@@ -1,5 +1,4 @@
 <div class="nav-item ">
-
   <select id="vehicle" name="vehicle" class="nav-item form-select w-auto" (change)="onVehicleSelected($event)" [(ngModel)]="selectedVehicleId">
     <option value="">Select a vehicle</option>
     @for (vehicle of vehicles; track vehicle) {
