@@ -75,7 +75,7 @@ export class CardMovementListComponent implements OnInit {
     pageQuery.sort = this.sortBy;
 
     if (this.filter === 'unpaid') {
-      this.movementService.getUnpaidMovements(pageQuery).subscribe({
+      this.movementService.getUnpaidMovements().subscribe({
         next: (page: Page<CardMovementModel>) => {
           this.movements = page.content;
           this.calculateTotalUnpaid();

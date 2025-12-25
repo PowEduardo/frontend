@@ -1,11 +1,10 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MovementService } from '../../../commons/base/movement/service/movement.service';
-import { CardMovementModel } from '../model/card-movement-model';
 import { Observable } from 'rxjs';
 import { Page } from '../../../commons/base/model/page';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
+import { MovementService } from '../../../commons/base/movement/service/movement.service';
+import { CardMovementModel } from '../model/card-movement-model';
 
 /**
  * Service for Card Movement operations.
@@ -41,21 +40,10 @@ export class CardMovementService extends MovementService<CardMovementModel> {
    * Get unpaid movements for the current card
    * Filters and returns only movements that haven't been paid yet
    */
-  getUnpaidMovements(pageQuery?: PageQuery): Observable<Page<CardMovementModel>> {
-    const url = this.baseUrl.replace("{parentId}", this.parentId.toString()) + '/unpaid';
-    
-    let params = new HttpParams();
-    if (pageQuery) {
-      params = params
-        .set('_limit', pageQuery.limit?.toString() || '10')
-        .set('_offset', pageQuery.offset?.toString() || '0');
-      
-      if (pageQuery.sort) {
-        params = params.set('_sort', pageQuery.sort);
-      }
-    }
-
-    return this.httpClient.get<Page<CardMovementModel>>(url, { params });
+  getUnpaidMovements(): Observable<Page<CardMovementModel>> {
+    const query = new PageQuery();
+    query.query = 'paid:false';
+    return this.searchMovements(query);
   }
 
   /**
@@ -88,7 +76,7 @@ export class CardMovementService extends MovementService<CardMovementModel> {
   }
 
   delete(id: number): Observable<void> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.delete<void>(this.baseUrl.replace("{parentId}", this.parentId.toString()).concat('/').concat(id.toString()));
   }
 
   search(query: PageQuery): Observable<Page<CardMovementModel>> {

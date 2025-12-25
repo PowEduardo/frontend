@@ -28,7 +28,8 @@ export class StatementComponent implements OnInit, OnDestroy {
     { key: 'id', label: 'Id' },
     { key: 'referenceMonth', label: 'Reference Month' },
     { key: 'value', label: 'Value' },
-    { key: 'discounts', label: 'Discount' }
+    { key: 'discounts', label: 'Discount' },
+    { key: 'paid', label: 'Paid' }
   ];
   data: StatementModel[] = [];
   isActive: boolean = true; // true when no active child route (show table)
