@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, NavigationEnd, ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { PageQueryModel } from '../../commons/base/model/page-query-model';
 import { TableComponent } from '../../commons/base/table/table.component';
-import { TableColumn } from '../../commons/model/table-column';
 import { TableAction } from '../../commons/model/table-action';
-import { CrudService } from '../../commons/service/crud.service';
+import { TableColumn } from '../../commons/model/table-column';
 import { NotificationService } from '../../commons/service/notification.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountMovementModel } from '../model/account-movement-model';
 import { AccountMovementsUpsertComponent } from './account-movements-upsert/account-movements-upsert.component';
 import { AccountMovementService } from './service/account-movement-service';
@@ -40,7 +39,8 @@ export class MovementsComponent implements OnInit, OnDestroy {
     { key: 'id', label: 'ID' },
     { key: 'description', label: 'Descrição' },
     { key: 'value', label: 'Valor' },
-    { key: 'date', label: 'Data' }
+    { key: 'date', label: 'Data' },
+    { key: 'paid', label: 'Pago?' }
   ];
 
   /** Movement data for table rendering */
@@ -52,8 +52,14 @@ export class MovementsComponent implements OnInit, OnDestroy {
   /** Flag to show/hide table based on active child route */
   isActive: boolean = true;
 
-  /** Table action buttons for edit/delete */
+  /** Table action buttons for edit/delete/mark as paid */
   movementActions: TableAction<AccountMovementModel>[] = [
+    {
+      label: 'Marcar como Pago',
+      icon: 'bi bi-check-circle',
+      cssClass: 'success',
+      action: (movement: AccountMovementModel) => this.markAsPaid(movement.id!)
+    },
     {
       label: 'Editar',
       icon: 'bi bi-pencil',
@@ -189,6 +195,24 @@ export class MovementsComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this.notificationService.error(`Erro ao deletar movimento: ${error.message}`);
+      }
+    });
+  }
+
+  /**
+   * Mark a movement as paid
+   * Updates the movement status to paid and reloads the table
+   * 
+   * @param id Movement ID to mark as paid
+   */
+  private markAsPaid(id: number): void {
+    this.service.markAsPaid(id).subscribe({
+      next: (updatedMovement) => {
+        this.notificationService.success('Movimento marcado como pago');
+        this.loadMovements();
+      },
+      error: (error) => {
+        this.notificationService.error(`Erro ao marcar como pago: ${error.message}`);
       }
     });
   }

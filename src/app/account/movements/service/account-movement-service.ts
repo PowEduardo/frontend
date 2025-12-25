@@ -21,7 +21,7 @@ export class AccountMovementService extends MovementService<AccountMovementModel
 
   constructor(private readonly httpClient: HttpClient) {
     super();
-    this.baseUrl = this.baseUrl.concat("/accounts/{parentId}/movements");
+    this.baseUrl = this.baseUrl.concat("/api/v1/accounts/{parentId}/movements");
   }
 
   /**
@@ -127,7 +127,21 @@ export class AccountMovementService extends MovementService<AccountMovementModel
    */
   search(query: PageQuery): Observable<Page<AccountMovementModel>> {
     return this.httpClient.get<PageModel<AccountMovementModel>>(
-      this.baseUrl.replace("{parentId}", this.parentId.toString()) + ":search?" + query.toString()
+      this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/search?" + query.toString()
+    );
+  }
+
+  /**
+   * Mark an account movement as paid
+   * PATCH /api/v1/accounts/{parentId}/movements/{id}/mark-as-paid
+   * 
+   * @param id Movement ID
+   * @returns Observable<AccountMovementModel> updated movement with paid status
+   */
+  markAsPaid(id: number): Observable<AccountMovementModel> {
+    return this.httpClient.patch<AccountMovementModel>(
+      this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/" + id.toString() + "/mark-as-paid",
+      {}
     );
   }
 }
