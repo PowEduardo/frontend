@@ -24,7 +24,7 @@ import { AccountMovementService } from './service/account-movement-service';
   standalone: true,
   imports: [CommonModule, TableComponent, RouterOutlet],
   providers: [
-    { provide: CrudService, useClass: AccountMovementService },
+    { provide: AccountMovementService, useClass: AccountMovementService },
     NgbModal
   ],
   templateUrl: './movements.component.html',
@@ -32,8 +32,8 @@ import { AccountMovementService } from './service/account-movement-service';
 })
 export class MovementsComponent implements OnInit, OnDestroy {
 
-  /** Parent account ID to filter movements */
-  @Input() parentId: number = 1;
+  /** Parent account ID to filter movements - can be passed as @Input or extracted from route */
+  @Input() parentId: number | null = null;
 
   /** Table column definitions for display */
   columns: TableColumn[] = [
@@ -85,7 +85,18 @@ export class MovementsComponent implements OnInit, OnDestroy {
    * Loads movements and sets up router event listener for child route visibility
    */
   ngOnInit(): void {
-    this.loadMovements();
+    // Extract accountId from parent route if not passed via @Input
+    if (!this.parentId) {
+      this.route.parent?.paramMap.subscribe(params => {
+        const idParam = params.get('accountId');
+        if (idParam) {
+          this.parentId = parseInt(idParam, 10);
+          this.loadMovements();
+        }
+      });
+    } else {
+      this.loadMovements();
+    }
     
     // Initialize visibility based on whether there is an active child route
     this.isActive = !this.hasActiveChild();
@@ -115,7 +126,9 @@ export class MovementsComponent implements OnInit, OnDestroy {
     query.sort = '-date';
 
     // Set parent ID on service
-    this.service.parentId = this.parentId;
+    if (this.parentId) {
+      this.service.parentId = this.parentId;
+    }
 
     this.service.readAll(query).subscribe({
       next: (data: AccountMovementModel[]) => {
