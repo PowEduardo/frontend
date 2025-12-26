@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { PageQuery } from '../../commons/base/model/page-query';
@@ -21,7 +22,7 @@ import { AccountMovementService } from './service/account-movement-service';
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [CommonModule, TableComponent, RouterOutlet],
+  imports: [CommonModule, FormsModule, TableComponent, RouterOutlet],
   providers: [
     { provide: AccountMovementService, useClass: AccountMovementService },
     NgbModal
@@ -54,6 +55,24 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
   /** Track loading state for individual movements (for spinner during operations) */
   movementLoadingState: Map<number, boolean> = new Map();
+
+  /** Filter: Start date for period filter */
+  filterStartDate: string = this.getDefaultStartDate();
+
+  /** Filter: End date for period filter */
+  filterEndDate: string = this.getDefaultEndDate();
+
+  /** Pagination: Current page number (0-based) */
+  currentPage: number = 0;
+
+  /** Pagination: Items per page */
+  itemsPerPage: number = 15;
+
+  /** Pagination: Total number of items */
+  totalItems: number = 0;
+
+  /** Pagination: Total pages */
+  totalPages: number = 0;
 
   /** Table action buttons for edit/delete/mark as paid */
   movementActions: TableAction<AccountMovementModel>[] = [
@@ -135,6 +154,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.movementLoadingState.clear();
     
     const query: PageQuery = new PageQueryModel();
+    query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
     query.sort = '-date';
 
     // Set parent ID on service
@@ -162,6 +182,22 @@ export class MovementsComponent implements OnInit, OnDestroy {
    */
   onValueSelected(movement: AccountMovementModel): void {
     // Can be extended for navigation to movement details
+  }
+
+  /**
+   * Open modal to create a new movement
+   */
+  addMovement(): void {
+    const modalRef = this.modal.open(AccountMovementsUpsertComponent, { 
+      size: 'lg', 
+      centered: true 
+    });
+    
+    // Reload movements after modal closes
+    modalRef.result.then(
+      () => this.loadMovements(),
+      () => {} // Dismiss handler
+    );
   }
 
   /**
@@ -257,5 +293,143 @@ export class MovementsComponent implements OnInit, OnDestroy {
    */
   private hasActiveChild(): boolean {
     return !!this.route.firstChild;
+  }
+
+  /**
+   * Get default start date (first day of current month)
+   * Format: YYYY-MM-DD
+   */
+  private getDefaultStartDate(): string {
+    const today = new Date();
+    const minusMonths = 3;
+    if (today.getMonth() < minusMonths) {
+      const firstDay = new Date(today.getFullYear()-1, 11 - (minusMonths-today.getMonth()), 1);
+      return this.formatDate(firstDay);
+    } else {
+      const firstDay = new Date(today.getFullYear(), today.getMonth()-minusMonths, 1);
+      return this.formatDate(firstDay);
+    }
+  }
+
+  /**
+   * Get default end date (last day of current month)
+   * Format: YYYY-MM-DD
+   */
+  private getDefaultEndDate(): string {
+    const today = new Date();
+    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    return this.formatDate(lastDay);
+  }
+
+  /**
+   * Format date to YYYY-MM-DD string
+   * @param date Date to format
+   */
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  /**
+   * Apply filter and reset pagination to page 1
+   * Called when user clicks filter button
+   */
+  applyFilter(): void {
+    this.currentPage = 0;
+    this.loadMovementsWithPagination();
+  }
+
+  /**
+   * Load movements with current filter and pagination
+   * Handles page query building with filters
+   */
+  private loadMovementsWithPagination(): void {
+    this.loading = true;
+    this.movementLoadingState.clear();
+    
+    const query: PageQuery = new PageQueryModel();
+    query.sort = '-date';
+    query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
+    query.offset = this.currentPage;
+    query.limit = this.itemsPerPage;
+
+    // TODO: Add date filter query when backend supports it
+    // For now, we'll load all and let backend handle pagination
+
+    if (this.parentId) {
+      this.service.parentId = this.parentId;
+    }
+
+    this.service.readAll(query).subscribe({
+      next: (data: AccountMovementModel[]) => {
+        this.data = data;
+        this.totalItems = data.length; // This will be updated with proper page info from backend
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+        this.loading = false;
+      },
+      error: (error) => {
+        this.notificationService.error(`Erro ao carregar movimentos: ${error.message}`);
+        this.loading = false;
+      }
+    });
+  }
+
+  /**
+   * Navigate to next page
+   */
+  nextPage(): void {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+      this.loadMovementsWithPagination();
+    }
+  }
+
+  /**
+   * Navigate to previous page
+   */
+  previousPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadMovementsWithPagination();
+    }
+  }
+
+  /**
+   * Navigate to first page
+   */
+  firstPage(): void {
+    this.currentPage = 0;
+    this.loadMovementsWithPagination();
+  }
+
+  /**
+   * Navigate to last page
+   */
+  lastPage(): void {
+    this.currentPage = this.totalPages - 1;
+    this.loadMovementsWithPagination();
+  }
+
+  /**
+   * Get current page number (1-based for display)
+   */
+  getCurrentPageNumber(): number {
+    return this.currentPage + 1;
+  }
+
+  /**
+   * Check if can navigate to next page
+   */
+  canNextPage(): boolean {
+    return this.currentPage < this.totalPages - 1;
+  }
+
+  /**
+   * Check if can navigate to previous page
+   */
+  canPreviousPage(): boolean {
+    return this.currentPage > 0;
   }
 }
