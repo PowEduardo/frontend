@@ -62,6 +62,9 @@ export class MovementsComponent implements OnInit, OnDestroy {
   /** Filter: End date for period filter */
   filterEndDate: string = this.getDefaultEndDate();
 
+  /** Filter: Include future movements (Phase 7) */
+  includeFuture: boolean = false;
+
   /** Pagination: Current page number (0-based) */
   currentPage: number = 0;
 
@@ -147,6 +150,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
   /**
    * Load all movements from backend
    * Sets loading flag and handles errors
+   * Supports filtering by date range and including/excluding future movements
    */
   private loadMovements(): void {
     this.loading = true;
@@ -154,7 +158,16 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.movementLoadingState.clear();
     
     const query: PageQuery = new PageQueryModel();
-    query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
+    
+    // Build date range query
+    // If includeFuture is true: show movements from startDate onwards (no upper limit)
+    // If includeFuture is false: show only movements within startDate to endDate
+    if (this.includeFuture) {
+      query.addQuery("date", this.filterStartDate + ";");
+    } else {
+      query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
+    }
+    
     query.sort = '-date';
 
     // Set parent ID on service
@@ -318,8 +331,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
    */
   private getDefaultEndDate(): string {
     const today = new Date();
-    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    return this.formatDate(lastDay);
+    return this.formatDate(today);
   }
 
   /**
