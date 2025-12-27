@@ -62,8 +62,14 @@ export class MovementsComponent implements OnInit, OnDestroy {
   /** Filter: End date for period filter */
   filterEndDate: string = this.getDefaultEndDate();
 
-  /** Filter: Include future movements (Phase 7) */
-  includeFuture: boolean = false;
+  /** Future movements data for dropdown (Phase 7) */
+  futureMovements: AccountMovementModel[] = [];
+
+  /** Loading flag for future movements dropdown */
+  loadingFuture: boolean = false;
+
+  /** Dropdown visibility for future movements */
+  showFutureDropdown: boolean = true;
 
   /** Pagination: Current page number (0-based) */
   currentPage: number = 0;
@@ -123,10 +129,12 @@ export class MovementsComponent implements OnInit, OnDestroy {
         if (idParam) {
           this.parentId = parseInt(idParam, 10);
           this.loadMovements();
+          this.loadFutureMovements();
         }
       });
     } else {
       this.loadMovements();
+      this.loadFutureMovements();
     }
     
     // Initialize visibility based on whether there is an active child route
@@ -148,9 +156,8 @@ export class MovementsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Load all movements from backend
+   * Load all movements from backend (historical/current only)
    * Sets loading flag and handles errors
-   * Supports filtering by date range and including/excluding future movements
    */
   private loadMovements(): void {
     this.loading = true;
@@ -158,16 +165,8 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.movementLoadingState.clear();
     
     const query: PageQuery = new PageQueryModel();
-    
-    // Build date range query
-    // If includeFuture is true: show movements from startDate onwards (no upper limit)
-    // If includeFuture is false: show only movements within startDate to endDate
-    if (this.includeFuture) {
-      query.addQuery("date", this.filterStartDate + ";");
-    } else {
-      query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
-    }
-    
+    // Only load movements up to filterEndDate (no future movements)
+    query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
     query.sort = '-date';
 
     // Set parent ID on service
@@ -186,6 +185,44 @@ export class MovementsComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
+  }
+
+  /**
+   * Load future movements (Phase 7)
+   * Loads movements with date greater than today
+   */
+  private loadFutureMovements(): void {
+    this.loadingFuture = true;
+
+    const query: PageQuery = new PageQueryModel();
+    // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().split('T')[0];
+    // Load all movements from tomorrow onwards
+    query.addQuery("date", today + ";");
+    query.sort = 'date';
+
+    // Set parent ID on service
+    if (this.parentId) {
+      this.service.parentId = this.parentId;
+    }
+
+    this.service.readAll(query).subscribe({
+      next: (data: AccountMovementModel[]) => {
+        this.futureMovements = data;
+        this.loadingFuture = false;
+      },
+      error: (error) => {
+        console.error(`Erro ao carregar movimentos futuros: ${error.message}`);
+        this.loadingFuture = false;
+      }
+    });
+  }
+
+  /**
+   * Toggle future movements dropdown visibility
+   */
+  toggleFutureDropdown(): void {
+    this.showFutureDropdown = !this.showFutureDropdown;
   }
 
   /**
