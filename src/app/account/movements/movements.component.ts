@@ -41,7 +41,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     { key: 'description', label: 'Descrição' },
     { key: 'value', label: 'Valor' },
     { key: 'date', label: 'Data' },
-    { key: 'paid', label: 'Pago?' }
+    { key: 'paid', label: 'Pago' }
   ];
 
   /** Movement data for table rendering */
@@ -165,6 +165,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.service.readAll(query).subscribe({
       next: (data: AccountMovementModel[]) => {
         this.data = data;
+        this.totalItems = data.length;
         this.loading = false;
       },
       error: (error) => {
@@ -253,7 +254,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.setMovementLoading(id, true);
     this.service.markAsPaid(id).subscribe({
       next: (updatedMovement) => {
-        this.notificationService.success('Movimento marcado como pago');
+        this.notificationService.success('Movimento {} marcado como pago'.replace('{}', updatedMovement.id!.toString()));
         this.loadMovements();
       },
       error: (error) => {

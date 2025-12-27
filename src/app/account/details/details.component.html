@@ -37,11 +37,16 @@
           </div>
         </div>
       </div>
+
+      <!-- Dashboard Section -->
+      <div class="mt-5">
+        <app-dashboard [parentId]="accountId"></app-dashboard>
+      </div>
     </div>
   }
 } @else {
   <div class="d-flex justify-content-between align-items-center mb-4 mt-4 ms-4 me-4">
-    <h5 class="mb-0">Movimentos da Conta</h5>
+    <h5 class="mb-0">Detalhes da Conta</h5>
     <button class="btn btn-secondary btn-sm" (click)="backToList()">
       <i class="bi bi-arrow-left me-2"></i> Voltar
     </button>

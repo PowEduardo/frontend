@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AccountDetailsModel } from '../model/account-details-model';
 import { AccountService } from '../service/account-service';
 import { NotificationService } from '../../commons/service/notification.service';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 /**
  * Account Details Component
@@ -15,7 +16,7 @@ import { NotificationService } from '../../commons/service/notification.service'
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, DashboardComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
 })

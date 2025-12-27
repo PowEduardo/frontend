@@ -1,30 +1,58 @@
 
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { LegendPosition, NgxChartsModule } from '@swimlane/ngx-charts';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import type { EChartsOption } from 'echarts';
+import * as echarts from 'echarts';
 import { PieChartModel } from '../../model/pie-chart-model';
 
 @Component({
   selector: 'app-pie',
   standalone: true,
-  imports: [NgxChartsModule],
+  imports: [CommonModule],
   providers: [],
-  templateUrl: './pie.component.html',
-  styleUrl: './pie.component.css'
+  template: `
+    <div class="pie-chart-container">
+      <div #chartElement
+        [style.width.%]="100"
+        [style.height.px]="400">
+      </div>
+    </div>
+  `,
+  styles: [`
+    .pie-chart-container {
+      width: 100%;
+      height: 100%;
+    }
+  `]
 })
-export class PieComponent implements OnChanges {
+export class PieComponent implements OnChanges, AfterViewInit {
+  @ViewChild('chartElement', { static: false }) chartElement!: ElementRef;
+  
   @Input()
   public pieChartData!: PieChartModel[];
 
-  public view: [number, number] = [800, 300];
+  chartOptions: EChartsOption = {};
+  private chart: echarts.ECharts | null = null;
 
-  public showLegend: boolean = true;
-  public showLabels: boolean = true;
-  public isDoughnut: boolean = false;
-
-  public legendPosition: LegendPosition = LegendPosition.Right;
+  ngAfterViewInit(): void {
+    this.initChart();
+    this.updateChart();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.calculatePercentages();
+    if (changes['pieChartData']) {
+      this.calculatePercentages();
+      this.updateChart();
+    }
+  }
+
+  /**
+   * Initialize the ECharts instance
+   */
+  private initChart(): void {
+    if (this.chartElement && !this.chart) {
+      this.chart = echarts.init(this.chartElement.nativeElement);
+    }
   }
 
   calculatePercentages() {
@@ -33,5 +61,42 @@ export class PieComponent implements OnChanges {
       const percentage = ((item.value / total) * 100).toFixed(2);
       return { ...item, name: `${item.name} (${percentage}%)` };
     });
+  }
+
+  private updateChart(): void {
+    const data = this.pieChartData.map(item => ({
+      name: item.name,
+      value: item.value
+    }));
+
+    this.chartOptions = {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
+      },
+      legend: {
+        bottom: 10,
+        left: 'center'
+      },
+      series: [
+        {
+          name: 'Investimentos',
+          type: 'pie' as const,
+          radius: '50%',
+          data: data,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+
+    if (this.chart) {
+      this.chart.setOption(this.chartOptions);
+    }
   }
 }
