@@ -1,71 +1,72 @@
-import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AssetsComponent } from '../commons/modal/search/assets/assets.component';
-import { AssetMovementUpsertComponent } from '../investment/asset/modal/add-movement/asset-movement/asset-movement-upsert.component';
-import { AssetReturnMovementUpsertComponent } from '../investment/asset/modal/add-movement/asset-return/asset-return-upsert.component';
-import { AssetDetailsModel } from '../investment/asset/model/asset-model-details';
-import { AccountModule } from './account.module';
-import { DetailsComponent } from './details/details.component';
-import { AccountMovementsUpsertComponent } from './movements/account-movements-upsert/account-movements-upsert.component';
-import { MovementsComponent } from "./movements/movements.component";
-import { MovementTypeComponent } from '../commons/modal/movement/movement-type/movement-type.component';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AccountService } from './service/account-service';
+import { AccountDetailsModel } from './model/account-details-model';
+import { NotificationService } from '../commons/service/notification.service';
+import { PageQuery } from '../commons/base/model/page-query';
+import { PageQueryModel } from '../commons/base/model/page-query-model';
 
+/**
+ * Account List Component
+ * Displays list of all accounts and allows navigation to account details.
+ * Lists all user accounts with basic information and action buttons.
+ */
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [MovementsComponent, AccountModule, DetailsComponent],
+  imports: [CommonModule],
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
 })
-export class AccountComponent {
-  showMovements: boolean = true;
-  constructor(private modalService: NgbModal) {
+export class AccountComponent implements OnInit {
+  accounts: AccountDetailsModel[] = [];
+  loading: boolean = true;
+
+  constructor(
+    private service: AccountService,
+    private notificationService: NotificationService,
+    private router: Router
+  ) {}
+
+  /**
+   * Load all accounts on component init
+   */
+  ngOnInit(): void {
+    this.loadAccounts();
   }
-  async addMovement() {
-    var type = null;
-    var parentId = null;
-    await this.modalService.open(MovementTypeComponent).result.then(
-      (result: string) => {
-        type = result;
+
+  /**
+   * Load all accounts from service
+   */
+  private loadAccounts(): void {
+    this.loading = true;
+    const query: PageQuery = new PageQueryModel();
+    this.service.readAll(query).subscribe({
+      next: (accounts: any[]) => {
+        this.accounts = accounts;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.notificationService.error(`Erro ao carregar contas: ${error.message}`);
+        this.loading = false;
       }
-    );
-    const movementModal = this.getType(type!);
-
-    if (movementModal === AccountMovementsUpsertComponent) {
-      parentId = 1;
-    } else {
-      await this.modalService.open(AssetsComponent).result.then(
-        (asset: number) => {
-          parentId = asset;
-        }
-      );
-    }
-    var whileLoop = true;
-    do {
-      const modal = this.modalService.open(movementModal);
-      modal.componentInstance.parentId = parentId;
-      await modal.result.then(
-        (result) => {
-          this.showMovements = false;
-          this.showMovements = true;
-          if (result === 'Close') {
-            whileLoop = false;
-          }
-        }
-      );
-    } while (whileLoop);
-
+    });
   }
 
-  getType(type: string): any {
-    switch (type) {
-      case "ACCOUNT":
-        return AccountMovementsUpsertComponent;
-      case "ASSET":
-        return AssetMovementUpsertComponent;
-      case "RETURN":
-        return AssetReturnMovementUpsertComponent;
-    }
+  /**
+   * Navigate to account details
+   * @param accountId Account ID to navigate to
+   */
+  viewAccount(accountId: number): void {
+    this.router.navigate(['/accounts', accountId]);
   }
 
+  /**
+   * Navigate to account movements
+   * @param accountId Account ID
+   */
+  viewMovements(accountId: number): void {
+    this.router.navigate(['/accounts', accountId, 'movements']);
+  }
 }
