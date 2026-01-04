@@ -92,7 +92,6 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
   ngAfterViewInit(): void {
     // Initialize chart immediately when view is ready
     // Data will be loaded separately via loadChartData()
-    console.log('AfterViewInit - initializing chart');
     this.initChart();
     this.setupResizeListener();
   }
@@ -121,7 +120,6 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
   private setupResizeListener(): void {
     this.resizeListener = () => {
       if (this.chart) {
-        console.log('Resizing chart...');
         this.chart.resize();
       }
     };
@@ -133,25 +131,20 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
    */
   private initChart(): void {
     if (this.chart) {
-      console.log('Chart already initialized');
       return;
     }
 
     if (!this.chartElement) {
-      console.warn('chartElement reference not available');
       return;
     }
 
     const element = this.chartElement.nativeElement;
     if (!element) {
-      console.warn('chartElement.nativeElement is null');
       return;
     }
 
     try {
-      console.log('Initializing ECharts with element:', element);
       this.chart = echarts.init(element);
-      console.log('✅ ECharts initialized successfully');
     } catch (error) {
       console.error('❌ Failed to initialize ECharts:', error);
     }
@@ -178,20 +171,16 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
    * Load specific card payment data
    */
   private loadCardSpecificData(cardId: number): void {
-    console.log('Loading card specific data for cardId:', cardId);
     this.dashboardService.getCardPaidAmount(cardId).subscribe({
       next: (data) => {
-        console.log('Card data received:', data);
         this.chartData = data!.details!.map((details) => ({
           name: details.referenceMonth,
           value: details.value
         }));
-        console.log('Chart data transformed:', this.chartData);
         this.updateChart();
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading card data:', err);
         this.notificationService.error('Erro ao carregar dados do gráfico');
         this.loading = false;
       }
@@ -202,15 +191,12 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
    * Load aggregated payment data for all cards
    */
   private loadAllCardsData(): void {
-    console.log('Loading all cards data');
     this.dashboardService.getTotalPaidAmountAllCards().subscribe({
       next: (data) => {
-        console.log('All cards data received:', data);
         this.chartData = data!.details!.map((details) => ({
           name: details.referenceMonth,
           value: details.value
         }));
-        console.log('Chart data transformed:', this.chartData);
         this.updateChart();
         this.loading = false;
       },
@@ -238,8 +224,6 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
 
     const months = this.chartData.map(item => item.name);
     const values = this.chartData.map(item => item.value);
-
-    console.log('📊 Updating chart with data:', { months, values });
 
     this.chartOptions = {
       color: ['#5470c6'],
@@ -300,7 +284,6 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
           this.chart.resize();
         }
       }, 100);
-      console.log('✅ Chart updated successfully');
     } catch (error) {
       console.error('❌ Failed to set chart options:', error);
     }

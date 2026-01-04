@@ -198,7 +198,5 @@ export class BarChartComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.chart) {
       this.chart.setOption(this.chartOptions);
     }
-
-    console.log('Chart options:', this.chartOptions);
   }
 }

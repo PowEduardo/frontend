@@ -92,12 +92,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
       action: (movement: AccountMovementModel) => this.markAsPaid(movement.id!)
     },
     {
-      label: 'Editar',
-      icon: 'bi bi-pencil',
-      cssClass: 'primary',
-      action: (movement: AccountMovementModel) => this.updateMovement(movement.id!)
-    },
-    {
       label: 'Deletar',
       icon: 'bi bi-trash',
       cssClass: 'danger',
