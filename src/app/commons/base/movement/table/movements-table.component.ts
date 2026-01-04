@@ -4,6 +4,24 @@ import { PageQuery } from '../../model/page-query';
 import { MovementModelInterface } from '../model/movement-model-interface';
 import { MovementService } from '../service/movement.service';
 
+/**
+ * @deprecated
+ * This component has been deprecated as of Phase X.5.
+ * Use the standardized `<app-table>` component from commons/base/table instead.
+ * 
+ * Migration Example:
+ * OLD: <app-movements-table [movements]="data"></app-movements-table>
+ * NEW: <app-table [columns]="columns" [data]="data" [actions]="actions"></app-table>
+ * 
+ * The app-table component provides:
+ * - Generic type support <T>
+ * - Configurable columns via TableColumn[]
+ * - Flexible actions via TableAction<T>[]
+ * - Content projection support
+ * - Better reusability across modules
+ * 
+ * See: investment/asset/movements/movements.component.ts for migration example
+ */
 @Component({
   standalone: true,
   selector: 'app-movements-table',

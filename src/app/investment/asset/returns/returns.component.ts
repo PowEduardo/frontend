@@ -1,69 +1,155 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
+import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableColumn } from '../../../commons/model/table-column';
+import { TableAction } from '../../../commons/model/table-action';
 import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return-upsert.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
 import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';
 
-
+/**
+ * Displays asset return transactions (dividends, JCP, etc.)
+ * Uses standardized app-table component with configurable columns and actions
+ */
 @Component({
   selector: 'app-returns',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
-  providers: [],
+  imports: [CommonModule, TableComponent, MatIconModule],
+  providers: [CurrencyPipe, DatePipe],
   templateUrl: './returns.component.html',
   styleUrl: './returns.component.css'
 })
-export class ReturnsComponent extends MovementsTableComponent<AssetMovementReturnModel> implements OnChanges {
-  @Input()
-  assetType?: string;
-  constructor(protected override service: AssetReturnServiceImpl,
-    protected override modal: NgbModal
+export class ReturnsComponent implements OnChanges {
+  @Input() parentId: number = 0;
+  @Input() assetType?: string;
+  
+  movements: AssetMovementReturnModel[] = [];
+  columns: TableColumn[] = [];
+  returnActions: TableAction<AssetMovementReturnModel>[] = [];
+  sort: string = '-exDividendDate';
+  loading: boolean = false;
+
+  constructor(
+    private service: AssetReturnServiceImpl,
+    private modal: NgbModal,
+    private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe
   ) {
-    super(service, modal);
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  override ngOnChanges(changes: SimpleChanges): void {
-    this.getMovements('-exDividendDate');
+    this.initializeColumns();
+    this.initializeActions();
   }
 
-  override async getMovements(attribute: string) {
-    if (this.sort === attribute) {
-      attribute = '-' + attribute;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['parentId']) {
+      this.loadMovements();
     }
-    this.sort = attribute;
-    this.movements = [];
-    const query: PageQuery = new PageQuery();
-    if (attribute) {
-      query.sort = attribute;
-    }
+  }
+
+  /**
+   * Initialize table columns based on context
+   */
+  private initializeColumns(): void {
+    this.columns = [
+      { key: 'id', label: 'Id' },
+      ...(this.parentId === 0 ? [{ key: 'asset', label: 'Asset' }] : []),
+      { 
+        key: 'unitValue', 
+        label: 'Unit Value',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      },
+      { key: 'amount', label: 'Amount' },
+      { key: 'operation', label: 'Operation' },
+      { 
+        key: 'exDividendDate', 
+        label: 'Ex-Dividend Date',
+        format: (value) => this.datePipe.transform(value as Date, 'dd/MM/yyyy') || ''
+      },
+      { 
+        key: 'date', 
+        label: 'Payment Date',
+        format: (value) => this.datePipe.transform(value as Date, 'dd/MM/yyyy') || ''
+      },
+      { 
+        key: 'value', 
+        label: 'Value',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      }
+    ];
+  }
+
+  /**
+   * Initialize table actions (edit, delete)
+   */
+  private initializeActions(): void {
+    this.returnActions = [
+      {
+        label: '+',
+        icon: 'bi bi-pencil',
+        action: (row) => this.updateMovements(row)
+      },
+      {
+        label: 'Delete',
+        icon: 'bi bi-trash',
+        cssClass: 'danger',
+        action: (row) => this.deleteMovement(row.id!)
+      }
+    ];
+  }
+
+  /**
+   * Load return movements with sorting and filtering
+   */
+  private loadMovements(): void {
+    this.loading = true;
+    const query = new PageQuery();
+    query.sort = this.sort;
+    
     if (this.assetType) {
-      query.addQuery("assetType", this.assetType);
+      query.addQuery('assetType', this.assetType);
     }
+    
     this.service.parentId = this.parentId;
-    await this.service.readAll(query).subscribe((data: AssetMovementReturnModel[]) => {
-      data.map(element => {
-        this.movements!.push(element);
-      });
+    this.service.readAll(query).subscribe({
+      next: (data: AssetMovementReturnModel[]) => {
+        this.movements = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading returns:', error);
+        this.loading = false;
+      }
     });
-
   }
 
-  addMovement() {
+  /**
+   * Open modal to add new return
+   */
+  addMovement(): void {
     const modalRef = this.modal.open(AssetReturnMovementUpsertComponent);
     modalRef.componentInstance.parentId = this.parentId;
   }
 
-  updateMovements(model: AssetMovementReturnModel) {
-      const modalRef = this.modal.open(AssetReturnMovementUpsertComponent);
-      modalRef.componentInstance.parentId = this.parentId;
-      modalRef.componentInstance.model = model;
-    }
+  /**
+   * Open modal to edit existing return
+   */
+  updateMovements(model: AssetMovementReturnModel): void {
+    const modalRef = this.modal.open(AssetReturnMovementUpsertComponent);
+    modalRef.componentInstance.parentId = this.parentId;
+    modalRef.componentInstance.model = model;
+  }
 
-    deleteMovement(id: number){
-      this.service.delete(id).subscribe();
+  /**
+   * Delete return by id
+   */
+  deleteMovement(id: number): void {
+    if (confirm('Tem certeza que deseja deletar este retorno?')) {
+      this.service.delete(id).subscribe({
+        next: () => this.loadMovements(),
+        error: (error) => console.error('Error deleting return:', error)
+      });
     }
+  }
 }
