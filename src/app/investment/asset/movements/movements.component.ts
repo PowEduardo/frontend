@@ -29,7 +29,7 @@ export class MovementsComponent implements OnChanges {
   movements: AssetMovementModel[] = [];
   columns: TableColumn[] = [];
   movementActions: TableAction<AssetMovementModel>[] = [];
-  sort: string = '-operation';
+  sort: string = '-date';
   loading: boolean = false;
 
   constructor(

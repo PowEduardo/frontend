@@ -69,7 +69,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
   loadingFuture: boolean = false;
 
   /** Dropdown visibility for future movements */
-  showFutureDropdown: boolean = true;
+  showFutureDropdown: boolean = false;
 
   /** Pagination: Current page number (0-based) */
   currentPage: number = 0;
@@ -168,7 +168,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
     // Only load movements up to filterEndDate (no future movements)
     query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
     query.sort = '-date';
-
     // Set parent ID on service
     if (this.parentId) {
       this.service.parentId = this.parentId;
@@ -233,6 +232,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
    */
   onValueSelected(movement: AccountMovementModel): void {
     // Can be extended for navigation to movement details
+    this.updateMovement(movement.id!);
   }
 
   /**

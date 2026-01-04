@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cancelled')"></button>
     <h4 class="modal-title text-center w-100">Upsert {{title}}</h4>
 </div>
 <div class="modal-body">
@@ -10,6 +10,6 @@
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close')">Close</button>
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cancelled')">Cancell</button>
     </div>
 </div>
