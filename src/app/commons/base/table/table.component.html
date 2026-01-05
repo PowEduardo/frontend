@@ -14,7 +14,7 @@
       @for (row of data; track $index) {
       <tr (click)="onRowClick(row)" style="cursor: pointer">
         @for (col of columns; track $index) {
-        <td>
+        <td [ngStyle]="getCellStyle(col, row)">
           {{ formatCell(col, row) }}
         </td>
         }

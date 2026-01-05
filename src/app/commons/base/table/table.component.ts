@@ -26,7 +26,7 @@ import { CommonModule } from '@angular/common';
 export class TableComponent<T = unknown> {
   @Input() columns: TableColumn[] = [];
   @Input() data: T[] = [];
-  
+
   /**
    * Optional action buttons to display in each row.
    * If provided, a new "Actions" column will be added.
@@ -66,5 +66,13 @@ export class TableComponent<T = unknown> {
    */
   hasActions(): boolean {
     return !!(this.actions && this.actions.length > 0);
+  }
+
+  /**
+   * Retrieve custom styles for a cell based on its column definition and row data.
+   */
+  getCellStyle(col: TableColumn, row: T): { [key: string]: string } {
+    const value = (row as Record<string, unknown>)[col.key];
+    return col.style ? col.style(value, row as unknown) : {};
   }
 }

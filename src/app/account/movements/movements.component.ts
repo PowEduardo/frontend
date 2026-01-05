@@ -39,7 +39,13 @@ export class MovementsComponent implements OnInit, OnDestroy {
   columns: TableColumn[] = [
     { key: 'id', label: 'ID' },
     { key: 'description', label: 'Descrição' },
-    { key: 'value', label: 'Valor' },
+    { key: 'value', label: 'Valor', format: (val: unknown, row: unknown) => {
+      const rowData = row as AccountMovementModel;
+      return rowData.type === 'DEBIT' ? `R$ -${val}` : `R$ ${val}`;
+    }, style: (val: unknown, row: unknown) => {
+      const rowData = row as AccountMovementModel;
+      return rowData.type === 'DEBIT' ? {color: 'red'} : {color: 'green'};
+    }},
     { key: 'date', label: 'Data' },
     { key: 'paid', label: 'Pago' }
   ];
