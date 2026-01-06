@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
-import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
 import { MovementModule } from '../../../../../commons/base/movement/movement.module';
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
@@ -38,7 +37,6 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
   createMovement(): void {
     if (!this.model) {
       this.model = new AssetMovementModel();
-      this.model.type = MovementType.DEBIT;
       this.model.category = MovementCategory.INVESTMENT;
     }
   }
