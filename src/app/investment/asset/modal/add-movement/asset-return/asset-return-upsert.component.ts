@@ -12,6 +12,7 @@ import { CrudService } from '../../../../../commons/service/crud.service';
 import { AssetMovementReturnType } from '../../../enum/asset-movement-return-type';
 import { AssetMovementReturnModel } from '../../../model/asset-movement-return-model';
 import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-return-impl.service';
+import { NotificationService } from '../../../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-add-return',
@@ -30,8 +31,9 @@ export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<
 
 
   constructor(protected override service: MovementService<AssetMovementReturnModel>,
-    protected override activeModal: NgbActiveModal) {
-    super(activeModal, service);
+    protected override activeModal: NgbActiveModal,
+    protected override notificationService: NotificationService) {
+    super(activeModal, service, notificationService);
     this.movementTypes = Object.values(AssetMovementReturnType);
     this.createMovement();
   }

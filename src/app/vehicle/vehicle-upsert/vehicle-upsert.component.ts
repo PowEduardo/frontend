@@ -5,6 +5,7 @@ import { UpsertComponent } from '../../commons/base/upsert/upsert.component';
 import { CrudService } from '../../commons/service/crud.service';
 import { VehicleModel } from '../model/vehicle-model';
 import { VehicleService } from '../service/vehicle.service';
+import { NotificationService } from '../../commons/service/notification.service';
 
 @Component({
   selector: 'app-vehicle-upsert',
@@ -16,9 +17,10 @@ import { VehicleService } from '../service/vehicle.service';
 })
 export class VehicleUpsertComponent extends UpsertComponent<VehicleModel> {
   constructor(override activeModal: NgbActiveModal,
-    override service: CrudService<VehicleModel>
+    override service: CrudService<VehicleModel>,
+    override notificationService: NotificationService
   ) {
-    super(activeModal, service);
+    super(activeModal, service, notificationService);
     this.model = new VehicleModel();
     this.title = 'Vehicle';
   }

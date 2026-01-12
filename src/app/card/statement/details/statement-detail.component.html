@@ -25,8 +25,8 @@
           <div class="col-md-3">
             <label class="text-muted d-block mb-1">Status</label>
             <p class="mb-0">
-              <span class="badge" [ngClass]="statement.paid ? 'bg-success' : 'bg-warning'">
-                {{ statement.paid ? 'Paga' : 'Aberta' }}
+              <span class="badge" [ngClass]="statement.closed ? 'bg-success' : 'bg-warning'">
+                {{ statement.closed ? 'Paga' : 'Aberta' }}
               </span>
             </p>
           </div>
@@ -91,7 +91,7 @@
       <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
         <i class="bi bi-x me-2"></i> Fechar
       </button>
-      @if (!statement.paid) {
+      @if (!statement.closed) {
         <button type="button" class="btn btn-success" (click)="markAsPaid()">
           <i class="bi bi-check-circle me-2"></i> Marcar Fatura como Paga
         </button>

@@ -111,13 +111,13 @@ export class StatementDetailComponent implements OnInit {
 
     const updatedStatement: StatementModel = {
       ...this.statement,
-      paid: true
+      closed: true
     };
 
     this.statementService.update(updatedStatement).subscribe({
       next: () => {
         this.notificationService.success('Fatura marcada como paga');
-        this.statement!.paid = true;
+        this.statement!.closed = true;
       },
       error: () => {
         this.notificationService.error('Erro ao marcar fatura como paga');

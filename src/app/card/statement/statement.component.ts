@@ -29,7 +29,7 @@ export class StatementComponent implements OnInit, OnDestroy {
     { key: 'referenceMonth', label: 'Reference Month' },
     { key: 'value', label: 'Value' },
     { key: 'discounts', label: 'Discount' },
-    { key: 'paid', label: 'Paid', format: (value) => {
+    { key: 'closed', label: 'Closed', format: (value) => {
       if (value === undefined) {
         return 'Fatura em aberto';
       }

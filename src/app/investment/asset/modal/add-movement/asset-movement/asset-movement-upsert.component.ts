@@ -11,6 +11,7 @@ import { CrudService } from '../../../../../commons/service/crud.service';
 import { AssetOperationType } from '../../../enum/asset-operation-type';
 import { AssetMovementModel } from '../../../model/asset-movement-model';
 import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements-impl.service';
+import { NotificationService } from '../../../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-asset-movement',
@@ -28,23 +29,24 @@ export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetM
   overrideValue: boolean = false;
 
   constructor(service: MovementService<AssetMovementModel>,
-    activeModal: NgbActiveModal) {
-    super(activeModal, service);
-    this.movementTypes = Object.values(AssetOperationType);
-    this.createMovement();
+    activeModal: NgbActiveModal,
+    notificationService: NotificationService) {
+  super(activeModal, service, notificationService);
+  this.movementTypes = Object.values(AssetOperationType);
+  this.createMovement();
+}
+
+createMovement(): void {
+  if(!this.model) {
+  this.model = new AssetMovementModel();
+  this.model.category = MovementCategory.INVESTMENT;
+}
   }
 
-  createMovement(): void {
-    if (!this.model) {
-      this.model = new AssetMovementModel();
-      this.model.category = MovementCategory.INVESTMENT;
-    }
+calculateValue() {
+  if (!this.overrideValue) {
+    const result = this.model!.amount * this.model!.unitValue + (this.model!.operation.toString() === AssetOperationType.SELL.toString() ? -this.model.liquidationFee : this.model.liquidationFee);
+    this.model!.value = this.roundHalfUp(result, 3);
   }
-
-  calculateValue() {
-    if (!this.overrideValue) {
-      const result = this.model!.amount * this.model!.unitValue + (this.model!.operation.toString() === AssetOperationType.SELL.toString() ? -this.model.liquidationFee : this.model.liquidationFee);
-      this.model!.value = this.roundHalfUp(result, 3);
-    }
-  }
+}
 }

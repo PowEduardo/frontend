@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CrudService } from '../../service/crud.service';
-import { FormsModule } from '@angular/forms';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-upsert',
@@ -10,15 +11,16 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './upsert.component.html',
   styleUrl: './upsert.component.css'
 })
-export class UpsertComponent<T> {
-  protected model: T | any;
+export class UpsertComponent<T extends { id?: number | null}> {
+  protected model!: T;
   @Input()
   public title!: string | null;
   @Output()
-  public submitEventEmitter: EventEmitter<T | any> = new EventEmitter<T | any>();
+  public submitEventEmitter: EventEmitter<T | unknown> = new EventEmitter<T | unknown>();
 
   constructor(protected activeModal: NgbActiveModal,
-    protected service: CrudService<T | any | null>
+    protected service: CrudService<T>,
+    protected notificationService: NotificationService
   ) { }
 
   eventSubmit() {
@@ -32,7 +34,8 @@ export class UpsertComponent<T> {
           this.model.id = response.id;
         },
         error: (error) => {
-          alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
+          console.log('UpsertComponent.onSubmit error:', error);
+          this.notificationService.error(error.error.message || 'An unexpected error occurred.');
           this.activeModal.close('error');
         }
       });
