@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AssetServiceImpl } from '../service/impl/asset-impl.service';
 import { IrpfModel } from './model/irpf-model';
+import { NotificationService } from '../../../commons/service/notification.service';
 
 /**
  * Displays IRPF (Brazilian tax) information for an asset
@@ -16,26 +17,28 @@ import { IrpfModel } from './model/irpf-model';
 })
 export class IrpfComponent implements OnInit {
   @Input() parentId!: number;
-  
+
   model: IrpfModel | null = null;
   ticker: string = '';
   loading: boolean = false;
 
-  constructor(private service: AssetServiceImpl) {}
+  constructor(private service: AssetServiceImpl,
+    private notificationService: NotificationService
+  ) { }
 
   /**
    * Load IRPF data for the asset
    */
   ngOnInit(): void {
     this.loading = true;
-    
-    this.service.irpf(this.parentId, 2024).subscribe({
+
+    this.service.irpf(this.parentId, 2025).subscribe({
       next: (response) => {
         this.model = response;
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading IRPF data:', error);
+        this.notificationService.error(`Erro ao recuperar IRPF: ${error.error.message}`);
         this.loading = false;
       }
     });
@@ -44,7 +47,7 @@ export class IrpfComponent implements OnInit {
       next: (response) => {
         this.ticker = response.ticker;
       },
-      error: (error) => console.error('Error loading asset:', error)
+      error: (error) => this.notificationService.error(`Erro ao recuperar Asset: ${error.error.message}`)
     });
   }
 }

@@ -180,8 +180,8 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
         this.updateChart();
         this.loading = false;
       },
-      error: (err) => {
-        this.notificationService.error('Erro ao carregar dados do gráfico');
+      error: (error) => {
+        this.notificationService.error(`Erro ao carregar dados do gráfico: ${error.error.message}`);
         this.loading = false;
       }
     });
@@ -200,9 +200,8 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
         this.updateChart();
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Error loading all cards data:', err);
-        this.notificationService.error('Erro ao carregar dados do gráfico');
+      error: (error) => {
+        this.notificationService.error(`Erro ao carregar dados do gráfico: ${error.error.message}`);
         this.loading = false;
       }
     });

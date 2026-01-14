@@ -11,12 +11,13 @@ import { NotificationService } from '../../service/notification.service';
   templateUrl: './upsert.component.html',
   styleUrl: './upsert.component.css'
 })
-export class UpsertComponent<T extends { id?: number | null}> {
+export class UpsertComponent<T extends { id?: number | null }> {
   protected model!: T;
   @Input()
   public title!: string | null;
   @Output()
   public submitEventEmitter: EventEmitter<T | unknown> = new EventEmitter<T | unknown>();
+  public isReady: boolean = true;
 
   constructor(protected activeModal: NgbActiveModal,
     protected service: CrudService<T>,
@@ -24,7 +25,7 @@ export class UpsertComponent<T extends { id?: number | null}> {
   ) { }
 
   eventSubmit() {
-    this.submitEventEmitter.emit();
+    this.submitEventEmitter.emit(this.model);
   }
 
   async onSubmit() {
@@ -32,26 +33,38 @@ export class UpsertComponent<T extends { id?: number | null}> {
       this.service.create(this.model).subscribe({
         next: (response) => {
           this.model.id = response.id;
+          this.eventSubmit();
+          this.notificationService.success(`Criação feita com sucesso id: ${response.id}`);
         },
         error: (error) => {
-          console.log('UpsertComponent.onSubmit error:', error);
           this.notificationService.error(error.error.message || 'An unexpected error occurred.');
           this.activeModal.close('error');
         }
       });
     } else {
-      this.service.update(this.model).subscribe();
+      this.service.update(this.model).subscribe({
+        next: (response) => {
+          this.model.id = response.id;
+          this.notificationService.success(`Atualização feita com sucesso id: ${response.id}`);
+        },
+        error: (error) => {
+          this.notificationService.error(error.error.message || 'An unexpected error occurred.');
+          this.activeModal.close('error');
+        }
+      });
     }
     this.activeModal.close(this.model);
   }
 
   setModel(id: number) {
+    this.isReady = false;
     this.service.read(id).subscribe({
       next: (response) => {
         this.model = response;
+        this.isReady = true;
       },
       error: (error) => {
-        alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
+        this.notificationService.error(error.error.message || 'An unexpected error occurred.');
         this.activeModal.close('error');
       }
     });

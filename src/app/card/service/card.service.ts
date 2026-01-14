@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BaseCrudService } from '../../commons/service/base-crud.service';
 import { CardModel } from '../model/card-model';
 import { environment } from '../../../environments/environment';
+import { CardDetailsModel } from '../model/card-details-model';
 
 /**
  * Service for Credit Card API operations.
@@ -25,7 +26,7 @@ export class CardService extends BaseCrudService<CardModel> {
    * Get detailed card info with statements and movements.
    * Custom method specific to Card operations.
    */
-  getDetails(id: number): Observable<CardModel> {
-    return this.httpClient.get<CardModel>(`${this.baseUrl}/${id}/details`);
+  getDetails(id: number): Observable<CardDetailsModel> {
+    return this.httpClient.get<CardDetailsModel>(`${this.baseUrl}/${id}/details`);
   }
 }

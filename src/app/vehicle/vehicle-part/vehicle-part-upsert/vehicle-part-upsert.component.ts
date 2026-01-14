@@ -24,7 +24,7 @@ export class VehiclePartUpsertComponent extends UpsertComponent<VehiclePartModel
 
   vehicles: VehicleModel[] = [];
   parentId: number | null = null;
-  
+
   constructor(override activeModal: NgbActiveModal,
     override service: CrudService<VehiclePartModel>,
     override notificationService: NotificationService,
@@ -34,17 +34,23 @@ export class VehiclePartUpsertComponent extends UpsertComponent<VehiclePartModel
     super(activeModal, service, notificationService);
     this.model = new VehiclePartModel();
     this.title = 'Vehicle';
-    this.vehicleService.readAll(new PageQuery()).subscribe((data: VehicleModel[]) => {
-      this.vehicles = data;
-    }
+    this.vehicleService.readAll(new PageQuery()).subscribe(
+      {
+        next: (data: VehicleModel[]) => {
+          this.vehicles = data;
+        },
+        error: error => {
+          this.notificationService.error(`Erro ao listar cadastros: ${error.error.message}`);
+        }
+      }
     );
     this.route.paramMap.subscribe(params => {
-    this.parentId = Number(params.get('id'));
+      this.parentId = Number(params.get('id'));
     });
   }
 
   override async onSubmit(): Promise<void> {
-    
+
     this.service.baseUrl = this.service.baseUrl.replace('{parentId}', this.parentId!.toString());
     super.onSubmit();
   }

@@ -7,7 +7,6 @@ import { CardMovementDTO, CardStatementDTO } from "./card-dto";
  */
 export class CardModel extends GenericT {
   name!: string;
-  cardName?: string;
   cardNumber?: string;
   cardType?: string;
   bank?: string;

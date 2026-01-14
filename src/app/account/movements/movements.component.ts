@@ -211,7 +211,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
         this.loadingFuture = false;
       },
       error: (error) => {
-        console.error(`Erro ao carregar movimentos futuros: ${error.message}`);
+        this.notificationService.error(`Erro ao carregar movimentos futuros: ${error.message}`);
         this.loadingFuture = false;
       }
     });

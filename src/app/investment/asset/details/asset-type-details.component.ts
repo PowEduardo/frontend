@@ -14,6 +14,7 @@ import { MovementsComponent } from "../movements/movements.component";
 import { OperationsComponent } from '../operations/operations.component';
 import { ReturnsComponent } from "../returns/returns.component";
 import { AssetServiceImpl } from '../service/impl/asset-impl.service';
+import { NotificationService } from '../../../commons/service/notification.service';
 
 /**
  * Asset Type Details Component
@@ -29,17 +30,17 @@ import { AssetServiceImpl } from '../service/impl/asset-impl.service';
 })
 export class AssetTypeDetailsComponent implements OnInit {
   allAssets: AssetDetailsModel[] = [];
-  
+
   columns: TableColumn[] = [];
   assetActions: TableAction<AssetDetailsModel>[] = [];
-  
+
   @Input() type: string = '';
-  
+
   private sort: string = 'ticker';
   loading: boolean = true;
-  
+
   @Output() pieValuesChange = new EventEmitter<PieChartModel[]>();
-  
+
   showAssetOperations?: number;
   isMovementsEnabled: boolean = false;
   isReturnsEnabled: boolean = false;
@@ -47,7 +48,8 @@ export class AssetTypeDetailsComponent implements OnInit {
   constructor(
     private assetService: AssetServiceImpl,
     private modalService: NgbModal,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private notificationService: NotificationService
   ) {
     this.initializeColumns();
     this.initializeActions();
@@ -60,33 +62,33 @@ export class AssetTypeDetailsComponent implements OnInit {
     this.columns = [
       { key: 'id', label: 'Id' },
       { key: 'ticker', label: 'Ticker' },
-      { 
-        key: 'value', 
+      {
+        key: 'value',
         label: 'Value',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       },
       { key: 'amount', label: 'Amount' },
-      { 
-        key: 'currentValue', 
+      {
+        key: 'currentValue',
         label: 'Current Value',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       },
-      { 
-        key: 'average', 
+      {
+        key: 'average',
         label: 'Average',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       },
       { key: 'difference', label: 'Difference (%)' },
-      { 
-        key: 'lastReturn', 
+      {
+        key: 'lastReturn',
         label: 'Last Return',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       },
       { key: 'dy', label: 'DY' },
       { key: 'ady', label: 'ADY' },
       { key: 'targetAmount', label: 'Target Amount' },
-      { 
-        key: 'returns', 
+      {
+        key: 'returns',
         label: 'Returns',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       },
@@ -135,33 +137,39 @@ export class AssetTypeDetailsComponent implements OnInit {
         query.sort = attribute;
         this.sort = attribute;
       }
-      await this.assetService.getAll(query).subscribe(async (asset: AssetModel[]) => {
-        const assetDetailsList: AssetDetailsModel[] = [];
-        const pieValues: PieChartModel[] = [];
+      await this.assetService.getAll(query).subscribe(
+        {
+          next: async (asset: AssetModel[]) => {
+            const assetDetailsList: AssetDetailsModel[] = [];
+            const pieValues: PieChartModel[] = [];
 
-        const promises = asset.map(async (asset) => {
-          let assetModel: AssetDetailsModel = new AssetDetailsModel();
+            const promises = asset.map(async (asset) => {
+              let assetModel: AssetDetailsModel = new AssetDetailsModel();
 
-          const result = await forkJoin({
-            asset: this.assetService.findById(asset.id),
-            assetDetails: this.assetService.details(asset.id)
-          }).toPromise();
+              const result = await forkJoin({
+                asset: this.assetService.findById(asset.id),
+                assetDetails: this.assetService.details(asset.id)
+              }).toPromise();
 
-          assetModel = this.toModelWithDetails(result!.assetDetails, result!.asset);
-          if (assetModel.currentValue !== 0) {
-            pieValues.push({ name: assetModel.ticker, value: assetModel.currentValue });
+              assetModel = this.toModelWithDetails(result!.assetDetails, result!.asset);
+              if (assetModel.currentValue !== 0) {
+                pieValues.push({ name: assetModel.ticker, value: assetModel.currentValue });
+              }
+              assetDetailsList.push(assetModel!);
+            });
+
+            // Wait for all promises to complete
+            await Promise.all(promises);
+
+            // Set the values after all asynchronous operations are complete
+            this.allAssets = assetDetailsList;
+            this.pieValuesChange.emit(pieValues);
+          },
+          error: (error) => {
+            this.notificationService.error(`Erro ao carregar Assets: ${error.error.message}`);
           }
-          assetDetailsList.push(assetModel!);
         });
 
-        // Wait for all promises to complete
-        await Promise.all(promises);
-
-        // Set the values after all asynchronous operations are complete
-        this.allAssets = assetDetailsList;
-        this.pieValuesChange.emit(pieValues);
-      });
-      
       this.loading = false;
     } catch (error) {
       console.error('Error fetching all assets:', error);
@@ -230,5 +238,5 @@ export class AssetTypeDetailsComponent implements OnInit {
     response.type = model.type;
     response.value = model.value;
     return response;
-    }
+  }
 }

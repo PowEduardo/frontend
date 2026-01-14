@@ -105,6 +105,7 @@ export class StatementDetailComponent implements OnInit {
 
   /**
    * Mark statement as paid
+   * TODO: Excluir pois n faz sentido
    */
   markAsPaid(): void {
     if (!this.statement) return;

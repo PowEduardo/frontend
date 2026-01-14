@@ -86,7 +86,6 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading dashboard:', error);
         this.notificationService.error(`Erro ao carregar dados do dashboard: ${error.message}`);
         this.loading = false;
       }

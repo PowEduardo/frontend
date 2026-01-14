@@ -9,6 +9,7 @@ import { TableAction } from '../../../commons/model/table-action';
 import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return-upsert.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
 import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';
+import { NotificationService } from '../../../commons/service/notification.service';
 
 /**
  * Displays asset return transactions (dividends, JCP, etc.)
@@ -25,7 +26,7 @@ import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-im
 export class ReturnsComponent implements OnChanges {
   @Input() parentId: number = 0;
   @Input() assetType?: string;
-  
+
   movements: AssetMovementReturnModel[] = [];
   columns: TableColumn[] = [];
   returnActions: TableAction<AssetMovementReturnModel>[] = [];
@@ -36,7 +37,8 @@ export class ReturnsComponent implements OnChanges {
     private service: AssetReturnServiceImpl,
     private modal: NgbModal,
     private currencyPipe: CurrencyPipe,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private notificationService: NotificationService
   ) {
     this.initializeColumns();
     this.initializeActions();
@@ -55,25 +57,25 @@ export class ReturnsComponent implements OnChanges {
     this.columns = [
       { key: 'id', label: 'Id' },
       ...(this.parentId === 0 ? [{ key: 'asset', label: 'Asset' }] : []),
-      { 
-        key: 'unitValue', 
+      {
+        key: 'unitValue',
         label: 'Unit Value',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       },
       { key: 'amount', label: 'Amount' },
       { key: 'operation', label: 'Operation' },
-      { 
-        key: 'exDividendDate', 
+      {
+        key: 'exDividendDate',
         label: 'Ex-Dividend Date',
         format: (value) => this.datePipe.transform(value as Date, 'dd/MM/yyyy') || ''
       },
-      { 
-        key: 'date', 
+      {
+        key: 'date',
         label: 'Payment Date',
         format: (value) => this.datePipe.transform(value as Date, 'dd/MM/yyyy') || ''
       },
-      { 
-        key: 'value', 
+      {
+        key: 'value',
         label: 'Value',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       }
@@ -106,11 +108,11 @@ export class ReturnsComponent implements OnChanges {
     this.loading = true;
     const query = new PageQuery();
     query.sort = this.sort;
-    
+
     if (this.assetType) {
       query.addQuery('assetType', this.assetType);
     }
-    
+
     this.service.parentId = this.parentId;
     this.service.readAll(query).subscribe({
       next: (data: AssetMovementReturnModel[]) => {
@@ -118,7 +120,7 @@ export class ReturnsComponent implements OnChanges {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading returns:', error);
+        this.notificationService.error(`Erro ao recuperar IRPF: ${error.error.message}`);
         this.loading = false;
       }
     });
@@ -148,7 +150,7 @@ export class ReturnsComponent implements OnChanges {
     if (confirm('Tem certeza que deseja deletar este retorno?')) {
       this.service.delete(id).subscribe({
         next: () => this.loadMovements(),
-        error: (error) => console.error('Error deleting return:', error)
+        error: (error) => this.notificationService.error(`Erro ao excluir movimento: ${error.error.message}`)
       });
     }
   }

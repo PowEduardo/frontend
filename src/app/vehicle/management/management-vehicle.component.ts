@@ -8,6 +8,7 @@ import { VehicleUpsertComponent } from '../vehicle-upsert/vehicle-upsert.compone
 import { VehicleModule } from '../vehicle.module';
 import { ManageComponent } from '../../commons/modal/manage/manage.component';
 import { Management } from '../../commons/page/management';
+import { NotificationService } from '../../commons/service/notification.service';
 
 @Component({
   selector: 'app-management',
@@ -21,16 +22,23 @@ export class ManagementVehiclesComponent implements OnInit, Management {
   list: VehicleModel[] = [];
   selectedVehicles: number[] = [];
   constructor(private service: CrudService<VehicleModel>,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private notificationService: NotificationService
   ) {
   }
 
   async ngOnInit(): Promise<void> {
     const pageQuery = new PageQuery();
     pageQuery.sort = 'id';
-    await this.service.readAll(pageQuery).subscribe((data) => {
-      this.list = data;
-    });
+    await this.service.readAll(pageQuery).subscribe(
+      {
+        next: (data) => {
+          this.list = data;
+        },
+        error: (error) => {
+          this.notificationService.error(`Erro ao recuperar veículos: ${error.error.message}`);
+        }
+      });
   }
 
   addVehicle() {
@@ -52,8 +60,13 @@ export class ManagementVehiclesComponent implements OnInit, Management {
     userOption.result.then((result: string) => {
       if (result === 'delete') {
         this.selectedVehicles.forEach(id => {
-          this.service.delete(id).subscribe(() => {
-            this.list.splice(this.list.findIndex(vehicle => vehicle.id === id), 1);
+          this.service.delete(id).subscribe({
+            next: () => {
+              this.list.splice(this.list.findIndex(vehicle => vehicle.id === id), 1);
+            },
+            error: (error) => {
+              this.notificationService.error(`Erro ao excluir um veículo: ${error.error.message}`);
+            }
           });
         });
       } else if (result === 'update') {

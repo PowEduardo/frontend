@@ -47,7 +47,6 @@ export class NotificationService {
    * Show an error notification.
    */
   error(message: string, duration: number = 7000): void {
-    console.log('NotificationService.error:', message);
     this.show(message, 'error', duration);
   }
 

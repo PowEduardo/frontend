@@ -1,11 +1,12 @@
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../commons/base/model/page';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { ManageComponent } from '../../commons/modal/manage/manage.component';
 import { CrudService } from '../../commons/service/crud.service';
+import { NotificationService } from '../../commons/service/notification.service';
 import { VehicleModule } from '../vehicle.module';
 import { VehicleFuelModel } from './model/vehicle-fuel';
 import { VehicleFuelUpsertComponent } from './vehicle-fuel-upsert/vehicle-fuel-upsert.component';
@@ -28,18 +29,22 @@ export class VehicleFuelComponent implements OnInit {
   constructor(private service: CrudService<VehicleFuelModel>,
     private modal: NgbModal,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.route.parent?.paramMap.subscribe(params => {
-      this.parentId = Number(params.get('id'));
-      if (isNaN(this.parentId)) {
-        return;
+    this.route.parent?.paramMap.subscribe(
+      {
+        next: params => {
+          this.parentId = Number(params.get('id'));
+          if (isNaN(this.parentId)) {
+            return;
+          }
+          this.query = new PageQuery();
+          this.query.sort = '-date,-id';
+          this.search(this.query);
+        }
       }
-      this.query = new PageQuery();
-      this.query.sort = '-date,-id';
-      this.search(this.query);
-    });
+    );
   }
 
   create() {
@@ -55,11 +60,18 @@ export class VehicleFuelComponent implements OnInit {
     userOption.result.then((result: string) => {
       if (result === 'delete') {
         this.selectedValues.forEach(id => {
-          this.service.delete(id).subscribe(() => {
-            if (this.page && this.page.content) {
-              this.page.content.splice(this.page.content.findIndex(vehicle => vehicle.id === id), 1);
+          this.service.delete(id).subscribe(
+            {
+              next: () => {
+                if (this.page && this.page.content) {
+                  this.page.content.splice(this.page.content.findIndex(vehicle => vehicle.id === id), 1);
+                }
+              },
+              error: error => {
+                this.notificationService.error(`Erro ao excluir cadastro: ${error.error.message}`);
+              }
             }
-          });
+          );
         });
       } else if (result === 'update') {
         this.selectedValues.forEach(id => {
@@ -94,9 +106,16 @@ export class VehicleFuelComponent implements OnInit {
   }
 
   private search(query: PageQuery) {
-    this.service.search(query).subscribe((response: Page<VehicleFuelModel>) => {
-      this.page = response;
-    });
+    this.service.search(query).subscribe(
+      {
+        next: (response: Page<VehicleFuelModel>) => {
+          this.page = response;
+        },
+        error: error => {
+          this.notificationService.error(`Erro ao excluir cadastro: ${error.error.message}`);
+        }
+      }
+    );
   }
 
 }

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { CardModel } from '../../model/card-model';
-import { CardService } from '../../service/card.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NotificationService } from '../../../commons/service/notification.service';
+import { CardDetailsModel } from '../../model/card-details-model';
+import { CardService } from '../../service/card.service';
 import { CardChartComponent } from '../chart/card-chart.component';
 
 /**
@@ -19,7 +19,7 @@ import { CardChartComponent } from '../chart/card-chart.component';
   styleUrls: ['./card-detail.component.css']
 })
 export class CardDetailComponent implements OnInit {
-  card: CardModel | null = null;
+  card: CardDetailsModel | null = null;
   loading: boolean = true;
   cardId: number = 0;
 
@@ -28,7 +28,7 @@ export class CardDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -43,13 +43,13 @@ export class CardDetailComponent implements OnInit {
   private loadCard(): void {
     this.loading = true;
     this.cardService.getDetails(this.cardId).subscribe({
-      next: (card: CardModel) => {
+      next: (card: CardDetailsModel) => {
         this.card = card;
-        this.loading = false; 
-      },
-      error: () => {
         this.loading = false;
-        this.notificationService.error('Erro ao carregar cartão');
+      },
+      error: (error) => {
+        this.loading = false;
+        this.notificationService.error(`Erro ao carregar cartão: ${error.error.message}`);
         this.goBack();
       }
     });

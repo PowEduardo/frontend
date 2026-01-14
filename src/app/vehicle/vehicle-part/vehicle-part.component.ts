@@ -4,12 +4,12 @@ import { PageQuery } from '../../commons/base/model/page-query';
 import { ManageComponent } from '../../commons/modal/manage/manage.component';
 import { CrudService } from '../../commons/service/crud.service';
 import { VehiclePartModel } from './model/vehicle-part-model';
-import { VehiclePartModule } from './vehicle-part.module';
 import { VehiclePartUpsertComponent } from './vehicle-part-upsert/vehicle-part-upsert.component';
+import { VehiclePartModule } from './vehicle-part.module';
 
-import { ChooseVehicleComponent } from "../modal/choose-vehicle/choose-vehicle.component";
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Page } from '../../commons/base/model/page';
+import { NotificationService } from '../../commons/service/notification.service';
 
 @Component({
   selector: 'app-vehicle-part',
@@ -21,15 +21,15 @@ import { Page } from '../../commons/base/model/page';
 export class VehiclePartComponent implements OnInit {
 
   page!: Page<VehiclePartModel>
-    selectedValues: number[] = [];
-    parentId!: number;
-    query!: PageQuery;
+  selectedValues: number[] = [];
+  parentId!: number;
+  query!: PageQuery;
 
   constructor(
     private service: CrudService<VehiclePartModel>,
     private modal: NgbModal,
     private route: ActivatedRoute,
-    private router: Router
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -56,9 +56,16 @@ export class VehiclePartComponent implements OnInit {
     userOption.result.then((result: string) => {
       if (result === 'delete') {
         this.selectedValues.forEach(id => {
-          this.service.delete(id).subscribe(() => {
-            this.page.content.splice(this.page.content.findIndex(vehicle => vehicle.id === id), 1);
-          });
+          this.service.delete(id).subscribe(
+            {
+              next: () => {
+                this.page.content.splice(this.page.content.findIndex(vehicle => vehicle.id === id), 1);
+              },
+              error: error => {
+                this.notificationService.error(`Erro ao excluir cadastro: ${error.error.message}`);
+              }
+            }
+          );
         });
       } else if (result === 'update') {
         this.selectedValues.forEach(id => {
@@ -92,8 +99,15 @@ export class VehiclePartComponent implements OnInit {
   }
 
   private search(query: PageQuery) {
-      this.service.search(query).subscribe((response: Page<VehiclePartModel>) => {
-        this.page = response;
-      });
-    }
+    this.service.search(query).subscribe(
+      {
+        next: (response: Page<VehiclePartModel>) => {
+          this.page = response;
+        },
+        error: error => {
+          this.notificationService.error(`Erro ao excluir pesquisar: ${error.error.message}`);
+        }
+      }
+    );
+  }
 }

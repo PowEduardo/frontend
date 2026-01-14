@@ -9,6 +9,7 @@ import { TableAction } from '../../../commons/model/table-action';
 import { AssetMovementUpsertComponent } from '../modal/add-movement/asset-movement/asset-movement-upsert.component';
 import { AssetMovementModel } from '../model/asset-movement-model';
 import { AssetMovementsServiceImpl } from '../service/impl/asset-movements-impl.service';
+import { NotificationService } from '../../../commons/service/notification.service';
 
 /**
  * Displays asset movement transactions (buy/sell operations)
@@ -25,7 +26,7 @@ import { AssetMovementsServiceImpl } from '../service/impl/asset-movements-impl.
 export class MovementsComponent implements OnChanges {
   @Input() parentId: number = 0;
   @Input() assetType?: string;
-  
+
   movements: AssetMovementModel[] = [];
   columns: TableColumn[] = [];
   movementActions: TableAction<AssetMovementModel>[] = [];
@@ -36,7 +37,8 @@ export class MovementsComponent implements OnChanges {
     private service: AssetMovementsServiceImpl,
     private modal: NgbModal,
     private currencyPipe: CurrencyPipe,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private notificationService: NotificationService
   ) {
     this.initializeColumns();
     this.initializeActions();
@@ -57,18 +59,18 @@ export class MovementsComponent implements OnChanges {
       ...(this.parentId === 0 ? [{ key: 'asset.ticker', label: 'Asset' }] : []),
       { key: 'operation', label: 'Operation' },
       { key: 'amount', label: 'Amount' },
-      { 
-        key: 'unitValue', 
+      {
+        key: 'unitValue',
         label: 'Unit Value',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       },
-      { 
-        key: 'value', 
+      {
+        key: 'value',
         label: 'Value',
         format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
       },
-      { 
-        key: 'date', 
+      {
+        key: 'date',
         label: 'Date',
         format: (value) => this.datePipe.transform(value as Date, 'dd/MM/yyyy') || ''
       }
@@ -101,11 +103,11 @@ export class MovementsComponent implements OnChanges {
     this.loading = true;
     const query = new PageQuery();
     query.sort = this.sort;
-    
+
     if (this.assetType) {
       query.addQuery('assetType', this.assetType);
     }
-    
+
     this.service.parentId = this.parentId;
     this.service.readAll(query).subscribe({
       next: (data: AssetMovementModel[]) => {
@@ -113,7 +115,7 @@ export class MovementsComponent implements OnChanges {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading movements:', error);
+        this.notificationService.error(`Erro ao recuperar Movimentos: ${error.error.message}`);
         this.loading = false;
       }
     });
@@ -143,7 +145,7 @@ export class MovementsComponent implements OnChanges {
     if (confirm('Tem certeza que deseja deletar este movimento?')) {
       this.service.delete(id).subscribe({
         next: () => this.loadMovements(),
-        error: (error) => console.error('Error deleting movement:', error)
+        error: (error) => this.notificationService.error(`Erro ao excluir movimento: ${error.error.message}`)
       });
     }
   }
