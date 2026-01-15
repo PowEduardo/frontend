@@ -1,7 +1,7 @@
 <app-upsert (submitEventEmitter)="eventSubmit()" [title]="title">
-  <div app-movement [renderType]="'form'" [(movement)]="model">
+  <app-movement [renderType]="'form'" [(movement)]="model">
       <div form>
         <ng-content></ng-content>
       </div>
-    </div>
+    </app-movement>Ø
 </app-upsert>

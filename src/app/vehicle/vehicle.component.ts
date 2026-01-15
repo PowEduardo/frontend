@@ -1,17 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { PageQuery } from '../commons/base/model/page-query';
 import { BasePage } from '../commons/base/page/base-page';
 import { SubmenuComponent } from "../commons/page/submenu/submenu.component";
 import { CrudService } from '../commons/service/crud.service';
 import { ChooseVehicleComponent } from "./modal/choose-vehicle/choose-vehicle.component";
 import { VehicleModel } from './model/vehicle-model';
-import { VehicleModule } from './vehicle.module';
 
 @Component({
   selector: 'app-vehicle',
   standalone: true,
-  imports: [SubmenuComponent, RouterModule, VehicleModule, ChooseVehicleComponent],
+  imports: [SubmenuComponent, RouterModule, ChooseVehicleComponent],
   templateUrl: './vehicle.component.html',
   styleUrl: './vehicle.component.css'
 })

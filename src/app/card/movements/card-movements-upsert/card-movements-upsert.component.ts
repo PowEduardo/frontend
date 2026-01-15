@@ -5,7 +5,6 @@ import { MovementCategory } from '../../../commons/base/movement/enum/movement-c
 import { MovementType } from '../../../commons/base/movement/enum/movement-type';
 import { MovementService } from '../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../commons/base/movement/upsert/movement-upsert.component';
-import { MovementUpsertModule } from '../../../commons/base/movement/upsert/movement-upsert.module';
 import { CrudService } from '../../../commons/service/crud.service';
 import { CardMovementModel } from '../model/card-movement-model';
 import { CardMovementService } from '../service/card-movement.service';
@@ -13,7 +12,7 @@ import { CardMovementService } from '../service/card-movement.service';
 @Component({
   selector: 'app-card-movements-upsert',
   standalone: true,
-  imports: [FormsModule, MovementUpsertModule],
+  imports: [FormsModule, MovementUpsertComponent],
   providers: [
     { provide: MovementService, useClass: CardMovementService },
     { provide: CrudService, useClass: CardMovementService }

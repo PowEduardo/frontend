@@ -7,17 +7,16 @@ import { PageQuery } from '../../commons/base/model/page-query';
 import { ManageComponent } from '../../commons/modal/manage/manage.component';
 import { CrudService } from '../../commons/service/crud.service';
 import { NotificationService } from '../../commons/service/notification.service';
-import { VehicleModule } from '../vehicle.module';
 import { VehicleFuelModel } from './model/vehicle-fuel';
 import { VehicleFuelUpsertComponent } from './vehicle-fuel-upsert/vehicle-fuel-upsert.component';
-import { VehicleFuelModule } from "./vehicle-fuel.module";
+import { VehicleFuelTableComponent } from "./vehicle-fuel-table/vehicle-fuel-table.component";
 
 @Component({
   selector: 'app-vehicle-fuel',
   standalone: true,
-  imports: [VehicleModule, VehicleFuelModule],
   templateUrl: './vehicle-fuel.component.html',
-  styleUrl: './vehicle-fuel.component.css'
+  styleUrl: './vehicle-fuel.component.css',
+  imports: [VehicleFuelTableComponent]
 })
 export class VehicleFuelComponent implements OnInit {
   private service = inject<CrudService<VehicleFuelModel>>(CrudService);

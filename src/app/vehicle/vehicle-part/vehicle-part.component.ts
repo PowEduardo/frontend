@@ -5,18 +5,18 @@ import { ManageComponent } from '../../commons/modal/manage/manage.component';
 import { CrudService } from '../../commons/service/crud.service';
 import { VehiclePartModel } from './model/vehicle-part-model';
 import { VehiclePartUpsertComponent } from './vehicle-part-upsert/vehicle-part-upsert.component';
-import { VehiclePartModule } from './vehicle-part.module';
 
 import { ActivatedRoute } from '@angular/router';
 import { Page } from '../../commons/base/model/page';
 import { NotificationService } from '../../commons/service/notification.service';
+import { VehiclePartTableComponent } from "./vehicle-part-table/vehicle-part-table.component";
 
 @Component({
   selector: 'app-vehicle-part',
   standalone: true,
-  imports: [VehiclePartModule],
   templateUrl: './vehicle-part.component.html',
-  styleUrl: './vehicle-part.component.css'
+  styleUrl: './vehicle-part.component.css',
+  imports: [VehiclePartTableComponent]
 })
 export class VehiclePartComponent implements OnInit {
   private service = inject<CrudService<VehiclePartModel>>(CrudService);

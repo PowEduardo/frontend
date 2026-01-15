@@ -2,20 +2,20 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../commons/base/model/page-query';
-import { CrudService } from '../../commons/service/crud.service';
-import { VehicleModel } from '../model/vehicle-model';
-import { VehicleUpsertComponent } from '../vehicle-upsert/vehicle-upsert.component';
-import { VehicleModule } from '../vehicle.module';
 import { ManageComponent } from '../../commons/modal/manage/manage.component';
 import { Management } from '../../commons/page/management';
+import { CrudService } from '../../commons/service/crud.service';
 import { NotificationService } from '../../commons/service/notification.service';
+import { VehicleModel } from '../model/vehicle-model';
+import { VehicleUpsertComponent } from '../vehicle-upsert/vehicle-upsert.component';
+import { VehicleTableComponent } from "../vehicle-table/vehicle-table.component";
 
 @Component({
   selector: 'app-management',
   standalone: true,
-  imports: [VehicleModule],
   templateUrl: './management-vehicle.component.html',
-  styleUrl: './management-vehicle.component.css'
+  styleUrl: './management-vehicle.component.css',
+  imports: [VehicleTableComponent]
 })
 export class ManagementVehiclesComponent implements OnInit, Management {
   private service = inject<CrudService<VehicleModel>>(CrudService);

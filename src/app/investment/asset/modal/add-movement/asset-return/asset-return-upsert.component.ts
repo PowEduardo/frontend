@@ -3,10 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
 import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
-import { MovementModule } from '../../../../../commons/base/movement/movement.module';
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
-import { MovementUpsertModule } from '../../../../../commons/base/movement/upsert/movement-upsert.module';
 import { CrudService } from '../../../../../commons/service/crud.service';
 import { AssetMovementReturnType } from '../../../enum/asset-movement-return-type';
 import { AssetMovementReturnModel } from '../../../model/asset-movement-return-model';
@@ -15,7 +13,7 @@ import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-ret
 @Component({
   selector: 'app-add-return',
   standalone: true,
-  imports: [FormsModule, MovementUpsertModule, MovementModule],
+  imports: [FormsModule, MovementUpsertComponent],
   providers: [
     { provide: MovementService, useClass: AssetReturnServiceImpl },
     { provide: CrudService, useClass: AssetReturnServiceImpl },

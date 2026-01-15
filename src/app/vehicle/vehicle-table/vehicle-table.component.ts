@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { Table } from '../../commons/base/table/table';
 import { VehicleModel } from '../model/vehicle-model';
 
 @Component({
   selector: 'app-vehicle-table',
-  standalone: false,
+  standalone: true,
   templateUrl: './vehicle-table.component.html',
   styleUrl: './vehicle-table.component.css'
 })

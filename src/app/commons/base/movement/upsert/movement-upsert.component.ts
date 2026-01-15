@@ -2,12 +2,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UpsertComponent } from '../../upsert/upsert.component';
 import { MovementModelInterface } from '../model/movement-model-interface';
 import { MovementService } from '../service/movement.service';
+import { MovementComponent } from '../movement.component';
 
 @Component({
   selector: 'app-movement-upsert',
-  standalone: false,
+  standalone: true,
   templateUrl: './movement-upsert.component.html',
-  styleUrl: './movement-upsert.component.css'
+  styleUrl: './movement-upsert.component.css',
+  imports: [UpsertComponent, MovementComponent]
 })
 export class MovementUpsertComponent<T extends MovementModelInterface> extends UpsertComponent<T> {
   @Input()

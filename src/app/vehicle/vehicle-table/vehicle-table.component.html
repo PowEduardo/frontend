@@ -22,7 +22,7 @@
             <td class="text-center">{{model.version}}</td>
             <td class="text-center">{{model.year}}</td>
             <td class="text-center">{{model.milage}}</td>
-            <td class="text-center">{{model.value | currency:'BRL':'symbol':'1.2-2'}}</td>
+            <td class="text-center">{{model.value}}</td>
             <td class="text-center">
               <input type="checkbox" [checked]="selectedValues.includes(model.id!)" (click)="selectOne(model.id!)">
             </td>

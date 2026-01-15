@@ -4,7 +4,7 @@ import { Table } from '../../../commons/base/table/table';
 
 @Component({
   selector: 'app-vehicle-part-table',
-  standalone: false,
+  standalone: true,
   templateUrl: './vehicle-part-table.component.html',
   styleUrl: './vehicle-part-table.component.css'
 })

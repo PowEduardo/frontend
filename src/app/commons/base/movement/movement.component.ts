@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MovementModelInterface } from './model/movement-model-interface';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: '[app-movement]',
-  standalone: false,
+  selector: 'app-movement',
+  standalone: true,
+  imports: [FormsModule],
   templateUrl: './movement.component.html',
   styleUrl: './movement.component.css'
 })

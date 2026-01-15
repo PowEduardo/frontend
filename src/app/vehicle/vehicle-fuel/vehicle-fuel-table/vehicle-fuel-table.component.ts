@@ -4,7 +4,7 @@ import { Table } from '../../../commons/base/table/table';
 
 @Component({
   selector: 'app-vehicle-fuel-table',
-  standalone: false,
+  standalone: true,
   templateUrl: './vehicle-fuel-table.component.html',
   styleUrl: './vehicle-fuel-table.component.css'
 })

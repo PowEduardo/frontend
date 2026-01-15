@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { GenericT } from "../../model/generic-t";
 
 @Component({
-    standalone: false,
+    standalone: true,
     template: ''
 })
 export abstract class Table<T extends GenericT> implements OnChanges {

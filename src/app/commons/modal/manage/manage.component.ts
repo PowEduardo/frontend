@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-manage',
-  standalone: false,
+  standalone: true,
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.css'
 })

@@ -2,10 +2,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
-import { MovementModule } from '../../../../../commons/base/movement/movement.module';
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../../../commons/base/movement/upsert/movement-upsert.component';
-import { MovementUpsertModule } from '../../../../../commons/base/movement/upsert/movement-upsert.module';
 import { CrudService } from '../../../../../commons/service/crud.service';
 import { AssetOperationType } from '../../../enum/asset-operation-type';
 import { AssetMovementModel } from '../../../model/asset-movement-model';
@@ -14,7 +12,7 @@ import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements
 @Component({
   selector: 'app-asset-movement',
   standalone: true,
-  imports: [FormsModule, MovementUpsertModule, MovementModule],
+  imports: [FormsModule, MovementUpsertComponent],
   providers: [
     { provide: MovementService, useClass: AssetMovementsServiceImpl },
     { provide: CrudService, useClass: AssetMovementsServiceImpl },

@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { MovementCategory } from '../../../commons/base/movement/enum/movement-category';
 import { MovementService } from '../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../commons/base/movement/upsert/movement-upsert.component';
-import { MovementUpsertModule } from '../../../commons/base/movement/upsert/movement-upsert.module';
 import { CrudService } from '../../../commons/service/crud.service';
 import { AccountMovementModel } from '../../model/account-movement-model';
 import { AccountMovementService } from '../service/account-movement-service';
@@ -17,7 +16,7 @@ import { AccountMovementService } from '../service/account-movement-service';
 @Component({
   selector: 'app-account-movements-upsert',
   standalone: true,
-  imports: [FormsModule, MovementUpsertModule],
+  imports: [FormsModule, MovementUpsertComponent],
   providers: [
     { provide: MovementService, useClass: AccountMovementService },
     { provide: CrudService, useClass: AccountMovementService }
