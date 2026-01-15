@@ -5,7 +5,7 @@
   <!-- Cards Section -->
   @if(!(entitySelected === null) && entitySelected > 0) {
     <app-submenu [submenuItems]="submenuItems">
-      <app-simple-entity-dropdown [list]="list" (onValueSelected)="receive($event)"
+      <app-simple-entity-dropdown [list]="list" (valueSelectedOutput)="receive($event)"
         [valueSelected]="entitySelected"></app-simple-entity-dropdown>
     </app-submenu>
   }

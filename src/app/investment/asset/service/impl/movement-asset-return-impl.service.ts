@@ -42,8 +42,8 @@ export class AssetReturnServiceImpl extends MovementService<AssetMovementReturnM
    * @param id Return ID
    * @throws Error Method not implemented
    */
-  override read(_id: number): Observable<AssetMovementReturnModel> {
-    throw new Error('Method not implemented.');
+  override read(id: number): Observable<AssetMovementReturnModel> {
+    return this.httpClient.get<AssetMovementReturnModel>(this.baseUrl + this.parentId + "/returns/" + id.toString());
   }
 
   /**

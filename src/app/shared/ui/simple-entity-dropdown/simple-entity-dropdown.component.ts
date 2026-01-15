@@ -15,10 +15,10 @@ export class SimpleEntityDropdownComponent {
   @Input()
   valueSelected: number | null = null;
   @Output()
-  onValueSelected = new EventEmitter<number>();
+  valueSelectedOutput = new EventEmitter<number>();
 
   onEntitySelected(event: Event) {
     this.valueSelected = Number((event.target as HTMLSelectElement).value);
-    this.onValueSelected.emit(this.valueSelected);
+    this.valueSelectedOutput.emit(this.valueSelected);
   }
 }

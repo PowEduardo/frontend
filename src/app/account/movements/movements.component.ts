@@ -219,8 +219,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
     // Reload movements after modal closes
     modalRef.result.then(
-      () => this.loadMovementsWithPagination(),
-      () => { } // Dismiss handler
+      () => this.loadMovementsWithPagination()
     );
   }
 
@@ -238,8 +237,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
     // Reload movements after modal closes
     modalRef.result.then(
-      () => this.loadMovementsWithPagination(),
-      () => { } // Dismiss handler
+      () => this.loadMovementsWithPagination()
     );
   }
 

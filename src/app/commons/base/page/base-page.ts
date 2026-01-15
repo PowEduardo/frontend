@@ -18,6 +18,7 @@ export class BasePage<T extends GenericT> {
 
   async loadEntities(sortAttribute = 'id'): Promise<void> {
     const page: PageQuery = new PageQuery();
+    page.sort = sortAttribute;
     try {
       const entities = await firstValueFrom(this.service.readAll(page));
       this.entities = entities;

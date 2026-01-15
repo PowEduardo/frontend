@@ -1,6 +1,6 @@
 
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import type { EChartsOption } from 'echarts';
 import * as echarts from 'echarts';
 import { PieChartModel } from '../../model/pie-chart-model';

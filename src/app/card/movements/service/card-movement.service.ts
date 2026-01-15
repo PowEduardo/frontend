@@ -31,7 +31,7 @@ export class CardMovementService extends MovementService<CardMovementModel> {
   }
   
   readAll(pageQuery: PageQuery): Observable<CardMovementModel[]> {
-    throw new Error('Method not implemented.');
+    throw new Error(`Method not implemented. ${pageQuery}`);
   }
   
   update(request: CardMovementModel): Observable<CardMovementModel> {
@@ -82,6 +82,6 @@ export class CardMovementService extends MovementService<CardMovementModel> {
   }
 
   search(query: PageQuery): Observable<Page<CardMovementModel>> {
-    throw new Error('Method not implemented.');
+    throw new Error(`Method not implemented. ${query}`);
   }
 }

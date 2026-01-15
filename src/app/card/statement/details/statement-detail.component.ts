@@ -35,7 +35,7 @@ export class StatementDetailComponent implements OnInit {
 
   // Table configuration
   installmentColumns: TableColumn[] = [
-    { label: 'Parcela', key: 'installmentNumber', format: (value: unknown, row: any) => `${value}/${(row as InstallmentModel).totalInstallments}` },
+    { label: 'Parcela', key: 'installmentNumber', format: (value: unknown, row: unknown) => `${value}/${(row as InstallmentModel).totalInstallments}` },
     { label: 'Descrição', key: 'description', format: (value: unknown) => (value as string | null | undefined) || '-' },
     { label: 'Valor', key: 'value', format: (value: unknown) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` },
     { label: 'Data', key: 'dueDate', format: (value: unknown) => new Date(value as string | Date).toLocaleDateString('pt-BR') },

@@ -39,7 +39,7 @@ export class IrpfModel {
   totalDividend!: number;
 
   /** Total value from sales/liquidations - for capital gains calculation */
-  totalSellValue!: any;
+  totalSellValue!: number;
 
   /** Expected future JCP distributions - for planning */
   totalFutureDividend!: number;

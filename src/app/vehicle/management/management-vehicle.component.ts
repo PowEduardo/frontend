@@ -3,12 +3,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { ManageComponent } from '../../commons/modal/manage/manage.component';
-import { Management } from '../../commons/page/management';
 import { CrudService } from '../../commons/service/crud.service';
 import { NotificationService } from '../../commons/service/notification.service';
 import { VehicleModel } from '../model/vehicle-model';
-import { VehicleUpsertComponent } from '../vehicle-upsert/vehicle-upsert.component';
 import { VehicleTableComponent } from "../vehicle-table/vehicle-table.component";
+import { VehicleUpsertComponent } from '../vehicle-upsert/vehicle-upsert.component';
 
 @Component({
   selector: 'app-management',
@@ -17,7 +16,7 @@ import { VehicleTableComponent } from "../vehicle-table/vehicle-table.component"
   styleUrl: './management-vehicle.component.css',
   imports: [VehicleTableComponent]
 })
-export class ManagementVehiclesComponent implements OnInit, Management {
+export class ManagementVehiclesComponent implements OnInit {
   private service = inject<CrudService<VehicleModel>>(CrudService);
   private modal = inject(NgbModal);
   private notificationService = inject(NotificationService);

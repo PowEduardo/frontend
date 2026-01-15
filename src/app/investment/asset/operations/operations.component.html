@@ -1,14 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openMovements()">
+    <button class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openMovements()">
       Movements
-    </div>
-    <div class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openReturns()">
+    </button>
+    <button class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openReturns()">
       Returns
-    </div>
-    <div class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openIrpf()">
+    </button>
+    <button class="col-md-4 font-weight-bold text-center py-3 bg-light border rounded" (click)="openIrpf()">
       IRPF
-    </div>
+    </button>
   </div>
 </div>
 @if (isMovementsEnabled) {

@@ -12,8 +12,7 @@ export class Execution {
     job_execution_id: number,
     status: string,
     start_time: string,
-    end_time: string,
-    stepDetails: Step[]
+    end_time: string
   ) {
     this.job_execution_id = job_execution_id;
     this.status = status;

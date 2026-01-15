@@ -45,16 +45,10 @@ export class AccountMovementsUpsertComponent extends MovementUpsertComponent<Acc
    * Shows notification on success or error.
    */
   override async onSubmit(): Promise<void> {
-    try {
-      await super.onSubmit();
-      this.notificationService.success('Movement saved successfully');
-
-      // Clear form only if creating new (no ID)
-      if (this.model.id === undefined) {
-        this.cleanModel();
-      }
-    } catch (error: any) {
-      this.notificationService.error(`Failed to save movement: ${error.message}`);
+    await super.onSubmit();
+    // Clear form only if creating new (no ID)
+    if (this.model.id === undefined) {
+      this.cleanModel();
     }
   }
 

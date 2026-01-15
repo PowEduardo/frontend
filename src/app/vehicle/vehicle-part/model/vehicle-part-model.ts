@@ -12,7 +12,6 @@ export class VehiclePartModel extends GenericT{
     constructor(
     ) {
         super();
-        this.id = null;
         this.isUpgrade = false;
         this.description = '';
         this.partNumber = '';

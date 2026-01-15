@@ -41,7 +41,7 @@ export class AccountComponent implements OnInit {
     this.loading = true;
     const query: PageQuery = new PageQueryModel();
     this.service.readAll(query).subscribe({
-      next: (accounts: any[]) => {
+      next: (accounts: AccountDetailsModel[]) => {
         this.accounts = accounts;
         this.loading = false;
       },

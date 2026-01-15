@@ -12,7 +12,6 @@ export class VehicleFuelModel extends GenericT {
 
     constructor() {
         super();
-        this.id = null;
         this.date = null;
         this.description = null;
         this.milage = null;

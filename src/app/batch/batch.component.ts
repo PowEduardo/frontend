@@ -32,9 +32,9 @@ export class BatchComponent implements OnInit {
 
   viewExecutions(jobName: string): void {
     this.selectedJob = jobName;
-    this.http.get<any[]>(environment.apiBaseUrl+ `/jobs/${jobName}/executions`).subscribe((data) => {
+    this.http.get<Execution[]>(environment.apiBaseUrl+ `/jobs/${jobName}/executions`).subscribe((data) => {
       this.executions = data.map((execution) => {
-        const exec = new Execution(execution.job_execution_id, execution.status, execution.start_time, execution.end_time, execution.stepDetails);
+        const exec = new Execution(execution.job_execution_id, execution.status, execution.start_time.toString(), execution.end_time.toString());
         exec.totalTime = (exec.end_time.getTime() - exec.start_time.getTime()) / 1000;
         return exec;
       });

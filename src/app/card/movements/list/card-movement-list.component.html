@@ -6,16 +6,16 @@
   <!-- Filters -->
   <div class="row mb-3">
     <div class="col-md-4">
-      <label class="form-label">Filtro:</label>
-      <select class="form-select" [(ngModel)]="filter" (change)="applyFilter()">
+      <label class="form-label" for="types">Filtro:</label>
+      <select id="types" class="form-select" [(ngModel)]="filter" (change)="applyFilter()">
         <option value="unpaid">Não Pagos</option>
         <option value="all">Todos</option>
         <option value="paid">Pagos</option>
       </select>
     </div>
     <div class="col-md-4">
-      <label class="form-label">Ordenar por:</label>
-      <select class="form-select" [(ngModel)]="sortBy" (change)="applySort()">
+      <label for="sort" class="form-label">Ordenar por:</label>
+      <select id="sort" class="form-select" [(ngModel)]="sortBy" (change)="applySort()">
         <option value="-date">Data (Recente)</option>
         <option value="date">Data (Antiga)</option>
         <option value="-value">Valor (Maior)</option>
@@ -23,8 +23,8 @@
       </select>
     </div>
     <div class="col-md-4">
-      <label class="form-label d-block">&nbsp;</label>
-      <button class="btn btn-primary w-100" (click)="loadMovements()">
+      <label for="apply" class="form-label d-block">&nbsp;</label>
+      <button id="apply" class="btn btn-primary w-100" (click)="loadMovements()">
         <i class="bi bi-arrow-clockwise me-2"></i> Atualizar
       </button>
     </div>

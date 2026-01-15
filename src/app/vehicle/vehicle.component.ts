@@ -38,7 +38,7 @@ export class VehicleComponent extends BasePage<VehicleModel> implements OnInit {
       }
     });
     if (this.entitySelected) {
-
+      return;
     } else {
       await this.loadEntities('model');
     }

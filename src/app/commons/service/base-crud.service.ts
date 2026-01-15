@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { PageModel } from '../base/model/page-model';
 
 @Injectable()
-export class BaseCrudService<T> extends CrudService<T> {
+export class BaseCrudService<T extends { id: number }> extends CrudService<T> {
   protected readonly httpClient = inject(HttpClient);
 
 
@@ -18,7 +18,7 @@ export class BaseCrudService<T> extends CrudService<T> {
     this.baseUrl = this.baseUrl +`${currentRoute}`;
   }
 
-  create(request: any): Observable<T> {
+  create(request: T): Observable<T> {
     return this.httpClient.post<T>(this.baseUrl, request);
   }
   read(id: number | null): Observable<T> {
@@ -50,7 +50,7 @@ export class BaseCrudService<T> extends CrudService<T> {
       })
     );
   }
-  update(request: any): Observable<T> {
+  update(request: T): Observable<T> {
     return this.httpClient.put<T>(this.baseUrl + "/" + request.id, request);
   }
   delete(id: number): Observable<void> {

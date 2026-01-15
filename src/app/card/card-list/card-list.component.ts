@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../commons/base/table/table.component';
 import { TableColumn } from '../../commons/model/table-column';
@@ -46,6 +46,8 @@ import { Page } from '../../commons/base/model/page';
 export class CardListComponent implements OnInit {
   cards: CardModel[] = [];
   loading = false;
+  private cardService: CardService = inject(CardService);
+  private notificationService: NotificationService = inject(NotificationService);
 
   columns: TableColumn[] = [
     { label: 'Name', key: 'name' },
@@ -78,11 +80,6 @@ export class CardListComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private cardService: CardService,
-    private notificationService: NotificationService
-  ) {}
-
   ngOnInit(): void {
     this.loadCards();
   }
@@ -93,7 +90,7 @@ export class CardListComponent implements OnInit {
   loadCards(): void {
     this.loading = true;
     const query = new PageQuery();
-    
+
     this.cardService.search(query).subscribe({
       next: (page: Page<CardModel>) => {
         this.cards = page.content;
@@ -112,6 +109,7 @@ export class CardListComponent implements OnInit {
    * Handle row selection (click).
    */
   onCardSelect(card: CardModel): void {
+    this.notificationService.success(`Loaded details for ${card.name}`);
     // Navigate to card details or open modal
   }
 
@@ -136,11 +134,14 @@ export class CardListComponent implements OnInit {
    */
   onViewCard(card: CardModel): void {
     this.notificationService.info(`Loading details for ${card.name}...`);
-    
+
     this.cardService.getDetails(card.id!).subscribe({
-      next: (details: CardModel) => {
-        this.notificationService.success(`Loaded details for ${card.name}`);
+      next: (details) => {
+        this.notificationService.success(`Loaded details for ${details.name}`);
         // TODO: Open card details modal
+      },
+      error: (error) => {
+        this.notificationService.error(error.error.message);
       }
     });
   }
