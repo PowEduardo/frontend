@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TableComponent } from '../../../commons/base/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { TableAction } from '../../../commons/model/table-action';
+import { NotificationService } from '../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-installment',
@@ -32,10 +33,12 @@ export class InstallmentComponent implements OnInit {
     { label: 'Id', key: 'id' },
     { label: 'Descrição', key: 'description' },
     { label: 'Valor', key: 'value', format: (value: unknown) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` },
-    { label: 'Parcela', key: 'installment', format: (value: unknown, row) => {
-      const inst = row as InstallmentModel;
-      return `${value}/${inst.movement?.installment || value}`;
-    } },
+    {
+      label: 'Parcela', key: 'installment', format: (value: unknown, row) => {
+        const inst = row as InstallmentModel;
+        return `${value}/${inst.movement?.installment || value}`;
+      }
+    },
     { label: 'Data', key: 'date', format: (value: unknown) => new Date(value as string | Date).toLocaleDateString('pt-BR') }
   ];
 
@@ -58,8 +61,9 @@ export class InstallmentComponent implements OnInit {
     private modalService: NgbModal,
     private service: InstallmentService,
     private movementService: CardMovementService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -90,7 +94,8 @@ export class InstallmentComponent implements OnInit {
         this.installments = data;
         this.loading = false;
       },
-      error: () => {
+      error: (error) => {
+        this.notificationService.error(`Erro ao carregar parcelas: ${error.error.message}`);
         this.loading = false;
       }
     });

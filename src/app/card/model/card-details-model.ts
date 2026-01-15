@@ -5,4 +5,8 @@ export class CardDetailsModel {
   currentStatementValue!: number;
   lastStatementValue!: number;
   nextStatementValue!: number;
+  bank?: string;
+  cardType?: string;
+  balance!: number;
+  creditLimit!: number;
 }

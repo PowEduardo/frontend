@@ -5,8 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpsertComponent } from '../../../commons/base/upsert/upsert.component';
 import { CrudService } from '../../../commons/service/crud.service';
-import { VehicleFuelModel } from '../model/vehicle-fuel';
 import { VehicleFuelService } from '../../service/vehicle-fuel.service';
+import { VehicleFuelModel } from '../model/vehicle-fuel';
+import { NotificationService } from '../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-vehicle-fuel-upsert',
@@ -22,9 +23,10 @@ export class VehicleFuelUpsertComponent extends UpsertComponent<VehicleFuelModel
 
   constructor(override activeModal: NgbActiveModal,
     override service: CrudService<VehicleFuelModel>,
+    override notificationService: NotificationService,
     private route: ActivatedRoute
   ) {
-    super(activeModal, service);
+    super(activeModal, service, notificationService);
     this.model = new VehicleFuelModel();
     this.title = 'Vehicle Fuel';
     this.route.paramMap.subscribe(params => {

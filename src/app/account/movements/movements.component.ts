@@ -39,7 +39,13 @@ export class MovementsComponent implements OnInit, OnDestroy {
   columns: TableColumn[] = [
     { key: 'id', label: 'ID' },
     { key: 'description', label: 'Descrição' },
-    { key: 'value', label: 'Valor' },
+    { key: 'value', label: 'Valor', format: (val: unknown, row: unknown) => {
+      const rowData = row as AccountMovementModel;
+      return rowData.type === 'DEBIT' ? `R$ -${val}` : `R$ ${val}`;
+    }, style: (val: unknown, row: unknown) => {
+      const rowData = row as AccountMovementModel;
+      return rowData.type === 'DEBIT' ? {color: 'red'} : {color: 'green'};
+    }},
     { key: 'date', label: 'Data' },
     { key: 'paid', label: 'Pago' }
   ];
@@ -69,7 +75,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
   loadingFuture: boolean = false;
 
   /** Dropdown visibility for future movements */
-  showFutureDropdown: boolean = true;
+  showFutureDropdown: boolean = false;
 
   /** Pagination: Current page number (0-based) */
   currentPage: number = 0;
@@ -90,12 +96,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
       icon: 'bi bi-check-circle',
       cssClass: 'success',
       action: (movement: AccountMovementModel) => this.markAsPaid(movement.id!)
-    },
-    {
-      label: 'Editar',
-      icon: 'bi bi-pencil',
-      cssClass: 'primary',
-      action: (movement: AccountMovementModel) => this.updateMovement(movement.id!)
     },
     {
       label: 'Deletar',
@@ -168,7 +168,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
     // Only load movements up to filterEndDate (no future movements)
     query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
     query.sort = '-date';
-
     // Set parent ID on service
     if (this.parentId) {
       this.service.parentId = this.parentId;
@@ -212,7 +211,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
         this.loadingFuture = false;
       },
       error: (error) => {
-        console.error(`Erro ao carregar movimentos futuros: ${error.message}`);
+        this.notificationService.error(`Erro ao carregar movimentos futuros: ${error.message}`);
         this.loadingFuture = false;
       }
     });
@@ -233,6 +232,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
    */
   onValueSelected(movement: AccountMovementModel): void {
     // Can be extended for navigation to movement details
+    this.updateMovement(movement.id!);
   }
 
   /**

@@ -8,7 +8,7 @@ export class StatementModel {
   totalAmount!: number;
   discount!: number;
   interestAmount?: number;
-  paid?: boolean;
+  closed?: boolean;
   dueDate?: string | Date;
   installments?: InstallmentModel[];
 }

@@ -97,11 +97,10 @@ export class CardListComponent implements OnInit {
     this.cardService.search(query).subscribe({
       next: (page: Page<CardModel>) => {
         this.cards = page.content;
-        this.notificationService.success(`Loaded ${this.cards.length} card(s)`);
       },
-      error: () => {
+      error: (error) => {
         this.loading = false;
-        // Error notification is handled by HttpErrorInterceptor
+        this.notificationService.error(error.error.message);
       },
       complete: () => {
         this.loading = false;

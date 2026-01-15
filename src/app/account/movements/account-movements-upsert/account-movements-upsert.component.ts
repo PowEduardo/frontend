@@ -37,9 +37,9 @@ export class AccountMovementsUpsertComponent extends MovementUpsertComponent<Acc
   constructor(
     activeModal: NgbActiveModal,
     service: MovementService<AccountMovementModel>,
-    private notificationService: NotificationService
+    override notificationService: NotificationService
   ) {
-    super(activeModal, service);
+    super(activeModal, service, notificationService);
     this.parentId = 1;
     this.movementCategory = Object.values(MovementCategory);
     this.cleanModel();

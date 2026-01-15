@@ -187,9 +187,9 @@ export class CardMovementEditComponent implements OnInit {
         this.initializeForm();
         this.loading = false;
       },
-      error: () => {
+      error: (error) => {
         this.loading = false;
-        this.notificationService.error('Erro ao carregar movimento');
+        this.notificationService.error(`Erro ao carregar movimento: ${error.error.message}`);
         this.goBack();
       }
     });
@@ -222,8 +222,8 @@ export class CardMovementEditComponent implements OnInit {
         this.notificationService.success('Movimento atualizado com sucesso');
         this.goBack();
       },
-      error: () => {
-        this.notificationService.error('Erro ao atualizar movimento');
+      error: (error) => {
+        this.notificationService.error(`Erro ao atualizar movimento: ${error.error.message}`);
       }
     });
   }
@@ -240,8 +240,8 @@ export class CardMovementEditComponent implements OnInit {
         this.movement!.paid = true;
         this.movementForm?.patchValue({ paid: true });
       },
-      error: () => {
-        this.notificationService.error('Erro ao marcar como pago');
+      error: (error) => {
+        this.notificationService.error(`Erro ao marcar como pago: ${error.error.message}`);
       }
     });
   }

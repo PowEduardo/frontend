@@ -75,7 +75,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
       next: (model) => {
         this.model = model;
         this.isReady = true;
-        this.notificationService.success('Detalhes da conta carregados');
       },
       error: (error) => {
         this.isReady = true;

@@ -21,6 +21,7 @@ import { environment } from '../../../environments/environment';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
+  
 
   /** Parent account ID */
   @Input() parentId: number | null = null;
@@ -38,12 +39,17 @@ export class DashboardComponent implements OnInit {
   balance: number = 0;
   paidMovements: number = 0;
   unpaidMovements: number = 0;
+  /** Filter: Start date for period filter */
+  filterStartDate: string = this.getDefaultStartDate();
+
+  /** Filter: End date for period filter */
+  filterEndDate: string = this.getDefaultEndDate();
 
   constructor(
     private http: HttpClient,
     private notificationService: NotificationService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Extract accountId from parent route if not passed via @Input
@@ -72,15 +78,14 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
-    const url = `${environment.apiBaseUrl}/api/v1/dashboard/accounts/${this.parentId}?startRange=2025-01&endRange=2025-12`;
-    
+    const url = `${environment.apiBaseUrl}/api/v1/dashboard/accounts/${this.parentId}?startRange=${this.filterStartDate}&endRange=${this.filterEndDate}`;
+
     this.http.get<any>(url).subscribe({
       next: (data) => {
         this.processChartData(data);
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading dashboard:', error);
         this.notificationService.error(`Erro ao carregar dados do dashboard: ${error.message}`);
         this.loading = false;
       }
@@ -97,12 +102,12 @@ export class DashboardComponent implements OnInit {
     this.totalIncome = data.accountDetails.totalIncome || 0;
     this.totalExpense = data.accountDetails.totalExpense || 0;
     this.balance = data.accountDetails.balance || 0;
-    
+
     // Count paid/unpaid from details
     this.paidMovements = data.accountDetails.totalPaid || 0;
     this.unpaidMovements = data.accountDetails.totalUnpaid || 0;
     this.totalMovements = this.paidMovements + this.unpaidMovements;
-    
+
     // Build chart data from details (grouped by month)
     const dataByMonth = new Map<string, { income: number; expense: number }>();
 
@@ -114,12 +119,12 @@ export class DashboardComponent implements OnInit {
       const monthData = dataByMonth.get(monthStr)!;
       monthData.income += detail.firstValue || 0;
       monthData.expense += detail.secondValue || 0;
-      
+
     });
 
     // Sort months
     const months = Array.from(dataByMonth.keys()).sort();
-    
+
     // Format data for ngx-charts-bar - group by month, each month has income/expense
     this.chartData = months.map(month => {
       const monthData = dataByMonth.get(month)!;
@@ -138,6 +143,48 @@ export class DashboardComponent implements OnInit {
         ]
       };
     });
-    console.log('Chart Data:', this.chartData);
+  }
+
+  /**
+   * Get default start date (first day of current month)
+   * Format: YYYY-MM-DD
+   */
+  private getDefaultStartDate(): string {
+    const today = new Date();
+    const minusMonths = 11;
+    if (today.getMonth() < minusMonths) {
+      const firstDay = new Date(today.getFullYear()-1, 11 - (minusMonths-today.getMonth()), 1);
+      return this.formatDate(firstDay);
+    } else {
+      const firstDay = new Date(today.getFullYear(), today.getMonth()-minusMonths, 1);
+      return this.formatDate(firstDay);
+    }
+  }
+
+  /**
+   * Get default end date (last day of current month)
+   * Format: YYYY-MM-DD
+   */
+  private getDefaultEndDate(): string {
+    const today = new Date();
+    return this.formatDate(today);
+  }
+
+  /**
+   * Format date to YYYY-MM-DD string
+   * @param date Date to format
+   */
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth()+1).padStart(2, '0');
+    return `${year}-${month}`;
+  }
+
+  /**
+   * Apply filter and reset pagination to page 1
+   * Called when user clicks filter button
+   */
+  applyFilter(): void {
+    this.loadDashboardData();
   }
 }

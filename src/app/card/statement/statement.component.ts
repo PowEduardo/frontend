@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CardMovementsUpsertComponent } from '../movements/card-movements-upsert/card-movements-upsert.component';
 import { StatementService } from './service/statement.service';
 import { TableAction } from '../../commons/model/table-action';
+import { NotificationService } from '../../commons/service/notification.service';
 
 @Component({
   selector: 'app-statement',
@@ -29,7 +30,7 @@ export class StatementComponent implements OnInit, OnDestroy {
     { key: 'referenceMonth', label: 'Reference Month' },
     { key: 'value', label: 'Value' },
     { key: 'discounts', label: 'Discount' },
-    { key: 'paid', label: 'Paid', format: (value) => {
+    { key: 'closed', label: 'Closed', format: (value) => {
       if (value === undefined) {
         return 'Fatura em aberto';
       }
@@ -53,7 +54,8 @@ export class StatementComponent implements OnInit, OnDestroy {
   constructor(protected service: StatementService,
     protected router: Router,
     protected route: ActivatedRoute,
-    protected modal: NgbModal
+    protected modal: NgbModal,
+    protected notificationService: NotificationService
   ) {
   }
 
@@ -66,8 +68,9 @@ export class StatementComponent implements OnInit, OnDestroy {
         this.data = data;
         this.loading = false;
       },
-      error: () => {
+      error: (error) => {
         this.loading = false;
+        this.notificationService.error(`Erro ao carregar faturas: ${error.error.message}`);
       }
     });
     // initialize visibility based on whether there is an active child
@@ -101,6 +104,9 @@ export class StatementComponent implements OnInit, OnDestroy {
     this.service.close(1,statement.id).subscribe({
       next: () => {
         this.router.navigate(['../'], { relativeTo: this.route });
+      },
+      error: (error) => {
+        this.notificationService.error(`Erro ao fechar fatura: ${error.error.message}`);
       }
     });
   }

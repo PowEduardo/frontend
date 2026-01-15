@@ -105,19 +105,20 @@ export class StatementDetailComponent implements OnInit {
 
   /**
    * Mark statement as paid
+   * TODO: Excluir pois n faz sentido
    */
   markAsPaid(): void {
     if (!this.statement) return;
 
     const updatedStatement: StatementModel = {
       ...this.statement,
-      paid: true
+      closed: true
     };
 
     this.statementService.update(updatedStatement).subscribe({
       next: () => {
         this.notificationService.success('Fatura marcada como paga');
-        this.statement!.paid = true;
+        this.statement!.closed = true;
       },
       error: () => {
         this.notificationService.error('Erro ao marcar fatura como paga');

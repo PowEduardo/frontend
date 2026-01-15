@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UpsertComponent } from '../../upsert/upsert.component';
 import { MovementModelInterface } from '../model/movement-model-interface';
 import { MovementService } from '../service/movement.service';
-import { UpsertComponent } from '../../upsert/upsert.component';
 
 @Component({
   selector: 'app-movement-upsert',
@@ -18,13 +17,6 @@ export class MovementUpsertComponent<T extends MovementModelInterface> extends U
   movementTypes!: string[];
   @Input()
   parentId!: number;
-
-  constructor(
-    activeModal: NgbActiveModal,
-    service: MovementService<T>
-  ) { 
-    super(activeModal, service);
-  }
 
   override async onSubmit() {
     const service = this.service as MovementService<T>;

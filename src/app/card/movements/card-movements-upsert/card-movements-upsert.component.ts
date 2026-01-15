@@ -10,6 +10,7 @@ import { CardMovementModel } from '../model/card-movement-model';
 import { CardMovementService } from '../service/card-movement.service';
 import { MovementType } from '../../../commons/base/movement/enum/movement-type';
 import { CrudService } from '../../../commons/service/crud.service';
+import { NotificationService } from '../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-card-movements-upsert',
@@ -28,9 +29,10 @@ export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMo
   movementCategory!: string[];
 
   constructor(override activeModal: NgbActiveModal,
-    override service: MovementService<CardMovementModel>
+    override service: MovementService<CardMovementModel>,
+    override notificationService: NotificationService
   ) {
-    super(activeModal, service);
+    super(activeModal, service, notificationService);
     this.parentId = 1;
     this.movementCategory = Object.values(MovementCategory);
     if (this.model === undefined) {
