@@ -27,7 +27,7 @@ import { NotificationService } from '../../../../../commons/service/notification
   styleUrl: './asset-return-upsert.component.css'
 })
 export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<AssetMovementReturnModel> {
-  overrideValue: boolean = false;
+  overrideValue = false;
 
 
   constructor(protected override service: MovementService<AssetMovementReturnModel>,

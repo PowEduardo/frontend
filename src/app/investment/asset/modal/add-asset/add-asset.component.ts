@@ -22,18 +22,18 @@ import { NotificationService } from '../../../../commons/service/notification.se
 })
 export class AddAssetComponent {
   /** Allow overriding calculated value */
-  overrideValue: boolean = false;
+  overrideValue = false;
 
   /** Whether this is an update operation (vs create) */
   @Input()
-  updateOperation: boolean = false;
+  updateOperation = false;
 
   /** Asset data model being edited */
   @Input()
   model!: AssetModel;
 
   /** Loading state indicator */
-  loading: boolean = false;
+  loading = false;
 
   /**
    * Constructor

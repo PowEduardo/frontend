@@ -25,12 +25,12 @@ import { TableAction } from '../../../commons/model/table-action';
 })
 export class CardMovementListComponent implements OnInit {
   movements: CardMovementModel[] = [];
-  loading: boolean = true;
-  totalUnpaid: number = 0;
-  cardId: number = 0;
+  loading = true;
+  totalUnpaid = 0;
+  cardId = 0;
 
-  filter: string = 'unpaid';
-  sortBy: string = '-date';
+  filter = 'unpaid';
+  sortBy = '-date';
 
   // Table configuration
   movementColumns: TableColumn[] = [

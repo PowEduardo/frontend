@@ -151,10 +151,10 @@ import { NotificationService } from '../../../commons/service/notification.servi
 })
 export class CardMovementEditComponent implements OnInit {
   movementForm: FormGroup | null = null;
-  loading: boolean = true;
+  loading = true;
   movement: CardMovementModel | null = null;
-  cardId: number = 0;
-  movementId: number = 0;
+  cardId = 0;
+  movementId = 0;
 
   constructor(
     private fb: FormBuilder,

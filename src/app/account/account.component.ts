@@ -21,7 +21,7 @@ import { PageQueryModel } from '../commons/base/model/page-query-model';
 })
 export class AccountComponent implements OnInit {
   accounts: AccountDetailsModel[] = [];
-  loading: boolean = true;
+  loading = true;
 
   constructor(
     private service: AccountService,

@@ -17,7 +17,7 @@ export class UpsertComponent<T extends { id?: number | null }> {
   public title!: string | null;
   @Output()
   public submitEventEmitter: EventEmitter<T | unknown> = new EventEmitter<T | unknown>();
-  public isReady: boolean = true;
+  public isReady = true;
 
   constructor(protected activeModal: NgbActiveModal,
     protected service: CrudService<T>,

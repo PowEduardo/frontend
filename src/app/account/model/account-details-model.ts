@@ -25,5 +25,5 @@ export class AccountDetailsModel implements Account {
   primary!: boolean;
   
   /** Current account balance (calculated from movements) */
-  balance: number = 0;
+  balance = 0;
 }

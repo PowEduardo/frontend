@@ -26,7 +26,7 @@ import { NotificationService } from '../../../../../commons/service/notification
   styleUrl: './asset-movement-upsert.component.css'
 })
 export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetMovementModel> {
-  overrideValue: boolean = false;
+  overrideValue = false;
 
   constructor(service: MovementService<AssetMovementModel>,
     activeModal: NgbActiveModal,

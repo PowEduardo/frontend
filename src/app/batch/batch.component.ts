@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Execution } from './model/execution';
 import { Step } from './model/step';
 import { environment } from '../../environments/environment';
@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './batch.component.html',
   styleUrl: './batch.component.css'
 })
-export class BatchComponent {
+export class BatchComponent implements OnInit {
   jobs: string[] = [];
   executions: Execution[] = [];
   selectedJob: string | null = null;
@@ -34,7 +34,7 @@ export class BatchComponent {
     this.selectedJob = jobName;
     this.http.get<any[]>(environment.apiBaseUrl+ `/jobs/${jobName}/executions`).subscribe((data) => {
       this.executions = data.map((execution) => {
-        var exec = new Execution(execution.job_execution_id, execution.status, execution.start_time, execution.end_time, execution.stepDetails);
+        const exec = new Execution(execution.job_execution_id, execution.status, execution.start_time, execution.end_time, execution.stepDetails);
         exec.totalTime = (exec.end_time.getTime() - exec.start_time.getTime()) / 1000;
         return exec;
       });

@@ -30,7 +30,7 @@ import { AccountMovementService } from '../service/account-movement-service';
 export class AccountMovementsUpsertComponent extends MovementUpsertComponent<AccountMovementModel> {
   
   @Input()
-  updateOperation: boolean = false;
+  updateOperation = false;
 
   movementCategory: string[] = [];
 

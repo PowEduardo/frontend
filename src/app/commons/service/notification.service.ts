@@ -39,35 +39,35 @@ export class NotificationService {
   /**
    * Show a success notification.
    */
-  success(message: string, duration: number = 5000): void {
+  success(message: string, duration = 5000): void {
     this.show(message, 'success', duration);
   }
 
   /**
    * Show an error notification.
    */
-  error(message: string, duration: number = 7000): void {
+  error(message: string, duration = 7000): void {
     this.show(message, 'error', duration);
   }
 
   /**
    * Show a warning notification.
    */
-  warning(message: string, duration: number = 6000): void {
+  warning(message: string, duration = 6000): void {
     this.show(message, 'warning', duration);
   }
 
   /**
    * Show an info notification.
    */
-  info(message: string, duration: number = 5000): void {
+  info(message: string, duration = 5000): void {
     this.show(message, 'info', duration);
   }
 
   /**
    * Generic method to show a toast.
    */
-  private show(message: string, type: ToastType, duration: number = 5000): void {
+  private show(message: string, type: ToastType, duration = 5000): void {
     const id = `toast-${++this.autoIncrement}`;
     const toast: Toast = {
       id,

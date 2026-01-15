@@ -13,6 +13,7 @@ import { NotificationService } from '../../commons/service/notification.service'
 import { AccountMovementModel } from '../model/account-movement-model';
 import { AccountMovementsUpsertComponent } from './account-movements-upsert/account-movements-upsert.component';
 import { AccountMovementService } from './service/account-movement-service';
+import { Page } from '../../commons/base/model/page';
 
 /**
  * Movements List Component for Accounts
@@ -39,13 +40,15 @@ export class MovementsComponent implements OnInit, OnDestroy {
   columns: TableColumn[] = [
     { key: 'id', label: 'ID' },
     { key: 'description', label: 'Descrição' },
-    { key: 'value', label: 'Valor', format: (val: unknown, row: unknown) => {
-      const rowData = row as AccountMovementModel;
-      return rowData.type === 'DEBIT' ? `R$ -${val}` : `R$ ${val}`;
-    }, style: (val: unknown, row: unknown) => {
-      const rowData = row as AccountMovementModel;
-      return rowData.type === 'DEBIT' ? {color: 'red'} : {color: 'green'};
-    }},
+    {
+      key: 'value', label: 'Valor', format: (val: unknown, row: unknown) => {
+        const rowData = row as AccountMovementModel;
+        return rowData.type === 'DEBIT' ? `R$ -${val}` : `R$ ${val}`;
+      }, style: (val: unknown, row: unknown) => {
+        const rowData = row as AccountMovementModel;
+        return rowData.type === 'DEBIT' ? { color: 'red' } : { color: 'green' };
+      }
+    },
     { key: 'date', label: 'Data' },
     { key: 'paid', label: 'Pago' }
   ];
@@ -54,13 +57,13 @@ export class MovementsComponent implements OnInit, OnDestroy {
   data: AccountMovementModel[] = [];
 
   /** Loading flag for async operation */
-  loading: boolean = true;
+  loading = true;
 
   /** Flag to show/hide table based on active child route */
-  isActive: boolean = true;
+  isActive = true;
 
   /** Track loading state for individual movements (for spinner during operations) */
-  movementLoadingState: Map<number, boolean> = new Map();
+  movementLoadingState = new Map<number, boolean>();
 
   /** Filter: Start date for period filter */
   filterStartDate: string = this.getDefaultStartDate();
@@ -72,22 +75,22 @@ export class MovementsComponent implements OnInit, OnDestroy {
   futureMovements: AccountMovementModel[] = [];
 
   /** Loading flag for future movements dropdown */
-  loadingFuture: boolean = false;
+  loadingFuture = false;
 
   /** Dropdown visibility for future movements */
-  showFutureDropdown: boolean = false;
+  showFutureDropdown = false;
 
   /** Pagination: Current page number (0-based) */
-  currentPage: number = 0;
+  currentPage = 0;
 
   /** Pagination: Items per page */
-  itemsPerPage: number = 15;
+  itemsPerPage = 15;
 
   /** Pagination: Total number of items */
-  totalItems: number = 0;
+  totalItems = 0;
 
   /** Pagination: Total pages */
-  totalPages: number = 0;
+  totalPages = 0;
 
   /** Table action buttons for edit/delete/mark as paid */
   movementActions: TableAction<AccountMovementModel>[] = [
@@ -128,15 +131,15 @@ export class MovementsComponent implements OnInit, OnDestroy {
         const idParam = params.get('accountId');
         if (idParam) {
           this.parentId = parseInt(idParam, 10);
-          this.loadMovements();
+          this.loadMovementsWithPagination();
           this.loadFutureMovements();
         }
       });
     } else {
-      this.loadMovements();
+      this.loadMovementsWithPagination();
       this.loadFutureMovements();
     }
-    
+
     // Initialize visibility based on whether there is an active child route
     this.isActive = !this.hasActiveChild();
 
@@ -156,41 +159,14 @@ export class MovementsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Load all movements from backend (historical/current only)
-   * Sets loading flag and handles errors
-   */
-  private loadMovements(): void {
-    this.loading = true;
-    // Clear any previous loading states when reloading data
-    this.movementLoadingState.clear();
-    
-    const query: PageQuery = new PageQueryModel();
-    // Only load movements up to filterEndDate (no future movements)
-    query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
-    query.sort = '-date';
-    // Set parent ID on service
-    if (this.parentId) {
-      this.service.parentId = this.parentId;
-    }
-
-    this.service.readAll(query).subscribe({
-      next: (data: AccountMovementModel[]) => {
-        this.data = data;
-        this.totalItems = data.length;
-        this.loading = false;
-      },
-      error: (error) => {
-        this.notificationService.error(`Erro ao carregar movimentos: ${error.message}`);
-        this.loading = false;
-      }
-    });
-  }
-
-  /**
    * Load future movements (Phase 7)
    * Loads movements with date greater than today
    */
   private loadFutureMovements(): void {
+    if (!(this.filterEndDate === this.formatDate(new Date()))) {
+      this.futureMovements = [];
+      return;
+    }
     this.loadingFuture = true;
 
     const query: PageQuery = new PageQueryModel();
@@ -239,15 +215,15 @@ export class MovementsComponent implements OnInit, OnDestroy {
    * Open modal to create a new movement
    */
   addMovement(): void {
-    const modalRef = this.modal.open(AccountMovementsUpsertComponent, { 
-      size: 'lg', 
-      centered: true 
+    const modalRef = this.modal.open(AccountMovementsUpsertComponent, {
+      size: 'lg',
+      centered: true
     });
-    
+
     // Reload movements after modal closes
     modalRef.result.then(
-      () => this.loadMovements(),
-      () => {} // Dismiss handler
+      () => this.loadMovementsWithPagination(),
+      () => { } // Dismiss handler
     );
   }
 
@@ -257,16 +233,16 @@ export class MovementsComponent implements OnInit, OnDestroy {
    * @param id Movement ID to update (optional)
    */
   private updateMovement(id: number): void {
-    const modalRef = this.modal.open(AccountMovementsUpsertComponent, { 
-      size: 'lg', 
-      centered: true 
+    const modalRef = this.modal.open(AccountMovementsUpsertComponent, {
+      size: 'lg',
+      centered: true
     });
     modalRef.componentInstance.setModel(id);
-    
+
     // Reload movements after modal closes
     modalRef.result.then(
-      () => this.loadMovements(),
-      () => {} // Dismiss handler
+      () => this.loadMovementsWithPagination(),
+      () => { } // Dismiss handler
     );
   }
 
@@ -285,7 +261,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.service.delete(id).subscribe({
       next: () => {
         this.notificationService.success('Movimento deletado com sucesso');
-        this.loadMovements();
+        this.loadMovementsWithPagination();
       },
       error: (error) => {
         this.notificationService.error(`Erro ao deletar movimento: ${error.message}`);
@@ -305,7 +281,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.service.markAsPaid(id).subscribe({
       next: (updatedMovement) => {
         this.notificationService.success('Movimento {} marcado como pago'.replace('{}', updatedMovement.id!.toString()));
-        this.loadMovements();
+        this.loadMovementsWithPagination();
       },
       error: (error) => {
         this.notificationService.error(`Erro ao marcar como pago: ${error.message}`);
@@ -352,14 +328,18 @@ export class MovementsComponent implements OnInit, OnDestroy {
    */
   private getDefaultStartDate(): string {
     const today = new Date();
-    const minusMonths = 3;
+    let year: number;
+    let month: number;
+    const day = 1;
+    const minusMonths = 1;
     if (today.getMonth() < minusMonths) {
-      const firstDay = new Date(today.getFullYear()-1, 11 - (minusMonths-today.getMonth()), 1);
-      return this.formatDate(firstDay);
+      year = today.getFullYear() - 1;
+      month = 11;
     } else {
-      const firstDay = new Date(today.getFullYear(), today.getMonth()-minusMonths, 1);
-      return this.formatDate(firstDay);
+      year = today.getFullYear();
+      month = today.getMonth() - minusMonths;
     }
+    return this.formatDate(new Date(year, month, day));
   }
 
   /**
@@ -367,8 +347,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
    * Format: YYYY-MM-DD
    */
   private getDefaultEndDate(): string {
-    const today = new Date();
-    return this.formatDate(today);
+    return this.formatDate(new Date());
   }
 
   /**
@@ -396,15 +375,16 @@ export class MovementsComponent implements OnInit, OnDestroy {
    * Handles page query building with filters
    */
   private loadMovementsWithPagination(): void {
+    this.loadFutureMovements();
     this.loading = true;
     this.movementLoadingState.clear();
-    
+
     const query: PageQuery = new PageQueryModel();
     query.sort = '-date';
     query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
     query.offset = this.currentPage;
     query.limit = this.itemsPerPage;
-
+console.log(query)
     // TODO: Add date filter query when backend supports it
     // For now, we'll load all and let backend handle pagination
 
@@ -412,11 +392,11 @@ export class MovementsComponent implements OnInit, OnDestroy {
       this.service.parentId = this.parentId;
     }
 
-    this.service.readAll(query).subscribe({
-      next: (data: AccountMovementModel[]) => {
-        this.data = data;
-        this.totalItems = data.length; // This will be updated with proper page info from backend
-        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    this.service.search(query).subscribe({
+      next: (data: Page<AccountMovementModel>) => {
+        this.data = data.content;
+        this.totalItems = data.totalElements; // This will be updated with proper page info from backend
+        this.totalPages = data.totalPages;
         this.loading = false;
       },
       error: (error) => {

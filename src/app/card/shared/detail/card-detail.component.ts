@@ -20,8 +20,8 @@ import { CardChartComponent } from '../chart/card-chart.component';
 })
 export class CardDetailComponent implements OnInit {
   card: CardDetailsModel | null = null;
-  loading: boolean = true;
-  cardId: number = 0;
+  loading = true;
+  cardId = 0;
 
   constructor(
     private cardService: CardService,

@@ -13,7 +13,7 @@ import { NotificationService } from '../../commons/service/notification.service'
 })
 export class DetailsComponent {
   model!: CardDetailsModel;
-  isReady: boolean = false;
+  isReady = false;
 
   constructor(service: CardService,
     notificationService: NotificationService

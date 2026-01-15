@@ -19,8 +19,8 @@ export class IrpfComponent implements OnInit {
   @Input() parentId!: number;
 
   model: IrpfModel | null = null;
-  ticker: string = '';
-  loading: boolean = false;
+  ticker = '';
+  loading = false;
 
   constructor(private service: AssetServiceImpl,
     private notificationService: NotificationService

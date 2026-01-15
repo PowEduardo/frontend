@@ -71,11 +71,11 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
   @ViewChild('chartElement', { static: false }) chartElement!: ElementRef;
   
   @Input() cardId?: number;
-  @Input() title: string = 'Valor Pago - Cartões';
+  @Input() title = 'Valor Pago - Cartões';
 
   chartData: any[] = [];
   chartOptions: EChartsOption = {};
-  loading: boolean = false;
+  loading = false;
   private chart: echarts.ECharts | null = null;
   private resizeListener: (() => void) | null = null;
 

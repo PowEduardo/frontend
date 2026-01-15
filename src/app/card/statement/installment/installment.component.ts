@@ -24,8 +24,8 @@ import { NotificationService } from '../../../commons/service/notification.servi
 export class InstallmentComponent implements OnInit {
 
   installments: InstallmentModel[] = [];
-  sort: string = 'id';
-  loading: boolean = true;
+  sort = 'id';
+  loading = true;
   cardSelected!: number;
 
   // Table configuration

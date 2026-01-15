@@ -23,10 +23,10 @@ import { TableAction } from '../../../commons/model/table-action';
 })
 export class StatementDetailComponent implements OnInit {
   statement: StatementModel | null = null;
-  loading: boolean = true;
-  cardId: number = 0;
-  statementId: number = 0;
-  totalPaid: number = 0;
+  loading = true;
+  cardId = 0;
+  statementId = 0;
+  totalPaid = 0;
 
   // Table configuration
   installmentColumns: TableColumn[] = [

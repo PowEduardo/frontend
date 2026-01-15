@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../model/page-query';
 import { MovementModelInterface } from '../model/movement-model-interface';
@@ -28,12 +28,12 @@ import { MovementService } from '../service/movement.service';
   templateUrl: './movements-table.component.html',
   styleUrl: './movements-table.component.css'
 })
-export class MovementsTableComponent<T extends MovementModelInterface> {
+export class MovementsTableComponent<T extends MovementModelInterface> implements OnChanges {
   @Input()
   parentId!: number;
   @Input()
   movements?: T[];
-  sort: string = 'date';
+  sort = 'date';
 
   constructor(protected service: MovementService<T>,
     protected modal: NgbModal

@@ -71,7 +71,7 @@ export class TableComponent<T = unknown> {
   /**
    * Retrieve custom styles for a cell based on its column definition and row data.
    */
-  getCellStyle(col: TableColumn, row: T): { [key: string]: string } {
+  getCellStyle(col: TableColumn, row: T): Record<string, string> {
     const value = (row as Record<string, unknown>)[col.key];
     return col.style ? col.style(value, row as unknown) : {};
   }

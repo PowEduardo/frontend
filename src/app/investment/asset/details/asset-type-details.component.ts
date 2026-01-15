@@ -34,16 +34,16 @@ export class AssetTypeDetailsComponent implements OnInit {
   columns: TableColumn[] = [];
   assetActions: TableAction<AssetDetailsModel>[] = [];
 
-  @Input() type: string = '';
+  @Input() type = '';
 
-  private sort: string = 'ticker';
-  loading: boolean = true;
+  private sort = 'ticker';
+  loading = true;
 
   @Output() pieValuesChange = new EventEmitter<PieChartModel[]>();
 
   showAssetOperations?: number;
-  isMovementsEnabled: boolean = false;
-  isReturnsEnabled: boolean = false;
+  isMovementsEnabled = false;
+  isReturnsEnabled = false;
 
   constructor(
     private assetService: AssetServiceImpl,

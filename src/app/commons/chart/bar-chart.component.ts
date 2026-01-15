@@ -58,25 +58,25 @@ export class BarChartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data: any[] = [];
   
   /** Chart title */
-  @Input() title: string = 'Bar Chart';
+  @Input() title = 'Bar Chart';
   
   /** Color scheme for chart */
-  @Input() colorScheme: string = 'nightLights';
+  @Input() colorScheme = 'nightLights';
   
   /** Show legend */
-  @Input() showLegend: boolean = true;
+  @Input() showLegend = true;
   
   /** X Axis Label */
-  @Input() xAxisLabel: string = 'Período';
+  @Input() xAxisLabel = 'Período';
   
   /** Y Axis Label */
-  @Input() yAxisLabel: string = 'Valor (R$)';
+  @Input() yAxisLabel = 'Valor (R$)';
   
   /** Loading state */
-  @Input() loading: boolean = false;
+  @Input() loading = false;
   
   /** Empty message */
-  @Input() emptyMessage: string = 'Nenhum dado disponível';
+  @Input() emptyMessage = 'Nenhum dado disponível';
 
   /** Chart options for ECharts */
   chartOptions: EChartsOption = {};

@@ -24,14 +24,14 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './returns.component.css'
 })
 export class ReturnsComponent implements OnChanges {
-  @Input() parentId: number = 0;
+  @Input() parentId = 0;
   @Input() assetType?: string;
 
   movements: AssetMovementReturnModel[] = [];
   columns: TableColumn[] = [];
   returnActions: TableAction<AssetMovementReturnModel>[] = [];
-  sort: string = '-exDividendDate';
-  loading: boolean = false;
+  sort = '-exDividendDate';
+  loading = false;
 
   constructor(
     private service: AssetReturnServiceImpl,

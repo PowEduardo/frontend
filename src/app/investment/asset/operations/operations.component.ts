@@ -15,9 +15,9 @@ import { IrpfComponent } from "../irpf/irpf.component";
 export class OperationsComponent {
   @Input()
   assetId!: number;
-  isMovementsEnabled: boolean = false;
-  isReturnsEnabled: boolean = false;
-  isIrpfEnabled: boolean = false;
+  isMovementsEnabled = false;
+  isReturnsEnabled = false;
+  isIrpfEnabled = false;
 
   openMovements() {
     this.setAllFalse();

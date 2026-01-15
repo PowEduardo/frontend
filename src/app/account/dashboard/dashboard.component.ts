@@ -27,18 +27,18 @@ export class DashboardComponent implements OnInit {
   @Input() parentId: number | null = null;
 
   /** Loading state */
-  loading: boolean = true;
+  loading = true;
 
   /** Chart data for bar chart */
   chartData: any[] = [];
 
   /** Summary statistics */
-  totalMovements: number = 0;
-  totalIncome: number = 0;
-  totalExpense: number = 0;
-  balance: number = 0;
-  paidMovements: number = 0;
-  unpaidMovements: number = 0;
+  totalMovements = 0;
+  totalIncome = 0;
+  totalExpense = 0;
+  balance = 0;
+  paidMovements = 0;
+  unpaidMovements = 0;
   /** Filter: Start date for period filter */
   filterStartDate: string = this.getDefaultStartDate();
 

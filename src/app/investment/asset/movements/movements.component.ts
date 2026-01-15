@@ -24,14 +24,14 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './movements.component.css'
 })
 export class MovementsComponent implements OnChanges {
-  @Input() parentId: number = 0;
+  @Input() parentId = 0;
   @Input() assetType?: string;
 
   movements: AssetMovementModel[] = [];
   columns: TableColumn[] = [];
   movementActions: TableAction<AssetMovementModel>[] = [];
-  sort: string = '-date';
-  loading: boolean = false;
+  sort = '-date';
+  loading = false;
 
   constructor(
     private service: AssetMovementsServiceImpl,

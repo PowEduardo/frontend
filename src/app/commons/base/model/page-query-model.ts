@@ -3,12 +3,12 @@ import { PageQuery } from "./page-query";
 export class PageQueryModel implements PageQuery{
 
   query?: string;
-  offset: number = 0;
-  limit: number = 10;
+  offset = 0;
+  limit = 10;
   sort?: string = "-id";
 
   toString(): string {
-    let response: string = "";
+    let response = "";
     response = response.concat("_offset=").concat(this.offset.toString())
       .concat("&_limit=").concat(this.limit.toString());
     if (this.sort) {

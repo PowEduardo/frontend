@@ -38,8 +38,8 @@ export class StatementComponent implements OnInit, OnDestroy {
     }  }
   ];
   data: StatementModel[] = [];
-  isActive: boolean = true; // true when no active child route (show table)
-  loading: boolean = true; // show spinner while loading statements
+  isActive = true; // true when no active child route (show table)
+  loading = true; // show spinner while loading statements
   private routerSub?: Subscription;
 
   statementActions: TableAction<StatementModel>[] = [

@@ -23,9 +23,9 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 export class DetailsComponent implements OnInit, OnDestroy {
 
   model!: AccountDetailsModel;
-  isReady: boolean = false;
+  isReady = false;
   accountId: number | null = null;
-  isActive: boolean = true; // true when no child route (show details only)
+  isActive = true; // true when no child route (show details only)
   
   private routerSub?: Subscription;
 

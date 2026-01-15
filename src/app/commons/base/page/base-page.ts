@@ -10,13 +10,13 @@ export class BasePage<T extends GenericT> {
   protected entities: T[] = [];
   protected entitySelected: number | null = null;
   protected submenuItems: SubmenuItem[] = [];
-  protected pageReady: boolean = false;
+  protected pageReady = false;
   constructor(protected service: CrudService<T>,
     protected route: ActivatedRoute,
     protected router: Router
   ) { }
 
-  async loadEntities(sortAttribute: string = 'id'): Promise<void> {
+  async loadEntities(sortAttribute = 'id'): Promise<void> {
     const page: PageQuery = new PageQuery();
     try {
       const entities = await firstValueFrom(this.service.readAll(page));

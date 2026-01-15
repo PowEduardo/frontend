@@ -41,7 +41,7 @@ export class ConsolidateComponent implements OnInit {
   choosedAssetType = new EventEmitter<string>();
 
   /** Loading state indicator */
-  loading: boolean = false;
+  loading = false;
 
   /**
    * Constructor

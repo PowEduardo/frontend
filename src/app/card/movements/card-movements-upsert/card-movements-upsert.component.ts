@@ -25,7 +25,7 @@ import { NotificationService } from '../../../commons/service/notification.servi
 })
 export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMovementModel> {
   @Input()
-  updateOperation: boolean = false;
+  updateOperation = false;
   movementCategory!: string[];
 
   constructor(override activeModal: NgbActiveModal,
