@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -150,19 +150,17 @@ import { NotificationService } from '../../../commons/service/notification.servi
   `]
 })
 export class CardMovementEditComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private movementService = inject(CardMovementService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
+
   movementForm: FormGroup | null = null;
   loading = true;
   movement: CardMovementModel | null = null;
   cardId = 0;
   movementId = 0;
-
-  constructor(
-    private fb: FormBuilder,
-    private movementService: CardMovementService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private notificationService: NotificationService
-  ) {}
 
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params => {

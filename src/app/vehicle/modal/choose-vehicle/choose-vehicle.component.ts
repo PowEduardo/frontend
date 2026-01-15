@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { CrudService } from '../../../commons/service/crud.service';
 import { VehicleModel } from '../../model/vehicle-model';
@@ -17,15 +17,14 @@ import { VehicleService } from '../../service/vehicle.service';
   styleUrl: './choose-vehicle.component.css'
 })
 export class ChooseVehicleComponent implements OnInit {
+  private service = inject<CrudService<VehicleModel>>(CrudService);
+  private route = inject(ActivatedRoute);
+  private notificationService = inject(NotificationService);
+
   vehicles: VehicleModel[] = [];
   selectedVehicleId: number | null = null;
   @Output()
   selectedVehicleIdEmitter: EventEmitter<number> = new EventEmitter<number>();
-  constructor(
-    private service: CrudService<VehicleModel>,
-    private route: ActivatedRoute,
-    private notificationService: NotificationService
-  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {

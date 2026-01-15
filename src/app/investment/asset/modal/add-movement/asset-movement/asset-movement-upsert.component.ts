@@ -1,7 +1,6 @@
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
 import { MovementModule } from '../../../../../commons/base/movement/movement.module';
 import { MovementService } from '../../../../../commons/base/movement/service/movement.service';
@@ -11,7 +10,6 @@ import { CrudService } from '../../../../../commons/service/crud.service';
 import { AssetOperationType } from '../../../enum/asset-operation-type';
 import { AssetMovementModel } from '../../../model/asset-movement-model';
 import { AssetMovementsServiceImpl } from '../../../service/impl/asset-movements-impl.service';
-import { NotificationService } from '../../../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-asset-movement',
@@ -28,25 +26,23 @@ import { NotificationService } from '../../../../../commons/service/notification
 export class AssetMovementUpsertComponent extends MovementUpsertComponent<AssetMovementModel> {
   overrideValue = false;
 
-  constructor(service: MovementService<AssetMovementModel>,
-    activeModal: NgbActiveModal,
-    notificationService: NotificationService) {
-  super(activeModal, service, notificationService);
-  this.movementTypes = Object.values(AssetOperationType);
-  this.createMovement();
-}
-
-createMovement(): void {
-  if(!this.model) {
-  this.model = new AssetMovementModel();
-  this.model.category = MovementCategory.INVESTMENT;
-}
+  constructor() {
+    super();
+    this.movementTypes = Object.values(AssetOperationType);
+    this.createMovement();
   }
 
-calculateValue() {
-  if (!this.overrideValue) {
-    const result = this.model!.amount * this.model!.unitValue + (this.model!.operation.toString() === AssetOperationType.SELL.toString() ? -this.model.liquidationFee : this.model.liquidationFee);
-    this.model!.value = this.roundHalfUp(result, 3);
+  createMovement(): void {
+    if (!this.model) {
+      this.model = new AssetMovementModel();
+      this.model.category = MovementCategory.INVESTMENT;
+    }
   }
-}
+
+  calculateValue() {
+    if (!this.overrideValue) {
+      const result = this.model!.amount * this.model!.unitValue + (this.model!.operation.toString() === AssetOperationType.SELL.toString() ? -this.model.liquidationFee : this.model.liquidationFee);
+      this.model!.value = this.roundHalfUp(result, 3);
+    }
+  }
 }

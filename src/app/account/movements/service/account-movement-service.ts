@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { forkJoin, map, mergeMap, Observable, of } from "rxjs";
 import { Page } from "../../../commons/base/model/page";
 import { PageModel } from "../../../commons/base/model/page-model";
@@ -18,8 +18,10 @@ import { AccountMovementModel } from "../../model/account-movement-model";
  */
 @Injectable()
 export class AccountMovementService extends MovementService<AccountMovementModel> {
+  private readonly httpClient = inject(HttpClient);
 
-  constructor(private readonly httpClient: HttpClient) {
+
+  constructor() {
     super();
     this.baseUrl = this.baseUrl.concat("/api/v1/accounts/{parentId}/movements");
   }

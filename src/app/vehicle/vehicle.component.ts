@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PageQuery } from '../commons/base/model/page-query';
 import { BasePage } from '../commons/base/page/base-page';
@@ -17,10 +17,11 @@ import { VehicleModule } from './vehicle.module';
 })
 export class VehicleComponent extends BasePage<VehicleModel> implements OnInit {
 
-  constructor(service: CrudService<VehicleModel>,
-    route: ActivatedRoute,
-    router: Router
-  ) {
+  constructor() {
+    const service = inject<CrudService<VehicleModel>>(CrudService);
+    const route = inject(ActivatedRoute);
+    const router = inject(Router);
+
     super(service, route, router);
     this.submenuItems = [
       { label: 'Management', route: 'management', icon: 'pi pi-fw pi-car', isDisabled: false },

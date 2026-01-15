@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { AssetServiceImpl } from '../../asset/service/impl/asset-impl.service';
 import { InvestmentModel } from '../../model/investment-model';
@@ -24,14 +24,8 @@ import { InvestmentService } from '../investment.service';
   providedIn: 'root'
 })
 export class InvestmentServiceImpl extends InvestmentService {
+  private assetService = inject(AssetServiceImpl);
 
-  /**
-   * Constructor
-   * @param assetService Injected asset service for data retrieval
-   */
-  constructor(private assetService: AssetServiceImpl) {
-    super();
-  }
   /**
    * Get consolidated investment data across asset types
    *

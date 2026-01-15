@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CrudService } from '../../service/crud.service';
@@ -12,17 +12,16 @@ import { NotificationService } from '../../service/notification.service';
   styleUrl: './upsert.component.css'
 })
 export class UpsertComponent<T extends { id?: number | null }> {
+  protected activeModal = inject(NgbActiveModal);
+  protected service = inject<CrudService<T>>(CrudService);
+  protected notificationService = inject(NotificationService);
+
   protected model!: T;
   @Input()
   public title!: string | null;
   @Output()
   public submitEventEmitter: EventEmitter<T | unknown> = new EventEmitter<T | unknown>();
   public isReady = true;
-
-  constructor(protected activeModal: NgbActiveModal,
-    protected service: CrudService<T>,
-    protected notificationService: NotificationService
-  ) { }
 
   eventSubmit() {
     this.submitEventEmitter.emit(this.model);

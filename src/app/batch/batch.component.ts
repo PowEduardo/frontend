@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Execution } from './model/execution';
 import { Step } from './model/step';
 import { environment } from '../../environments/environment';
@@ -13,12 +13,12 @@ import { environment } from '../../environments/environment';
   styleUrl: './batch.component.css'
 })
 export class BatchComponent implements OnInit {
+  private http = inject(HttpClient);
+
   jobs: string[] = [];
   executions: Execution[] = [];
   selectedJob: string | null = null;
   showDetails: number | null = null;
-
-  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.fetchJobs();

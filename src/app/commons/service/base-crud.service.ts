@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CrudService } from './crud.service';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { Page } from '../base/model/page';
@@ -8,8 +8,10 @@ import { PageModel } from '../base/model/page-model';
 
 @Injectable()
 export class BaseCrudService<T> extends CrudService<T> {
+  protected readonly httpClient = inject(HttpClient);
 
-  constructor(protected readonly httpClient: HttpClient) {
+
+  constructor() {
     super();
     // Get current route and add to baseUrl
     const currentRoute = window.location.pathname;

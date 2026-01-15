@@ -1,5 +1,5 @@
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssetServiceImpl } from '../../service/impl/asset-impl.service';
@@ -21,6 +21,10 @@ import { NotificationService } from '../../../../commons/service/notification.se
   styleUrl: './add-asset.component.css'
 })
 export class AddAssetComponent {
+  activeModal = inject(NgbActiveModal);
+  private service = inject(AssetServiceImpl);
+  private notificationService = inject(NotificationService);
+
   /** Allow overriding calculated value */
   overrideValue = false;
 
@@ -41,11 +45,7 @@ export class AddAssetComponent {
    * @param service Asset service for CRUD operations
    * @param notificationService Notification service for user feedback
    */
-  constructor(
-    public activeModal: NgbActiveModal,
-    private service: AssetServiceImpl,
-    private notificationService: NotificationService
-  ) {
+  constructor() {
     if (this.model === undefined) {
       this.model = new AssetModel();
       this.model.ticker = '';

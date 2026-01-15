@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService, ToastType } from '../../service/notification.service';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -41,8 +41,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
   `
 })
 export class ToastContainerComponent {
+  notificationService = inject(NotificationService);
 
-  constructor(public notificationService: NotificationService) {}
 
   getAlertClass(type: ToastType): string {
     switch (type) {

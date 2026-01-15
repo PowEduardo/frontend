@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../../commons/base/model/page-query';
@@ -24,6 +24,12 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './returns.component.css'
 })
 export class ReturnsComponent implements OnChanges {
+  private service = inject(AssetReturnServiceImpl);
+  private modal = inject(NgbModal);
+  private currencyPipe = inject(CurrencyPipe);
+  private datePipe = inject(DatePipe);
+  private notificationService = inject(NotificationService);
+
   @Input() parentId = 0;
   @Input() assetType?: string;
 
@@ -33,13 +39,7 @@ export class ReturnsComponent implements OnChanges {
   sort = '-exDividendDate';
   loading = false;
 
-  constructor(
-    private service: AssetReturnServiceImpl,
-    private modal: NgbModal,
-    private currencyPipe: CurrencyPipe,
-    private datePipe: DatePipe,
-    private notificationService: NotificationService
-  ) {
+  constructor() {
     this.initializeColumns();
     this.initializeActions();
   }

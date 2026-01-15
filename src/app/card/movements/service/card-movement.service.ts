@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Page } from '../../../commons/base/model/page';
 import { PageQuery } from '../../../commons/base/model/page-query';
@@ -14,8 +14,10 @@ import { CardMovementModel } from '../model/card-movement-model';
   providedIn: 'root'
 })
 export class CardMovementService extends MovementService<CardMovementModel> {
+  private readonly httpClient = inject(HttpClient);
 
-  constructor(private readonly httpClient: HttpClient) {
+
+  constructor() {
     super();
     this.baseUrl = this.baseUrl.concat("/cards/{parentId}/movements");
   }

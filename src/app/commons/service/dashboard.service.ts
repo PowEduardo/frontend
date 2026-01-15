@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -30,9 +30,9 @@ export interface DashboardData {
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = `${environment.apiBaseUrl}/api/v1/dashboard`;
+  private readonly httpClient = inject(HttpClient);
 
-  constructor(private readonly httpClient: HttpClient) {}
+  private apiUrl = `${environment.apiBaseUrl}/api/v1/dashboard`;
 
   /**
    * Get total paid amount across all credit cards

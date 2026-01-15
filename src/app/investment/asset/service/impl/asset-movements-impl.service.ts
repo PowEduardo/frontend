@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { MovementService } from '../../../../commons/base/movement/service/movement.service';
 import { AssetMovementModel } from '../../model/asset-movement-model';
@@ -21,12 +21,14 @@ import { PageQuery } from '../../../../commons/base/model/page-query';
   providedIn: 'root'
 })
 export class AssetMovementsServiceImpl extends MovementService<AssetMovementModel> {
+  private readonly httpClient = inject(HttpClient);
+
   
   /**
    * Constructor
    * @param httpClient Angular HTTP client for API requests
    */
-  constructor(private readonly httpClient: HttpClient) {
+  constructor() {
     super();
     this.baseUrl = this.baseUrl + "/assets/";
   }

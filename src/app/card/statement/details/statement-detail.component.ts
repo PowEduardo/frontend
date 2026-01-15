@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatementModel } from '../model/statement-model';
@@ -22,6 +22,11 @@ import { TableAction } from '../../../commons/model/table-action';
   styleUrls: ['./statement-detail.component.css']
 })
 export class StatementDetailComponent implements OnInit {
+  private statementService = inject(StatementService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
+
   statement: StatementModel | null = null;
   loading = true;
   cardId = 0;
@@ -45,13 +50,6 @@ export class StatementDetailComponent implements OnInit {
       action: (installment: InstallmentModel) => this.editInstallment(installment)
     }
   ];
-
-  constructor(
-    private statementService: StatementService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private notificationService: NotificationService
-  ) {}
 
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params => {

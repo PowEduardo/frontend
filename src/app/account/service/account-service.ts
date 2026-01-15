@@ -1,4 +1,3 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
@@ -17,8 +16,8 @@ import { AccountDetailsModel } from "../model/account-details-model";
 })
 export class AccountService extends BaseCrudService<AccountDetailsModel> {
 
-    constructor(override readonly httpClient: HttpClient) {
-        super(httpClient);
+    constructor() {
+        super();
         this.baseUrl = environment.apiBaseUrl + '/api/v1/accounts';
     }
 

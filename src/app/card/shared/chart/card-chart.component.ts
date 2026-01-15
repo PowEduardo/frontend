@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardService } from '../../service/card.service';
 import { DashboardService } from '../../../commons/service/dashboard.service';
@@ -68,6 +68,10 @@ import * as echarts from 'echarts';
   `]
 })
 export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+  private cardService = inject(CardService);
+  private dashboardService = inject(DashboardService);
+  private notificationService = inject(NotificationService);
+
   @ViewChild('chartElement', { static: false }) chartElement!: ElementRef;
   
   @Input() cardId?: number;
@@ -78,12 +82,6 @@ export class CardChartComponent implements OnInit, OnChanges, AfterViewInit, OnD
   loading = false;
   private chart: echarts.ECharts | null = null;
   private resizeListener: (() => void) | null = null;
-
-  constructor(
-    private cardService: CardService,
-    private dashboardService: DashboardService,
-    private notificationService: NotificationService
-  ) { }
 
   ngOnInit(): void {
     this.loadChartData();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -8,10 +8,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './manage.component.css'
 })
 export class ManageComponent {
+  activeModal = inject(NgbActiveModal);
+
   title = 'Confirm';
   message = 'Choose an option';
-
-  constructor(public activeModal: NgbActiveModal) { }
 
   close(response: string): void {
     this.activeModal.close(response); // Return true on confirm

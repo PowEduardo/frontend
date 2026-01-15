@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { TableComponent } from '../../../commons/base/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { InvestmentModel } from '../../model/investment-model';
@@ -23,6 +23,10 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './consolidate.component.css'
 })
 export class ConsolidateComponent implements OnInit {
+  private service = inject(InvestmentServiceImpl);
+  private notificationService = inject(NotificationService);
+  private currencyPipe = inject(CurrencyPipe);
+
   /** List of consolidated investment data by category */
   assetConsolidateList: InvestmentModel[] = [];
 
@@ -49,11 +53,7 @@ export class ConsolidateComponent implements OnInit {
    * @param notificationService Notification service for user feedback
    * @param currencyPipe Currency pipe for formatting
    */
-  constructor(
-    private service: InvestmentServiceImpl,
-    private notificationService: NotificationService,
-    private currencyPipe: CurrencyPipe
-  ) {
+  constructor() {
     this.initializeColumns();
   }
 

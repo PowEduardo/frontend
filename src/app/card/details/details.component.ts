@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CardDetailsModel } from '../model/card-details-model';
 import { CardService } from '../service/card.service';
 import { NotificationService } from '../../commons/service/notification.service';
@@ -15,9 +15,10 @@ export class DetailsComponent {
   model!: CardDetailsModel;
   isReady = false;
 
-  constructor(service: CardService,
-    notificationService: NotificationService
-  ) {
+  constructor() {
+    const service = inject(CardService);
+    const notificationService = inject(NotificationService);
+
     service.getDetails(1).subscribe({
       next: (model) => {
         this.model = model;

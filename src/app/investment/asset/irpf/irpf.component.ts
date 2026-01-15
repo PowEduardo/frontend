@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AssetServiceImpl } from '../service/impl/asset-impl.service';
 import { IrpfModel } from './model/irpf-model';
@@ -16,15 +16,14 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './irpf.component.css'
 })
 export class IrpfComponent implements OnInit {
+  private service = inject(AssetServiceImpl);
+  private notificationService = inject(NotificationService);
+
   @Input() parentId!: number;
 
   model: IrpfModel | null = null;
   ticker = '';
   loading = false;
-
-  constructor(private service: AssetServiceImpl,
-    private notificationService: NotificationService
-  ) { }
 
   /**
    * Load IRPF data for the asset

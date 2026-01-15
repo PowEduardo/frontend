@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AccountService } from './service/account-service';
@@ -20,14 +20,12 @@ import { PageQueryModel } from '../commons/base/model/page-query-model';
   styleUrl: './account.component.css'
 })
 export class AccountComponent implements OnInit {
+  private service = inject(AccountService);
+  private notificationService = inject(NotificationService);
+  private router = inject(Router);
+
   accounts: AccountDetailsModel[] = [];
   loading = true;
-
-  constructor(
-    private service: AccountService,
-    private notificationService: NotificationService,
-    private router: Router
-  ) {}
 
   /**
    * Load all accounts on component init

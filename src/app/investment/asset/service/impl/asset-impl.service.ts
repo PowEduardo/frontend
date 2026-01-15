@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { PageQuery } from '../../../../commons/base/model/page-query';
 import { Crud } from '../../../../commons/base/movement/service/crud.service';
@@ -31,15 +31,11 @@ import { environment } from '../../../../../environments/environment';
   providedIn: 'root'
 })
 export class AssetServiceImpl implements Crud<AssetModel> {
+  private readonly httpClient = inject(HttpClient);
+
 
   /** Base API endpoint for assets */
   baseUrl: string = environment.apiBaseUrl + "/assets";
-
-  /**
-   * Constructor
-   * @param httpClient Angular HTTP client for API requests
-   */
-  constructor(private readonly httpClient: HttpClient) { }
 
   /**
    * Get all assets with pagination

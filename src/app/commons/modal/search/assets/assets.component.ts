@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AssetServiceImpl } from '../../../../investment/asset/service/impl/asset-impl.service';
 import { PageQuery } from '../../../base/model/page-query';
 
@@ -15,13 +15,13 @@ import { NotificationService } from '../../../service/notification.service';
   styleUrl: './assets.component.css'
 })
 export class AssetsComponent implements OnInit {
+  private service = inject(AssetServiceImpl);
+  private activeModal = inject(NgbActiveModal);
+  private notificationService = inject(NotificationService);
+
 
   assets!: AssetModel[];
   selectedOption!: string;
-  constructor(private service: AssetServiceImpl,
-    private activeModal: NgbActiveModal,
-    private notificationService: NotificationService
-  ) { }
   ngOnInit(): void {
     const page = new PageQuery();
     page.sort = "ticker";

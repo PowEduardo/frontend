@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { RouterOutlet, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,6 +23,12 @@ import { NotificationService } from '../../commons/service/notification.service'
   styleUrls: ['./statement.component.css']
 })
 export class StatementComponent implements OnInit, OnDestroy {
+  protected service = inject(StatementService);
+  protected router = inject(Router);
+  protected route = inject(ActivatedRoute);
+  protected modal = inject(NgbModal);
+  protected notificationService = inject(NotificationService);
+
   
 
   columns: TableColumn[] = [
@@ -50,14 +56,6 @@ export class StatementComponent implements OnInit, OnDestroy {
         action: (statement: StatementModel) => this.closeStatement(statement)
       }
     ];
-
-  constructor(protected service: StatementService,
-    protected router: Router,
-    protected route: ActivatedRoute,
-    protected modal: NgbModal,
-    protected notificationService: NotificationService
-  ) {
-  }
 
   ngOnInit(): void {
     const page: PageQuery = new PageQuery()

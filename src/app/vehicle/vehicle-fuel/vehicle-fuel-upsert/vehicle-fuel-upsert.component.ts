@@ -1,13 +1,11 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UpsertComponent } from '../../../commons/base/upsert/upsert.component';
 import { CrudService } from '../../../commons/service/crud.service';
 import { VehicleFuelService } from '../../service/vehicle-fuel.service';
 import { VehicleFuelModel } from '../model/vehicle-fuel';
-import { NotificationService } from '../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-vehicle-fuel-upsert',
@@ -18,15 +16,13 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './vehicle-fuel-upsert.component.css'
 })
 export class VehicleFuelUpsertComponent extends UpsertComponent<VehicleFuelModel> {
+  private route = inject(ActivatedRoute);
+
 
   parentId: number | null = null;
 
-  constructor(override activeModal: NgbActiveModal,
-    override service: CrudService<VehicleFuelModel>,
-    override notificationService: NotificationService,
-    private route: ActivatedRoute
-  ) {
-    super(activeModal, service, notificationService);
+  constructor() {
+    super();
     this.model = new VehicleFuelModel();
     this.title = 'Vehicle Fuel';
     this.route.paramMap.subscribe(params => {

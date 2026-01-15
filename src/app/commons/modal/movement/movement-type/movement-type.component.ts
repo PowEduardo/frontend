@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,11 +11,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './movement-type.component.css'
 })
 export class MovementTypeComponent {
+  private activeModal = inject(NgbActiveModal);
+
 
   options: string[] = ["ASSET", "RETURN", "ACCOUNT"];
   selectedOption!: string;
-
-  constructor(private activeModal: NgbActiveModal) {}
   
   close() {
     this.activeModal.close(this.selectedOption);

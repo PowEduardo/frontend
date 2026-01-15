@@ -1,16 +1,14 @@
 
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementCategory } from '../../../commons/base/movement/enum/movement-category';
+import { MovementType } from '../../../commons/base/movement/enum/movement-type';
 import { MovementService } from '../../../commons/base/movement/service/movement.service';
 import { MovementUpsertComponent } from '../../../commons/base/movement/upsert/movement-upsert.component';
 import { MovementUpsertModule } from '../../../commons/base/movement/upsert/movement-upsert.module';
+import { CrudService } from '../../../commons/service/crud.service';
 import { CardMovementModel } from '../model/card-movement-model';
 import { CardMovementService } from '../service/card-movement.service';
-import { MovementType } from '../../../commons/base/movement/enum/movement-type';
-import { CrudService } from '../../../commons/service/crud.service';
-import { NotificationService } from '../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-card-movements-upsert',
@@ -28,11 +26,9 @@ export class CardMovementsUpsertComponent extends MovementUpsertComponent<CardMo
   updateOperation = false;
   movementCategory!: string[];
 
-  constructor(override activeModal: NgbActiveModal,
-    override service: MovementService<CardMovementModel>,
-    override notificationService: NotificationService
-  ) {
-    super(activeModal, service, notificationService);
+  constructor() {
+
+    super();
     this.parentId = 1;
     this.movementCategory = Object.values(MovementCategory);
     if (this.model === undefined) {

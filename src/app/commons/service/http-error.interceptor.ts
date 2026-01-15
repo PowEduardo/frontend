@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -19,12 +19,12 @@ import { NotificationService } from './notification.service';
  */
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+  private notificationService = inject(NotificationService);
+
 
   // Configuration
   private readonly MAX_RETRIES = 3;
   private readonly RETRY_DELAY_MS = 1000;
-
-  constructor(private notificationService: NotificationService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(

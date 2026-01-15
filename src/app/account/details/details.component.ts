@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AccountDetailsModel } from '../model/account-details-model';
@@ -21,6 +21,11 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
   styleUrl: './details.component.css'
 })
 export class DetailsComponent implements OnInit, OnDestroy {
+  private service = inject(AccountService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
+
 
   model!: AccountDetailsModel;
   isReady = false;
@@ -28,13 +33,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   isActive = true; // true when no child route (show details only)
   
   private routerSub?: Subscription;
-
-  constructor(
-    private service: AccountService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private notificationService: NotificationService
-  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {

@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseCrudService } from '../../commons/service/base-crud.service';
-import { CardModel } from '../model/card-model';
 import { environment } from '../../../environments/environment';
+import { BaseCrudService } from '../../commons/service/base-crud.service';
 import { CardDetailsModel } from '../model/card-details-model';
+import { CardModel } from '../model/card-model';
 
 /**
  * Service for Credit Card API operations.
@@ -16,8 +15,8 @@ import { CardDetailsModel } from '../model/card-details-model';
 })
 export class CardService extends BaseCrudService<CardModel> {
 
-  constructor(override readonly httpClient: HttpClient) {
-    super(httpClient);
+  constructor() {
+    super();
     this.baseUrl = environment.apiBaseUrl + '/api/v1/cards';
   }
 

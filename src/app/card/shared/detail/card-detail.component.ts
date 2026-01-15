@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NotificationService } from '../../../commons/service/notification.service';
 import { CardDetailsModel } from '../../model/card-details-model';
@@ -19,16 +19,14 @@ import { CardChartComponent } from '../chart/card-chart.component';
   styleUrls: ['./card-detail.component.css']
 })
 export class CardDetailComponent implements OnInit {
+  private cardService = inject(CardService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
+
   card: CardDetailsModel | null = null;
   loading = true;
   cardId = 0;
-
-  constructor(
-    private cardService: CardService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private notificationService: NotificationService
-  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

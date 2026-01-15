@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -32,6 +32,12 @@ import { Page } from '../../commons/base/model/page';
   styleUrl: './movements.component.css'
 })
 export class MovementsComponent implements OnInit, OnDestroy {
+  protected service = inject(AccountMovementService);
+  protected notificationService = inject(NotificationService);
+  protected modal = inject(NgbModal);
+  protected router = inject(Router);
+  protected route = inject(ActivatedRoute);
+
 
   /** Parent account ID to filter movements - can be passed as @Input or extracted from route */
   @Input() parentId: number | null = null;
@@ -110,15 +116,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
   /** Router events subscription */
   private routerSub?: Subscription;
-
-  constructor(
-    protected service: AccountMovementService,
-    protected notificationService: NotificationService,
-    protected modal: NgbModal,
-    protected router: Router,
-    protected route: ActivatedRoute
-  ) {
-  }
 
   /**
    * Component initialization

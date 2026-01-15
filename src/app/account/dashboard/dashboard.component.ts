@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -21,6 +21,10 @@ import { environment } from '../../../environments/environment';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
+  private http = inject(HttpClient);
+  private notificationService = inject(NotificationService);
+  private route = inject(ActivatedRoute);
+
   
 
   /** Parent account ID */
@@ -44,12 +48,6 @@ export class DashboardComponent implements OnInit {
 
   /** Filter: End date for period filter */
   filterEndDate: string = this.getDefaultEndDate();
-
-  constructor(
-    private http: HttpClient,
-    private notificationService: NotificationService,
-    private route: ActivatedRoute
-  ) { }
 
   ngOnInit(): void {
     // Extract accountId from parent route if not passed via @Input

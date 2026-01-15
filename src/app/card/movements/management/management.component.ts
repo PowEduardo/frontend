@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { InstallmentModel } from '../../statement/installment/model/installment-model';
 import { InstallmentService } from '../../statement/installment/service/installment.service';
@@ -15,12 +15,16 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './management.component.css'
 })
 export class ManagementComponent {
+  private service = inject(CardMovementService);
+  private installmentService = inject(InstallmentService);
+  private notificationService = inject(NotificationService);
+
   model!: CardMovementModel;
   installments!: InstallmentModel[];
 
-  constructor(private service: CardMovementService,
-    private installmentService: InstallmentService,
-    private notificationService: NotificationService) {
+  constructor() {
+    const service = this.service;
+
     service.parentId = 1;
   }
 

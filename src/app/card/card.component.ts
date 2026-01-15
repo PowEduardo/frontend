@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { BasePage } from '../commons/base/page/base-page';
 import { CrudService } from '../commons/service/crud.service';
@@ -30,11 +30,11 @@ export class CardComponent extends BasePage<CardModel> implements OnInit {
   list: SimpleEntityModel[] = [];
   cardService: CardService;
 
-  constructor(
-    service: CrudService<CardModel>,
-    route: ActivatedRoute,
-    router: Router
-  ) {
+  constructor() {
+    const service = inject<CrudService<CardModel>>(CrudService);
+    const route = inject(ActivatedRoute);
+    const router = inject(Router);
+
     super(service, route, router);
     this.cardService = service as CardService;
     this.submenuItems = [

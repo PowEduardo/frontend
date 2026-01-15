@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +24,11 @@ import { TableAction } from '../../../commons/model/table-action';
   styleUrls: ['./card-movement-list.component.css']
 })
 export class CardMovementListComponent implements OnInit {
+  private movementService = inject(CardMovementService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
+
   movements: CardMovementModel[] = [];
   loading = true;
   totalUnpaid = 0;
@@ -49,13 +54,6 @@ export class CardMovementListComponent implements OnInit {
       action: (movement: CardMovementModel) => this.editMovement(movement)
     }
   ];
-
-  constructor(
-    private movementService: CardMovementService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private notificationService: NotificationService
-  ) {}
 
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params => {

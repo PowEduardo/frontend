@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { CrudService } from '../../commons/service/crud.service';
@@ -18,14 +18,13 @@ import { NotificationService } from '../../commons/service/notification.service'
   styleUrl: './management-vehicle.component.css'
 })
 export class ManagementVehiclesComponent implements OnInit, Management {
+  private service = inject<CrudService<VehicleModel>>(CrudService);
+  private modal = inject(NgbModal);
+  private notificationService = inject(NotificationService);
+
 
   list: VehicleModel[] = [];
   selectedVehicles: number[] = [];
-  constructor(private service: CrudService<VehicleModel>,
-    private modal: NgbModal,
-    private notificationService: NotificationService
-  ) {
-  }
 
   async ngOnInit(): Promise<void> {
     const pageQuery = new PageQuery();

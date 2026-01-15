@@ -1,7 +1,6 @@
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovementCategory } from '../../../../../commons/base/movement/enum/movement-category';
 import { MovementType } from '../../../../../commons/base/movement/enum/movement-type';
 import { MovementModule } from '../../../../../commons/base/movement/movement.module';
@@ -12,7 +11,6 @@ import { CrudService } from '../../../../../commons/service/crud.service';
 import { AssetMovementReturnType } from '../../../enum/asset-movement-return-type';
 import { AssetMovementReturnModel } from '../../../model/asset-movement-return-model';
 import { AssetReturnServiceImpl } from '../../../service/impl/movement-asset-return-impl.service';
-import { NotificationService } from '../../../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-add-return',
@@ -27,13 +25,12 @@ import { NotificationService } from '../../../../../commons/service/notification
   styleUrl: './asset-return-upsert.component.css'
 })
 export class AssetReturnMovementUpsertComponent extends MovementUpsertComponent<AssetMovementReturnModel> {
+
   overrideValue = false;
 
 
-  constructor(protected override service: MovementService<AssetMovementReturnModel>,
-    protected override activeModal: NgbActiveModal,
-    protected override notificationService: NotificationService) {
-    super(activeModal, service, notificationService);
+  constructor() {
+    super();
     this.movementTypes = Object.values(AssetMovementReturnType);
     this.createMovement();
   }

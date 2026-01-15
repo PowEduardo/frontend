@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, inject } from '@angular/core';
 import { UpsertComponent } from '../../../commons/base/upsert/upsert.component';
 import { CrudService } from '../../../commons/service/crud.service';
 import { VehiclePartModel } from '../model/vehicle-part-model';
@@ -10,7 +9,6 @@ import { PageQuery } from '../../../commons/base/model/page-query';
 import { VehicleModel } from '../../model/vehicle-model';
 import { VehiclePartService } from '../../service/vehicle-part.service';
 import { VehicleService } from '../../service/vehicle.service';
-import { NotificationService } from '../../../commons/service/notification.service';
 
 @Component({
   selector: 'app-vehicle-part-upsert',
@@ -21,17 +19,15 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './vehicle-part-upsert.component.css'
 })
 export class VehiclePartUpsertComponent extends UpsertComponent<VehiclePartModel> {
+  private vehicleService = inject(VehicleService);
+  private route = inject(ActivatedRoute);
+
 
   vehicles: VehicleModel[] = [];
   parentId: number | null = null;
 
-  constructor(override activeModal: NgbActiveModal,
-    override service: CrudService<VehiclePartModel>,
-    override notificationService: NotificationService,
-    private vehicleService: VehicleService,
-    private route: ActivatedRoute
-  ) {
-    super(activeModal, service, notificationService);
+  constructor() {
+    super();
     this.model = new VehiclePartModel();
     this.title = 'Vehicle';
     this.vehicleService.readAll(new PageQuery()).subscribe(

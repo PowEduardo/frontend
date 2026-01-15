@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { PageQueryModel } from '../../../commons/base/model/page-query-model';
@@ -22,6 +22,12 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './installment.component.css'
 })
 export class InstallmentComponent implements OnInit {
+  private modalService = inject(NgbModal);
+  private service = inject(InstallmentService);
+  private movementService = inject(CardMovementService);
+  private route = inject(ActivatedRoute);
+  private notificationService = inject(NotificationService);
+
 
   installments: InstallmentModel[] = [];
   sort = 'id';
@@ -56,14 +62,6 @@ export class InstallmentComponent implements OnInit {
       action: (installment: InstallmentModel) => this.editMovement(installment)
     }
   ];
-
-  constructor(
-    private modalService: NgbModal,
-    private service: InstallmentService,
-    private movementService: CardMovementService,
-    private route: ActivatedRoute,
-    private notificationService: NotificationService
-  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {

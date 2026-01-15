@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../commons/base/model/page';
@@ -20,16 +20,16 @@ import { VehicleFuelModule } from "./vehicle-fuel.module";
   styleUrl: './vehicle-fuel.component.css'
 })
 export class VehicleFuelComponent implements OnInit {
+  private service = inject<CrudService<VehicleFuelModel>>(CrudService);
+  private modal = inject(NgbModal);
+  private route = inject(ActivatedRoute);
+  private notificationService = inject(NotificationService);
+
 
   page!: Page<VehicleFuelModel>
   selectedValues: number[] = [];
   parentId!: number;
   query!: PageQuery;
-
-  constructor(private service: CrudService<VehicleFuelModel>,
-    private modal: NgbModal,
-    private route: ActivatedRoute,
-    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.route.parent?.paramMap.subscribe(

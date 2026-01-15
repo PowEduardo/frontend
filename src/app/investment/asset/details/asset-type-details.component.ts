@@ -1,5 +1,5 @@
 import { DecimalPipe, CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { PageQuery } from '../../../commons/base/model/page-query';
@@ -29,6 +29,11 @@ import { NotificationService } from '../../../commons/service/notification.servi
   styleUrl: './asset-type-details.component.css'
 })
 export class AssetTypeDetailsComponent implements OnInit {
+  private assetService = inject(AssetServiceImpl);
+  private modalService = inject(NgbModal);
+  private currencyPipe = inject(CurrencyPipe);
+  private notificationService = inject(NotificationService);
+
   allAssets: AssetDetailsModel[] = [];
 
   columns: TableColumn[] = [];
@@ -45,12 +50,7 @@ export class AssetTypeDetailsComponent implements OnInit {
   isMovementsEnabled = false;
   isReturnsEnabled = false;
 
-  constructor(
-    private assetService: AssetServiceImpl,
-    private modalService: NgbModal,
-    private currencyPipe: CurrencyPipe,
-    private notificationService: NotificationService
-  ) {
+  constructor() {
     this.initializeColumns();
     this.initializeActions();
   }
