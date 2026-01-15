@@ -1,0 +1,22 @@
+<h4 class="text text-center">Vehicle Parts</h4>
+@if (parentId) {
+  <div>
+    @if (selectedValues.length === 0) {
+      <div class="text text-center">
+        <button class="btn btn-primary" (click)="create()">Add Part</button>
+      </div>
+    }
+    @if (selectedValues.length > 0) {
+      <div class="text text-center">
+        <button class="btn btn-primary" (click)="manage()">Manage Part</button>
+      </div>
+    }
+    <app-vehicle-part-table [list]="page.content" (selectedValuesEmitter)="selectedValues = $event"></app-vehicle-part-table>
+    @if (page) {
+      <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-outline-secondary me-2" (click)="previousPage()" [disabled]="page.first">&lt;</button>
+        <button class="btn btn-outline-secondary" (click)="nextPage()" [disabled]="page.last">&gt;</button>
+      </div>
+    }
+  </div>
+}

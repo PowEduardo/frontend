@@ -1,0 +1,24 @@
+<app-upsert (submitEventEmitter)="onSubmit()" [title]="this.title">
+    <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" class="form-control" id="date" name="date" [(ngModel)]="model.date" placeholder="2023-01-01">
+        <label for="type">Type</label>
+        <select class="form-select w-auto mb-3" id="type" name="type" [(ngModel)]="model.type">
+            <option [ngValue]="'ETHANOL'">Ethanol</option>
+            <option [ngValue]="'GASOLINE'">Gasoline</option>
+            <option [ngValue]="'DIESEL'">Diesel</option>
+        </select>
+        <label for="milage">Milage</label>
+        <input type="number" class="form-control" id="milage" name="milage" [(ngModel)]="model.milage">
+        <label for="liters">Liters</label>
+        <input type="number" class="form-control" id="liters" name="liters" [(ngModel)]="model.liters">
+        <label for="price">Price</label>
+        <input type="number" class="form-control" id="price" name="price" [(ngModel)]="model.price">
+        <label for="value">Value</label>
+        <input type="number" class="form-control" id="value" name="value" [(ngModel)]="model.value">
+        <label for="consumption">Consumption</label>
+        <input type="number" class="form-control" id="consumption" name="consumption" [(ngModel)]="model.consumption">
+        <label for="description">Description</label>
+        <input type="string" class="form-control" id="description" name="description" [(ngModel)]="model.description">
+    </div>
+</app-upsert>

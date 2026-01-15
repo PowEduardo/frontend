@@ -1,23 +1,48 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { MovementsComponent } from './investment/asset/movements/movements.component';
-import { ReturnsComponent } from './investment/asset/returns/returns.component';
-import { AssetTypeDetailsComponent } from './investment/asset/details/asset-type-details.component';
-import { InvestmentComponent } from './investment/investment.component';
-import { AccountComponent } from './account/account.component';
+import { BatchComponent } from './batch/batch.component';
+import { ManagementVehiclesComponent } from './vehicle/management/management-vehicle.component';
+import { VehiclePartComponent } from './vehicle/vehicle-part/vehicle-part.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { VehicleFuelComponent } from './vehicle/vehicle-fuel/vehicle-fuel.component';
+
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, children: [
-    { path: 'investments', component: InvestmentComponent, children: [
-      { path: 'details', component: AssetTypeDetailsComponent, children: [
-        { path: 'returns', component: ReturnsComponent },
-        { path: 'movements', component: MovementsComponent }
-        ]
+  {
+    path: 'investments',
+    loadChildren: () => import('./investment/investment.routes').then(m => m.INVESTMENT_ROUTES)
+  },
+  {
+    path: 'accounts',
+    loadChildren: () => import('./account/account.routes').then(m => m.ACCOUNT_ROUTES)
+  },
+  {
+    path: 'cards',
+    loadChildren: () => import('./card/card.routes').then(m => m.CARD_ROUTES)
+  },
+  {
+    path: 'batch',
+    component: BatchComponent
+  },
+  // Add route for 'vehicle' and 'vehicle/:id' to VehicleComponent
+  {
+    path: 'vehicles',
+    component: VehicleComponent
+  },
+  {
+    path: 'vehicles/:id',
+    component: VehicleComponent,
+    children: [
+      {
+        path: 'management',
+        component: ManagementVehiclesComponent
+      },
+      {
+        path: 'parts',
+        component: VehiclePartComponent
+      },
+      {
+        path: 'fuel',
+        component: VehicleFuelComponent
       }
     ]
-  },
-  { path: 'account', component: AccountComponent}
-]
-},
-  
+  }
 ];

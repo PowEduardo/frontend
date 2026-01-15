@@ -1,50 +1,152 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges } from '@angular/core';
-import { MovementMapper } from '../../../commons/base/movement/mapper/movement-mapper';
-import { MovementService } from '../../../commons/base/movement/service/movement.service';
-import { MovementsTableComponent } from '../../../commons/base/movement/table/movements-table.component';
-import { CurrencyFormatPipe } from '../../../pipe/currency-format.pipe';
-import { AssetMovementMapperImpl } from '../mapper/impl/asset-movement-mapper-impl';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PageQuery } from '../../../commons/base/model/page-query';
+import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableColumn } from '../../../commons/model/table-column';
+import { TableAction } from '../../../commons/model/table-action';
+import { AssetMovementUpsertComponent } from '../modal/add-movement/asset-movement/asset-movement-upsert.component';
 import { AssetMovementModel } from '../model/asset-movement-model';
-import { AssetMovementHttp } from '../model/http/asset-movement-http-model';
-import { PageQuery } from '../model/page-query';
 import { AssetMovementsServiceImpl } from '../service/impl/asset-movements-impl.service';
+import { NotificationService } from '../../../commons/service/notification.service';
 
+/**
+ * Displays asset movement transactions (buy/sell operations)
+ * Uses standardized app-table component with configurable columns and actions
+ */
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [CurrencyFormatPipe, CommonModule, MovementsTableComponent],
-  providers: [{ provide: MovementService, useClass: AssetMovementsServiceImpl },
-  { provide: MovementMapper, useClass: AssetMovementMapperImpl }
-  ],
+  imports: [CommonModule, TableComponent, MatIconModule],
+  providers: [CurrencyPipe, DatePipe],
   templateUrl: './movements.component.html',
   styleUrl: './movements.component.css'
 })
-export class MovementsComponent extends MovementsTableComponent<AssetMovementModel, AssetMovementHttp> implements OnChanges {
-  @Input()
-  assetType?: string;
-  isReady: boolean = false;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export class MovementsComponent implements OnChanges {
+  @Input() parentId: number = 0;
+  @Input() assetType?: string;
 
-  override async getMovements(attribute: string) {
-    if (this.sort === attribute) {
-      attribute = '-' + attribute;
-      this.sort = attribute;
+  movements: AssetMovementModel[] = [];
+  columns: TableColumn[] = [];
+  movementActions: TableAction<AssetMovementModel>[] = [];
+  sort: string = '-date';
+  loading: boolean = false;
+
+  constructor(
+    private service: AssetMovementsServiceImpl,
+    private modal: NgbModal,
+    private currencyPipe: CurrencyPipe,
+    private datePipe: DatePipe,
+    private notificationService: NotificationService
+  ) {
+    this.initializeColumns();
+    this.initializeActions();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['parentId']) {
+      this.loadMovements();
     }
-    this.movements = [];
-    const query: PageQuery = new PageQuery();
-    if (attribute) {
-      query.sort = attribute;
-    }
+  }
+
+  /**
+   * Initialize table columns based on context
+   */
+  private initializeColumns(): void {
+    this.columns = [
+      { key: 'id', label: 'Id' },
+      ...(this.parentId === 0 ? [{ key: 'asset.ticker', label: 'Asset' }] : []),
+      { key: 'operation', label: 'Operation' },
+      { key: 'amount', label: 'Amount' },
+      {
+        key: 'unitValue',
+        label: 'Unit Value',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      },
+      {
+        key: 'value',
+        label: 'Value',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      },
+      {
+        key: 'date',
+        label: 'Date',
+        format: (value) => this.datePipe.transform(value as Date, 'dd/MM/yyyy') || ''
+      }
+    ];
+  }
+
+  /**
+   * Initialize table actions (edit, delete)
+   */
+  private initializeActions(): void {
+    this.movementActions = [
+      {
+        label: '+',
+        icon: 'bi bi-pencil',
+        action: (row) => this.updateMovements(row)
+      },
+      {
+        label: 'Delete',
+        icon: 'bi bi-trash',
+        cssClass: 'danger',
+        action: (row) => this.deleteMovement(row.id!)
+      }
+    ];
+  }
+
+  /**
+   * Load movements with sorting and filtering
+   */
+  private loadMovements(): void {
+    this.loading = true;
+    const query = new PageQuery();
+    query.sort = this.sort;
+
     if (this.assetType) {
-      query.addQuery("assetType", this.assetType);
+      query.addQuery('assetType', this.assetType);
     }
+
     this.service.parentId = this.parentId;
-    await this.service.readAll(query).subscribe((data: AssetMovementHttp[]) => {
-      data.map(element => {
-        this.movements!.push(this.mapper.toModel(element));
-      });
+    this.service.readAll(query).subscribe({
+      next: (data: AssetMovementModel[]) => {
+        this.movements = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.notificationService.error(`Erro ao recuperar Movimentos: ${error.error.message}`);
+        this.loading = false;
+      }
     });
   }
 
+  /**
+   * Open modal to add new movement
+   */
+  addMovements(): void {
+    const modalRef = this.modal.open(AssetMovementUpsertComponent);
+    modalRef.componentInstance.parentId = this.parentId;
+  }
+
+  /**
+   * Open modal to edit existing movement
+   */
+  updateMovements(model: AssetMovementModel): void {
+    const modalRef = this.modal.open(AssetMovementUpsertComponent);
+    modalRef.componentInstance.parentId = this.parentId;
+    modalRef.componentInstance.model = model;
+  }
+
+  /**
+   * Delete movement by id
+   */
+  deleteMovement(id: number): void {
+    if (confirm('Tem certeza que deseja deletar este movimento?')) {
+      this.service.delete(id).subscribe({
+        next: () => this.loadMovements(),
+        error: (error) => this.notificationService.error(`Erro ao excluir movimento: ${error.error.message}`)
+      });
+    }
+  }
 }

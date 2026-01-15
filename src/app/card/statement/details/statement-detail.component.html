@@ -1,0 +1,101 @@
+<div class="container-fluid mt-4">
+  <div class="row mb-4">
+    <div class="col">
+      <h4>Detalhes da Fatura</h4>
+    </div>
+    <div class="col-auto text-end">
+      <button class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left me-2"></i> Voltar
+      </button>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="d-flex justify-content-center p-5">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else if (statement) {
+    <!-- Statement Header -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title mb-3">{{ statement.yearMonth }}</h5>
+        <div class="row">
+          <div class="col-md-3">
+            <label class="text-muted d-block mb-1">Status</label>
+            <p class="mb-0">
+              <span class="badge" [ngClass]="statement.closed ? 'bg-success' : 'bg-warning'">
+                {{ statement.closed ? 'Paga' : 'Aberta' }}
+              </span>
+            </p>
+          </div>
+          <div class="col-md-3">
+            <label class="text-muted d-block mb-1">Data de Vencimento</label>
+            <p class="mb-0">{{ statement.dueDate | date: 'dd/MM/yyyy' }}</p>
+          </div>
+          <div class="col-md-3">
+            <label class="text-muted d-block mb-1">Total da Fatura</label>
+            <p class="mb-0">R$ {{ statement.totalAmount | number: '1.2-2' }}</p>
+          </div>
+          <div class="col-md-3">
+            <label class="text-muted d-block mb-1">Juros</label>
+            <p class="mb-0">R$ {{ statement.interestAmount || 0 | number: '1.2-2' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <label class="text-muted d-block mb-2">Valor Total</label>
+            <h4 class="text-primary mb-0">R$ {{ statement.totalAmount | number: '1.2-2' }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <label class="text-muted d-block mb-2">Valor Pago</label>
+            <h4 class="text-success mb-0">R$ {{ totalPaid | number: '1.2-2' }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <label class="text-muted d-block mb-2">Valor Restante</label>
+            <h4 class="text-warning mb-0">R$ {{ statement.totalAmount - totalPaid | number: '1.2-2' }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Installments Table -->
+    @if (statement.installments && statement.installments.length > 0) {
+      <div class="mb-4">
+        <h6 class="mb-3">Parcelas</h6>
+        <app-table 
+          [columns]="installmentColumns"
+          [data]="statement.installments"
+          [actions]="installmentActions">
+        </app-table>
+      </div>
+    }
+
+    <!-- Actions -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-x me-2"></i> Fechar
+      </button>
+      @if (!statement.closed) {
+        <button type="button" class="btn btn-success" (click)="markAsPaid()">
+          <i class="bi bi-check-circle me-2"></i> Marcar Fatura como Paga
+        </button>
+      }
+    </div>
+  }
+</div>

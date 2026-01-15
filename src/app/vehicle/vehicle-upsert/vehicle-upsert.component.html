@@ -1,0 +1,21 @@
+<app-upsert (submitEventEmitter)="onSubmit()">
+    <div class="form-group">
+        <label for="manufacturer">Manufacturer</label>
+        <input type="string" class="form-control" id="manufacturer" name="manufacturer" [(ngModel)]="model.manufacturer"
+            placeholder="Toyota">
+        <label for="model">Model</label>
+        <input type="string" class="form-control" id="model" name="model" [(ngModel)]="model.model"
+            placeholder="Corolla">
+        <label for="version">Version</label>
+        <input type="string" class="form-control" id="version" name="version" [(ngModel)]="model.version"
+            placeholder="XRE">
+        <label for="year">Year</label>
+        <input type="number" class="form-control" id="year" name="year" [(ngModel)]="model.year" placeholder="2022">
+        <label for="milage">Milage</label>
+        <input type="number" class="form-control" id="milage" name="milage" [(ngModel)]="model.milage"
+            placeholder="30000">
+        <label for="value">Value</label>
+        <input type="number" class="form-control" id="value" name="value" [(ngModel)]="model.value"
+            placeholder="23000,00">
+    </div>
+</app-upsert>

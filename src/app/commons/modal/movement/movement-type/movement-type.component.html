@@ -1,0 +1,10 @@
+<div class="modal-body">
+  <select [(ngModel)]="selectedOption" class="form-select">
+    @for (option of options; track option) {
+      <option [value]="option">{{ option }}</option>
+    }
+  </select>
+  <div class="d-flex justify-content-center mt-3">
+    <button class="btn btn-primary" (click)="close()">Select</button>
+  </div>
+</div>

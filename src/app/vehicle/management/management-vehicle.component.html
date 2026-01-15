@@ -1,0 +1,14 @@
+<h4 class="text text-center">Management</h4>
+@if (list) {
+  <app-vehicle-table [list]="list" (selectedValuesEmitter)="updateVehicle($event)" ></app-vehicle-table>
+}
+@if (selectedVehicles.length === 0) {
+  <div class="text text-center">
+    <button class="btn btn-primary" (click)="addVehicle()">Add Vehicle</button>
+  </div>
+}
+@if (selectedVehicles.length > 0) {
+  <div class="text text-center">
+    <button class="btn btn-primary" (click)="manageVehicle()">Manage Vehicle</button>
+  </div>
+}

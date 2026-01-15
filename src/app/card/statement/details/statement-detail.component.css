@@ -1,0 +1,14 @@
+/* Minimal styles - Bootstrap handles most */
+.card {
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.text-center .card-body label {
+  color: #6c757d;
+  font-size: 0.875rem;
+}

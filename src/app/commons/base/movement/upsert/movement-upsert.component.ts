@@ -1,38 +1,37 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MovementModel } from '../model/movement-model';
+import { UpsertComponent } from '../../upsert/upsert.component';
+import { MovementModelInterface } from '../model/movement-model-interface';
 import { MovementService } from '../service/movement.service';
-import { MovementMapper } from '../mapper/movement-mapper';
-import { MovementHttp } from '../model/http/movement-http';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-movement-upsert',
+  standalone: false,
   templateUrl: './movement-upsert.component.html',
   styleUrl: './movement-upsert.component.css'
 })
-export class MovementUpsertComponent<T extends MovementModel, Y extends MovementHttp> {
-
+export class MovementUpsertComponent<T extends MovementModelInterface> extends UpsertComponent<T> {
   @Input()
-  model!: T;
+  override model!: T;
   @Output()
   modelChange = new EventEmitter<T>();
   movementTypes!: string[];
   @Input()
   parentId!: number;
 
-  constructor (
-    protected service: MovementService<Y>,
-    protected mapper: MovementMapper<T, Y>,
-    protected activeModal: NgbActiveModal
-  ) {}
+  override async onSubmit() {
+    const service = this.service as MovementService<T>;
+    service.parentId = this.parentId;
+    super.onSubmit();
+  }
 
-  async onSubmit() {
-    this.service.parentId = this.parentId;
-    if (this.model.id === undefined) {
-      await this.service.create(this.mapper.toHttp(this.model)).subscribe();
-    } else {
-      await this.service.update(this.mapper.toHttp(this.model), this.parentId).subscribe();
-    }
-    await this.activeModal.close('saved');
+  roundHalfUp(value: number, precision: number): number {
+    const factor = Math.pow(10, precision);
+    return Math.round(value * factor) / factor;
+  }
+
+  override setModel(id: number) {
+    const service = this.service as MovementService<T>;
+    service.parentId = this.parentId;
+    super.setModel(id);
   }
 }

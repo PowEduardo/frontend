@@ -1,0 +1,55 @@
+@if (isActive) {
+  @if (isReady) {
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Detalhes da Conta</h4>
+            <button class="btn btn-secondary btn-sm" (click)="backToList()">
+              <i class="bi bi-arrow-left me-2"></i> Voltar
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-3">
+              <p><strong>Banco: </strong>{{model.bank}}</p>
+            </div>
+            <div class="col-md-3">
+              <p><strong>Número da Conta: </strong>{{model.number}}</p>
+            </div>
+            <div class="col-md-3">
+              <p><strong>Agência: </strong>{{model.branch}}</p>
+            </div>
+            <div class="col-md-3">
+              <p><strong>Data de Criação: </strong>{{model.createDate}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p><strong>Saldo: </strong>{{model.balance | currency:'BRL':'symbol':'1.2-2'}}</p>
+            </div>
+          </div>
+          <div class="mt-4">
+            <button class="btn btn-primary btn-sm" (click)="viewMovements()">
+              <i class="bi bi-list me-2"></i> Ver Movimentos
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Section -->
+      <div class="mt-5">
+        <app-dashboard [parentId]="accountId"></app-dashboard>
+      </div>
+    </div>
+  }
+} @else {
+  <div class="d-flex justify-content-between align-items-center mb-4 mt-4 ms-4 me-4">
+    <h5 class="mb-0">Detalhes da Conta</h5>
+    <button class="btn btn-secondary btn-sm" (click)="backToList()">
+      <i class="bi bi-arrow-left me-2"></i> Voltar
+    </button>
+  </div>
+  <router-outlet></router-outlet>
+}

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MovementModel } from './model/movement-model';
+import { MovementModelInterface } from './model/movement-model-interface';
 
 @Component({
   selector: '[app-movement]',
+  standalone: false,
   templateUrl: './movement.component.html',
   styleUrl: './movement.component.css'
 })
@@ -11,11 +12,11 @@ export class MovementComponent {
   @Input()
   renderType!: string;
   @Input()
-  movement!: MovementModel;
+  movement!: MovementModelInterface;
   @Output()
   valueChange = new EventEmitter<boolean>();
   @Output()
-  movementChange = new EventEmitter<MovementModel>();
+  movementChange = new EventEmitter<MovementModelInterface>();
 
   emitValueChange() {
     this.valueChange.emit(true);

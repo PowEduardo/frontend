@@ -1,0 +1,76 @@
+<div class="container-fluid mt-4">
+  @if (loading) {
+    <div class="d-flex justify-content-center p-5">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else if (card) {
+    <!-- Card Header -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col">
+            <h3>{{ card.name}}</h3>
+            <p class="text-muted mb-0">
+              @if (card.cardType) {
+                <span class="badge bg-info me-2">{{ card.cardType }}</span>
+              }
+              @if (card.bank) {
+                <span class="badge bg-secondary">{{ card.bank }}</span>
+              }
+            </p>
+          </div>
+          <div class="col-auto text-end">
+            <button class="btn btn-outline-secondary me-2" (click)="goBack()">
+              <i class="bi bi-arrow-left me-2"></i> Voltar
+            </button>
+            <button class="btn btn-primary" (click)="editCard()">
+              <i class="bi bi-pencil me-2"></i> Editar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Info Summary -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body text-center">
+            <label class="text-muted d-block mb-2">Saldo Total</label>
+            <h4 class="text-primary mb-0">R$ {{ card.balance | number: '1.2-2' }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body text-center">
+            <label class="text-muted d-block mb-2">Limite</label>
+            <h4 class="text-info mb-0">R$ {{ card.creditLimit | number: '1.2-2' }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart for Card-Specific Data -->
+    <app-card-chart [cardId]="cardId"></app-card-chart>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs mb-4" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" routerLink="statements" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }">
+          <i class="bi bi-receipt me-2"></i> Faturas
+        </a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" routerLink="movements" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }">
+          <i class="bi bi-arrow-left-right me-2"></i> Movimentos
+        </a>
+      </li>
+    </ul>
+
+    <!-- Content Area -->
+    <router-outlet></router-outlet>
+  }
+</div>

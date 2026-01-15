@@ -1,0 +1,105 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Job List</h2>
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>Job Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (job of jobs; track job) {
+        <tr>
+          <td>{{ job }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="viewExecutions(job)">View Executions</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+@if (executions.length > 0) {
+  <div class="container mt-5">
+    <h2 class="mb-4">Executions for {{ selectedJob }}</h2>
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Execution ID</th>
+          <th>Status</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Total Time Seconds</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      @if (executions.length > 0) {
+        <tbody>
+          @for (execution of executions; track execution) {
+            <tr>
+              <td>{{ execution.job_execution_id }}</td>
+              <td>{{ execution.status }}</td>
+              <td>{{ execution.start_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>{{ execution.end_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>{{ execution.totalTime | number:'1.0-2' }} seconds</td>
+              <td>
+                <button class="btn btn-info btn-sm" (click)="toggleDetails(execution.job_execution_id)">
+                  {{ showDetails === execution.job_execution_id ? 'Hide Details' : 'View Details' }}
+                </button>
+              </td>
+            </tr>
+            @if (showDetails === execution.job_execution_id) {
+              <tr>
+                <td colspan="5">
+                  <div class="p-3 bg-light">
+                    <h5>Step Details</h5>
+                    <table class="table table-sm table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Step Name</th>
+                          <th>Status</th>
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                          <th>Read Count</th>
+                          <th>Write Count</th>
+                          <th>Skip Count</th>
+                          <th>Exit Message</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (step of execution.stepDetails; track step) {
+                          <tr>
+                            <td>{{ step.step_name }}</td>
+                            <td>{{ step.status }}</td>
+                            <td>{{ step.start_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{ step.end_time | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>{{ step.read_count }}</td>
+                            <td>{{ step.write_count }}</td>
+                            <td>{{ step.skip_count }}</td>
+                            @if (step.exit_message!.length <= 30) {
+                              <td>{{ step.exit_message }}</td>
+                            }
+                            @if (step.exit_message!.length > 30) {
+                              <td>
+                                <button
+                                  class="btn btn-warning btn-sm"
+                                  (click)="showFullMessage(step.exit_message!)">
+                                  View Full Message
+                                </button>
+                              </td>
+                            }
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      }
+    </table>
+  </div>
+}

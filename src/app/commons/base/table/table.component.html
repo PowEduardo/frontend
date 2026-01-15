@@ -1,0 +1,50 @@
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        @for (col of columns; track $index) {
+        <th>{{ col.label }}</th>
+        }
+        @if (hasActions()) {
+        <th>Actions</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of data; track $index) {
+      <tr (click)="onRowClick(row)" style="cursor: pointer">
+        @for (col of columns; track $index) {
+        <td [ngStyle]="getCellStyle(col, row)">
+          {{ formatCell(col, row) }}
+        </td>
+        }
+        @if (hasActions()) {
+        <td (click)="$event.stopPropagation()" class="text-nowrap">
+          <div class="btn-group btn-group-sm" role="group">
+            @for (action of actions; track action.label) {
+            <button 
+              type="button"
+              [class]="'btn btn-outline-' + (action.cssClass || 'secondary')"
+              [disabled]="action.disabled || false"
+              [title]="action.label"
+              (click)="executeAction(action, row, $index)"
+              class="btn btn-sm">
+              @if (action.icon) {
+              <i [class]="action.icon"></i>
+              }
+              <span class="ms-1">{{ action.label }}</span>
+            </button>
+            }
+          </div>
+        </td>
+        }
+        @if (!hasActions() && rowTemplate) {
+        <td>
+          <ng-container *ngTemplateOutlet="rowTemplate; context: { $implicit: row, index: $index }"></ng-container>
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

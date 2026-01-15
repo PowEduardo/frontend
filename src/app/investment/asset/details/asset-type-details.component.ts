@@ -1,95 +1,175 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { DecimalPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
+import { PageQuery } from '../../../commons/base/model/page-query';
+import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableColumn } from '../../../commons/model/table-column';
+import { TableAction } from '../../../commons/model/table-action';
 import { PieChartModel } from '../../model/pie-chart-model';
-import { AssetComponent } from '../asset.component';
-import { AssetMapperImpl } from '../mapper/impl/asset-mapper-impl';
-import { AssetMovementMapperImpl } from '../mapper/impl/asset-movement-mapper-impl';
 import { AddAssetComponent } from '../modal/add-asset/add-asset.component';
 import { AssetModel } from '../model/asset-model';
-import { AssetHttpModel } from '../model/http/asset-http-model';
-import { PageQuery } from '../model/page-query';
+import { AssetDetailsModel } from '../model/asset-model-details';
 import { MovementsComponent } from "../movements/movements.component";
 import { OperationsComponent } from '../operations/operations.component';
 import { ReturnsComponent } from "../returns/returns.component";
 import { AssetServiceImpl } from '../service/impl/asset-impl.service';
+import { NotificationService } from '../../../commons/service/notification.service';
 
+/**
+ * Asset Type Details Component
+ * Displays detailed asset information in a standardized table with actions
+ */
 @Component({
   selector: 'app-asset-type-details',
   standalone: true,
-  imports: [CommonModule, AssetComponent, OperationsComponent, MovementsComponent, ReturnsComponent],
-  providers: [DecimalPipe, AssetMapperImpl, AssetMovementMapperImpl],
+  imports: [CommonModule, TableComponent, OperationsComponent, MovementsComponent, ReturnsComponent],
+  providers: [DecimalPipe, CurrencyPipe],
   templateUrl: './asset-type-details.component.html',
   styleUrl: './asset-type-details.component.css'
 })
 export class AssetTypeDetailsComponent implements OnInit {
-  allAssets: AssetModel[] = [];
-  @Input()
-  type: string = '';
+  allAssets: AssetDetailsModel[] = [];
+
+  columns: TableColumn[] = [];
+  assetActions: TableAction<AssetDetailsModel>[] = [];
+
+  @Input() type: string = '';
+
   private sort: string = 'ticker';
   loading: boolean = true;
-  @Output()
-  pieValuesChange = new EventEmitter<PieChartModel[]>();
+
+  @Output() pieValuesChange = new EventEmitter<PieChartModel[]>();
+
   showAssetOperations?: number;
   isMovementsEnabled: boolean = false;
   isReturnsEnabled: boolean = false;
 
-  constructor(private assetService: AssetServiceImpl,
-    private route: ActivatedRoute,
-    private router: Router,
-    private mapper: AssetMapperImpl,
-    private modalService: NgbModal
-  ) { }
+  constructor(
+    private assetService: AssetServiceImpl,
+    private modalService: NgbModal,
+    private currencyPipe: CurrencyPipe,
+    private notificationService: NotificationService
+  ) {
+    this.initializeColumns();
+    this.initializeActions();
+  }
+
+  /**
+   * Initialize table columns configuration
+   */
+  private initializeColumns(): void {
+    this.columns = [
+      { key: 'id', label: 'Id' },
+      { key: 'ticker', label: 'Ticker' },
+      {
+        key: 'value',
+        label: 'Value',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      },
+      { key: 'amount', label: 'Amount' },
+      {
+        key: 'currentValue',
+        label: 'Current Value',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      },
+      {
+        key: 'average',
+        label: 'Average',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      },
+      { key: 'difference', label: 'Difference (%)' },
+      {
+        key: 'lastReturn',
+        label: 'Last Return',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      },
+      { key: 'dy', label: 'DY' },
+      { key: 'ady', label: 'ADY' },
+      { key: 'targetAmount', label: 'Target Amount' },
+      {
+        key: 'returns',
+        label: 'Returns',
+        format: (value) => this.currencyPipe.transform(value as number, 'BRL', 'symbol', '1.2-2') || ''
+      },
+      { key: 'nextDividend', label: 'Next Dividend' }
+    ];
+  }
+
+  /**
+   * Initialize table actions
+   */
+  private initializeActions(): void {
+    this.assetActions = [
+      {
+        label: 'Details',
+        icon: 'bi bi-info-circle',
+        action: (row) => this.openAssetOperations(row.id)
+      },
+      {
+        label: 'Edit',
+        icon: 'bi bi-pencil',
+        action: (row) => this.updateAsset(row)
+      }
+    ];
+  }
 
   async ngOnInit(): Promise<void> {
-    this.getAssets('ticker');
+    this.getAssets(this.sort);
   }
 
   openAssetOperations(id: number) {
     if (id === this.showAssetOperations) {
       this.showAssetOperations = undefined;
     } else {
-    this.showAssetOperations = id;
+      this.showAssetOperations = id;
     }
   }
 
+  /**
+   * Load assets with sorting
+   */
   async getAssets(attribute: string | null): Promise<void> {
     try {
       const query: PageQuery = new PageQuery();
       query.query = "type:" + this.type;
       if (attribute) {
         query.sort = attribute;
+        this.sort = attribute;
       }
-      this.assetService.getAll(query).subscribe(async (assetHttp: AssetHttpModel[]) => {
-        const assetDetailsList: AssetModel[] = [];
-        const pieValues: PieChartModel[] = [];
+      await this.assetService.getAll(query).subscribe(
+        {
+          next: async (asset: AssetModel[]) => {
+            const assetDetailsList: AssetDetailsModel[] = [];
+            const pieValues: PieChartModel[] = [];
 
-        const promises = assetHttp.map(async (asset) => {
-          let assetModel: AssetModel = new AssetModel();
+            const promises = asset.map(async (asset) => {
+              let assetModel: AssetDetailsModel = new AssetDetailsModel();
 
-          const result = await forkJoin({
-            asset: this.assetService.findById(asset.id),
-            assetDetails: this.assetService.details(asset.id)
-          }).toPromise();
+              const result = await forkJoin({
+                asset: this.assetService.findById(asset.id),
+                assetDetails: this.assetService.details(asset.id)
+              }).toPromise();
 
-          assetModel = this.mapper.toModel(result!.asset);
-          this.mapper.toModelWithDetails(result!.assetDetails, assetModel);
-          if (assetModel.currentValue !== 0) {
-            pieValues.push({ name: assetModel.ticker, value: assetModel.currentValue });
+              assetModel = this.toModelWithDetails(result!.assetDetails, result!.asset);
+              if (assetModel.currentValue !== 0) {
+                pieValues.push({ name: assetModel.ticker, value: assetModel.currentValue });
+              }
+              assetDetailsList.push(assetModel!);
+            });
+
+            // Wait for all promises to complete
+            await Promise.all(promises);
+
+            // Set the values after all asynchronous operations are complete
+            this.allAssets = assetDetailsList;
+            this.pieValuesChange.emit(pieValues);
+          },
+          error: (error) => {
+            this.notificationService.error(`Erro ao carregar Assets: ${error.error.message}`);
           }
-          assetDetailsList.push(assetModel!);
         });
 
-        // Wait for all promises to complete
-        await Promise.all(promises);
-
-        // Set the values after all asynchronous operations are complete
-        this.allAssets = assetDetailsList;
-        this.pieValuesChange.emit(pieValues);
-      });
-      
       this.loading = false;
     } catch (error) {
       console.error('Error fetching all assets:', error);
@@ -106,9 +186,14 @@ export class AssetTypeDetailsComponent implements OnInit {
     });
   }
 
-  async updateAsset(model: AssetModel) {
+  async updateAsset(model: AssetDetailsModel) {
     const modalRef = this.modalService.open(AddAssetComponent);
-    modalRef.componentInstance.model = model;
+    const assetModel: AssetModel = new AssetModel();
+    assetModel.id = model.id;
+    assetModel.ticker = model.ticker;
+    assetModel.type = model.type;
+    assetModel.value = model.value;
+    modalRef.componentInstance.model = assetModel;
     modalRef.componentInstance.updateOperation = true;
     await modalRef.result.then((result) => {
       if (result === 'saved') {
@@ -125,7 +210,6 @@ export class AssetTypeDetailsComponent implements OnInit {
       this.sort = 'DY';
       this.allAssets.sort((a, b) => b.dy - a.dy);
     }
-    
   }
 
   sortDifference() {
@@ -137,6 +221,7 @@ export class AssetTypeDetailsComponent implements OnInit {
       this.sort = 'difference';
     }
   }
+
   openMovements() {
     this.isReturnsEnabled = false;
     this.isMovementsEnabled = !this.isMovementsEnabled;
@@ -145,5 +230,13 @@ export class AssetTypeDetailsComponent implements OnInit {
   openReturns() {
     this.isMovementsEnabled = false;
     this.isReturnsEnabled = !this.isReturnsEnabled;
+  }
+
+  toModelWithDetails(response: AssetDetailsModel, model: AssetModel): AssetDetailsModel {
+    response.id = model.id;
+    response.ticker = model.ticker;
+    response.type = model.type;
+    response.value = model.value;
+    return response;
   }
 }

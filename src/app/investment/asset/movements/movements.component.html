@@ -1,32 +1,25 @@
-<app-movements-table>
-  <ng-container headers>
-    <th *ngIf="parentId===0">Asset</th>
-    <th>Operation</th>
-    <th>Amount</th>
-    <th>Unit Value</th>
-    <th (click)="getMovements('-value')">Value</th>
-    <th (click)="getMovements('date')">Date</th>
-  </ng-container>
-  <ng-container row>
-    <tr *ngFor="let movement of movements">
-      <td *ngIf="parentId===0">
-        {{movement.asset}}
-      </td>
-      <td>
-        {{movement.operation}}
-      </td>
-      <td>
-        {{movement.amount}}
-      </td>
-      <td>
-        {{movement.unitValue | currencyFormat}}
-      </td>
-      <td>
-        {{movement.value | currencyFormat}}
-      </td>
-      <td>
-        {{movement.date | date:'dd/MM/yyyy'}}
-      </td>
-    </tr>
-  </ng-container>
-</app-movements-table>
+<div class="movements-container">
+  @if (loading) {
+    <div class="d-flex justify-content-center p-4">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else if (movements && movements.length > 0) {
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-success btn-sm" (click)="addMovements()">
+        <i class="bi bi-plus-circle me-2"></i> Add Movement
+      </button>
+    </div>
+    <app-table
+      [columns]="columns"
+      [data]="movements"
+      [actions]="movementActions">
+    </app-table>
+  } @else {
+    <div class="alert alert-info m-4">
+      <i class="bi bi-info-circle me-2"></i>
+      No movements found. <button class="btn btn-sm btn-info" (click)="addMovements()">Add one now</button>
+    </div>
+  }
+</div>

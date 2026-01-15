@@ -1,15 +1,14 @@
-<ng-container *ngIf="renderType === 'table'">
+@if (renderType === 'table') {
   <td>{{movement.id}}</td>
   <td>{{movement.value}}</td>
   <td>{{movement.date}}</td>
   <ng-content select="[columns]"></ng-content>
-</ng-container>
+}
 
-<ng-container *ngIf="renderType === 'form'">
-
+@if (renderType === 'form') {
   <div class="form-group">
     <label for="date">Date</label>
-    <input type="date" class="form-control" id="date" name="date" [(ngModel)]="movement.date" placeholder="01/01/2024">
+    <input type="date" class="form-control" id="date" name="date" [(ngModel)]="movement.date">
   </div>
   <ng-content select="[form]"></ng-content>
   <div class="form-group">
@@ -17,4 +16,4 @@
     <input type="number" class="form-control" id="value" name="value" [(ngModel)]="movement.value" placeholder="5.37"
       (input)="emitValueChange()">
   </div>
-</ng-container>
+}

@@ -2,25 +2,56 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, map, mergeMap, of } from 'rxjs';
 import { MovementService } from '../../../../commons/base/movement/service/movement.service';
-import { AssetMovementHttp } from '../../model/http/asset-movement-http-model';
+import { AssetMovementModel } from '../../model/asset-movement-model';
 import { PageModel } from '../../model/page-model';
-import { PageQuery } from '../../model/page-query';
+import { PageQuery } from '../../../../commons/base/model/page-query';
 
+/**
+ * Asset Movements Service Implementation
+ *
+ * Manages all buy/sell transactions for investment assets.
+ * Extends MovementService for consistent movement handling.
+ *
+ * Base endpoint: GET /assets/{assetId}/movements
+ *
+ * @see AssetMovementModel
+ * @see MovementService
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class AssetMovementsServiceImpl extends MovementService<AssetMovementHttp> {
+export class AssetMovementsServiceImpl extends MovementService<AssetMovementModel> {
   
+  /**
+   * Constructor
+   * @param httpClient Angular HTTP client for API requests
+   */
   constructor(private readonly httpClient: HttpClient) {
     super();
-    this.baseUrl = this.baseUrl + "assets/";
-   }
+    this.baseUrl = this.baseUrl + "/assets/";
+  }
 
-  override read(id: number): Observable<AssetMovementHttp> {
-    console.log(id);
+  /**
+   * Read single movement (not implemented for assets)
+   *
+   * @param id Movement ID
+   * @throws Error Method not implemented
+   */
+  override read(_id: number): Observable<AssetMovementModel> {
     throw new Error('Method not implemented.');
   }
-  override readAll(pageQuery: PageQuery): Observable<AssetMovementHttp[]> {
+
+  /**
+   * Get all asset movements with pagination
+   *
+   * Retrieves all movements for a specific asset.
+   * Automatically fetches multiple pages if needed.
+   * GET /assets/{assetId}/movements:search?offset=X&limit=Y
+   *
+   * @param pageQuery Pagination parameters
+   * @returns Observable<AssetMovementModel[]> Complete list of movements
+   */
+  override readAll(pageQuery: PageQuery): Observable<AssetMovementModel[]> {
     return this.search(pageQuery).pipe(
       mergeMap(firstPage => {
         if (firstPage.last) {
@@ -44,22 +75,48 @@ export class AssetMovementsServiceImpl extends MovementService<AssetMovementHttp
       })
     );
   }
-  override delete(id: number): Observable<void> {
-    console.log(id);
-    throw new Error('Method not implemented.');
+  /**
+   * Delete asset movement
+   * DELETE /assets/{assetId}/movements/{movementId}
+   *
+   * @param id Movement ID to delete
+   * @returns Observable<void>
+   */
+  delete(id: number): Observable<void> {
+    return this.httpClient.delete<void>(this.baseUrl + this.parentId + "/movements/" + id.toString());
   }
 
-
-  search(pageQuery: PageQuery): Observable<PageModel<AssetMovementHttp>> {
-    return this.httpClient.get<PageModel<AssetMovementHttp>>(this.baseUrl + this.parentId + "/movements:search?" + pageQuery.toString());
+  /**
+   * Search asset movements with filtering and pagination
+   * GET /assets/{assetId}/movements:search?offset=X&limit=Y&query=...
+   *
+   * @param pageQuery Search parameters
+   * @returns Observable<PageModel<AssetMovementModel>> Paginated movements
+   */
+  search(pageQuery: PageQuery): Observable<PageModel<AssetMovementModel>> {
+    return this.httpClient.get<PageModel<AssetMovementModel>>(this.baseUrl + this.parentId + "/movements:search?" + pageQuery.toString());
   }
 
-  create(asset: AssetMovementHttp): Observable<AssetMovementHttp> {
-    return this.httpClient.post<AssetMovementHttp>(this.baseUrl + this.parentId + "/movements", asset);
+  /**
+   * Create new asset movement
+   * POST /assets/{assetId}/movements
+   *
+   * @param asset Movement data to create
+   * @returns Observable<AssetMovementModel> Created movement with ID
+   */
+  create(asset: AssetMovementModel): Observable<AssetMovementModel> {
+    return this.httpClient.post<AssetMovementModel>(this.baseUrl + this.parentId + "/movements", asset);
   }
-  update(asset: AssetMovementHttp): Observable<AssetMovementHttp> {
-    return this.httpClient.post<AssetMovementHttp>(this.baseUrl + this.parentId + "/movements/" + asset.id, asset);
 
+  /**
+   * Update existing asset movement
+   * PUT /assets/{assetId}/movements/{movementId}
+   *
+   * @param asset Movement data with ID to update
+   * @returns Observable<AssetMovementModel> Updated movement
+   */
+  update(asset: AssetMovementModel): Observable<AssetMovementModel> {
+    return this.httpClient.put<AssetMovementModel>(this.baseUrl + this.parentId + "/movements/" + asset.id, asset);
   }
 
 }

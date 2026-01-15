@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <!-- Chart Section -->
+  <app-card-chart></app-card-chart>
+
+  <!-- Cards Section -->
+  @if(!(entitySelected === null) && entitySelected > 0) {
+    <app-submenu [submenuItems]="submenuItems">
+      <app-simple-entity-dropdown [list]="list" (onValueSelected)="receive($event)"
+        [valueSelected]="entitySelected"></app-simple-entity-dropdown>
+    </app-submenu>
+  }
+  @if(pageReady) {
+    <app-card-list [list]="list" (valueSelected)="receive($event)"></app-card-list>
+  }
+  <router-outlet></router-outlet>
+</div>

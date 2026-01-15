@@ -1,0 +1,110 @@
+<div class="container-fluid mt-5">
+  <!-- Page Title -->
+  <div class="row mb-4">
+    <div class="col">
+      <h3 class="mb-0">Resumo de Movimentos</h3>
+      <small class="text-muted">Análise de receitas e despesas por período</small>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="d-flex justify-content-center p-5">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+    </div>
+  } @else {
+    <!-- Statistics Cards -->
+    <div class="row g-3 mb-4">
+        <div class="row g-3 mb-4 mt-4 ms-4 me-4">
+    <div class="col-md-3">
+      <label for="filterStartDate" class="form-label">Data Inicial</label>
+      <input 
+        type="date" 
+        class="form-control" 
+        id="filterStartDate"
+        [(ngModel)]="filterStartDate">
+    </div>
+    <div class="col-md-3">
+      <label for="filterEndDate" class="form-label">Data Final</label>
+      <input 
+        type="date" 
+        class="form-control" 
+        id="filterEndDate"
+        [(ngModel)]="filterEndDate">
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <button 
+        class="btn btn-primary w-100" 
+        (click)="applyFilter()"
+        [disabled]="loading">
+        <i class="bi bi-funnel me-2"></i>Filtrar
+      </button>
+    </div>
+  </div>
+      <div class="col-md-2">
+        <div class="card text-center">
+          <div class="card-body">
+            <small class="text-muted d-block">Total de Movimentos</small>
+            <h4 class="mb-0">{{ totalMovements }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center border-success">
+          <div class="card-body">
+            <small class="text-muted d-block">Total de Receitas</small>
+            <h4 class="mb-0 text-success">R$ {{ totalIncome.toFixed(2) }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center border-danger">
+          <div class="card-body">
+            <small class="text-muted d-block">Total de Despesas</small>
+            <h4 class="mb-0 text-danger">R$ {{ totalExpense.toFixed(2) }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center border-danger">
+          <div class="card-body">
+            <small class="text-muted d-block">Saldo</small>
+            <h4 class="mb-0 text-danger">R$ {{ balance.toFixed(2) }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card text-center border-info">
+          <div class="card-body">
+            <small class="text-muted d-block">Pagas</small>
+            <h4 class="mb-0 text-info">{{ paidMovements }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card text-center border-warning">
+          <div class="card-body">
+            <small class="text-muted d-block">Pendentes</small>
+            <h4 class="mb-0 text-warning">{{ unpaidMovements }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="row mb-4">
+      <div class="col">
+        <app-bar-chart
+          [data]="chartData"
+          [title]="'Movimentos por Período'"
+          [colorScheme]="'nightLights'"
+          [loading]="loading"
+          [xAxisLabel]="'Valor (R$)'"
+          [yAxisLabel]="'Período'"
+          [emptyMessage]="'Nenhum movimento disponível'">
+        </app-bar-chart>
+      </div>
+    </div>
+  }
+</div>
