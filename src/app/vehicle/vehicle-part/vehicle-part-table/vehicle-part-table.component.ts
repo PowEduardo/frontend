@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { VehiclePartModel } from '../model/vehicle-part-model';
-import { Table } from '../../../commons/base/table/table';
+import { Table } from '../../../shared/ui/table/table';
 
 @Component({
   selector: 'app-vehicle-part-table',

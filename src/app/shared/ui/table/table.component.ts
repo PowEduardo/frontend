@@ -1,6 +1,6 @@
 import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { TableColumn } from '../../model/table-column';
-import { TableAction } from '../../model/table-action';
+import { TableColumn } from '../../../commons/model/table-column';
+import { TableAction } from '../../../commons/model/table-action';
 import { CommonModule } from '@angular/common';
 
 /**

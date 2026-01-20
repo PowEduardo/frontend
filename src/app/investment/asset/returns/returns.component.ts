@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/cor
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableComponent } from '../../../shared/ui/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { TableAction } from '../../../commons/model/table-action';
 import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return-upsert.component';

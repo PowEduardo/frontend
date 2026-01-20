@@ -6,7 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { PageQueryModel } from '../../commons/base/model/page-query-model';
-import { TableComponent } from '../../commons/base/table/table.component';
+import { TableComponent } from '../../shared/ui/table/table.component';
 import { TableAction } from '../../commons/model/table-action';
 import { TableColumn } from '../../commons/model/table-column';
 import { NotificationService } from '../../commons/service/notification.service';

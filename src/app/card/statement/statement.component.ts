@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { PageQuery } from '../../commons/base/model/page-query';
-import { TableComponent } from "../../commons/base/table/table.component";
+import { TableComponent } from "../../shared/ui/table/table.component";
 import { TableColumn } from '../../commons/model/table-column';
 import { CrudService } from '../../commons/service/crud.service';
 import { StatementModel } from './model/statement-model';

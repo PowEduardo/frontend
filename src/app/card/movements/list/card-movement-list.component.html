@@ -5,15 +5,15 @@
 
   <!-- Filters -->
   <div class="row mb-3">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label class="form-label" for="types">Filtro:</label>
       <select id="types" class="form-select" [(ngModel)]="filter" (change)="applyFilter()">
-        <option value="unpaid">Não Pagos</option>
-        <option value="all">Todos</option>
-        <option value="paid">Pagos</option>
+        <option value="paid:false">Não Pagos</option>
+        <option value="">Todos</option>
+        <option value="paid:true">Pagos</option>
       </select>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="sort" class="form-label">Ordenar por:</label>
       <select id="sort" class="form-select" [(ngModel)]="sortBy" (change)="applySort()">
         <option value="-date">Data (Recente)</option>
@@ -22,10 +22,16 @@
         <option value="value">Valor (Menor)</option>
       </select>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <label for="apply" class="form-label d-block">&nbsp;</label>
       <button id="apply" class="btn btn-primary w-100" (click)="loadMovements()">
         <i class="bi bi-arrow-clockwise me-2"></i> Atualizar
+      </button>
+    </div>
+    <div class="col-md-3">
+      <label for="add" class="form-label d-block">&nbsp;</label>
+      <button id="add" class="btn btn-primary w-100" (click)="addMovement()">
+        <i class="bi bi-arrow-clockwise me-2"></i> Adicionar
       </button>
     </div>
   </div>

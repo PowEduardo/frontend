@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableComponent } from '../../../shared/ui/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { TableAction } from '../../../commons/model/table-action';
 import { PieChartModel } from '../../model/pie-chart-model';

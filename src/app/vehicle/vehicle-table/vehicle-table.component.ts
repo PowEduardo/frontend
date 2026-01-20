@@ -1,5 +1,5 @@
 import { Component, OnChanges } from '@angular/core';
-import { Table } from '../../commons/base/table/table';
+import { Table } from '../../shared/ui/table/table';
 import { VehicleModel } from '../model/vehicle-model';
 
 @Component({

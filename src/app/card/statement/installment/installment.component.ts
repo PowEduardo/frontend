@@ -9,7 +9,7 @@ import { InstallmentModel } from './model/installment-model';
 import { InstallmentService } from './service/installment.service';
 import { CardMovementUpsertComponent } from './upsert/card-movement-upsert.component';
 import { ActivatedRoute } from '@angular/router';
-import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableComponent } from '../../../shared/ui/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { TableAction } from '../../../commons/model/table-action';
 import { NotificationService } from '../../../commons/service/notification.service';

@@ -38,15 +38,6 @@ export class CardMovementService extends MovementService<CardMovementModel> {
     return this.httpClient.put<CardMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/" + request.id, request);
   }
 
-  /**
-   * Get unpaid movements for the current card
-   * Filters and returns only movements that haven't been paid yet
-   */
-  getUnpaidMovements(): Observable<Page<CardMovementModel>> {
-    const query = new PageQuery();
-    query.query = 'paid:false';
-    return this.searchMovements(query);
-  }
 
   /**
    * Search movements with custom filters

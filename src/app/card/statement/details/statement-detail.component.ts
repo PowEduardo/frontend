@@ -5,7 +5,7 @@ import { StatementModel } from '../model/statement-model';
 import { InstallmentModel } from '../model/installment-model';
 import { StatementService } from '../service/statement.service';
 import { NotificationService } from '../../../commons/service/notification.service';
-import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableComponent } from '../../../shared/ui/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { TableAction } from '../../../commons/model/table-action';
 

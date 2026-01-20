@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
-import { GenericT } from "../../model/generic-t";
+import { GenericT } from "../../../commons/model/generic-t";
 
 @Component({
     standalone: true,

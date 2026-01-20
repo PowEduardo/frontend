@@ -1,15 +1,18 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Page } from '../../../commons/base/model/page';
+import { PageQuery } from '../../../commons/base/model/page-query';
+import { TableComponent } from '../../../shared/ui/table/table.component';
+import { TableAction } from '../../../commons/model/table-action';
+import { TableColumn } from '../../../commons/model/table-column';
+import { NotificationService } from '../../../commons/service/notification.service';
+import { CardMovementsUpsertComponent } from '../card-movements-upsert/card-movements-upsert.component';
 import { CardMovementModel } from '../model/card-movement-model';
 import { CardMovementService } from '../service/card-movement.service';
-import { PageQuery } from '../../../commons/base/model/page-query';
-import { Page } from '../../../commons/base/model/page';
-import { NotificationService } from '../../../commons/service/notification.service';
-import { TableComponent } from '../../../commons/base/table/table.component';
-import { TableColumn } from '../../../commons/model/table-column';
-import { TableAction } from '../../../commons/model/table-action';
+import { formatDateBR } from '../../../shared/ui/format-patterns';
 
 /**
  * Card Movement List Component
@@ -26,20 +29,20 @@ import { TableAction } from '../../../commons/model/table-action';
 export class CardMovementListComponent implements OnInit {
   private movementService = inject(CardMovementService);
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private notificationService = inject(NotificationService);
+  private modal = inject(NgbModal);
 
   movements: CardMovementModel[] = [];
   loading = true;
   totalUnpaid = 0;
   cardId = 0;
 
-  filter = 'unpaid';
+  filter = 'paid:false';
   sortBy = '-date';
 
   // Table configuration
   movementColumns: TableColumn[] = [
-    { label: 'Data', key: 'date', format: (value: unknown) => new Date(value as string | Date).toLocaleDateString('pt-BR') },
+    { label: 'Data', key: 'date', format: (value: unknown) => formatDateBR(value as string | Date) },
     { label: 'Valor', key: 'value', format: (value: unknown) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` },
     { label: 'Descrição', key: 'description', format: (value: unknown) => (value as string | null | undefined) || '-' },
     { label: 'Parcela', key: 'installment', format: (value: unknown) => value ? `${value}/${value}` : '-' },
@@ -69,34 +72,21 @@ export class CardMovementListComponent implements OnInit {
   loadMovements(): void {
     this.loading = true;
     const pageQuery = new PageQuery();
-    pageQuery.limit = 100;
-    pageQuery.sort = this.sortBy;
+    pageQuery.query = this.filter;
+    pageQuery.sort = this.sortBy + ',-id';
 
-    if (this.filter === 'unpaid') {
-      this.movementService.getUnpaidMovements().subscribe({
-        next: (page: Page<CardMovementModel>) => {
-          this.movements = page.content;
-          this.calculateTotalUnpaid();
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.notificationService.error('Erro ao carregar movimentos');
-        }
-      });
-    } else {
-      this.movementService.searchMovements(pageQuery).subscribe({
-        next: (page: Page<CardMovementModel>) => {
-          this.movements = page.content;
-          this.calculateTotalUnpaid();
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-          this.notificationService.error('Erro ao carregar movimentos');
-        }
-      });
-    }
+    this.movementService.searchMovements(pageQuery).subscribe({
+      next: (page: Page<CardMovementModel>) => {
+        this.movements = page.content;
+        this.calculateTotalUnpaid();
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.notificationService.error('Erro ao carregar movimentos');
+      }
+    });
+
   }
 
   /**
@@ -126,6 +116,26 @@ export class CardMovementListComponent implements OnInit {
    * Navigate to edit movement
    */
   editMovement(movement: CardMovementModel): void {
-    this.router.navigate([`/cards/${this.cardId}/movements/${movement.id}/edit`]);
+    const modalRef = this.modal.open(CardMovementsUpsertComponent, { size: 'lg', animation: true });
+    modalRef.componentInstance.parentId = this.cardId;
+    modalRef.componentInstance.setModel(movement.id!);
+    modalRef.result.then((result) => {
+      if (result) {
+        this.loadMovements();
+      }
+    });
+  }
+
+  /**
+   * Open modal using CardMovementsUpsertComponent to add a new movement
+   */
+  addMovement(): void {
+    const modalRef = this.modal.open(CardMovementsUpsertComponent, { size: 'lg', animation: true });
+    modalRef.componentInstance.parentId = this.cardId;
+    modalRef.result.then((result) => {
+      if (result) {
+        this.loadMovements();
+      }
+    });
   }
 }

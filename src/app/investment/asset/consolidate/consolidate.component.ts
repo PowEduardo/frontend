@@ -1,6 +1,6 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
-import { TableComponent } from '../../../commons/base/table/table.component';
+import { TableComponent } from '../../../shared/ui/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { InvestmentModel } from '../../model/investment-model';
 import { PieChartModel } from '../../model/pie-chart-model';

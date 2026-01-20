@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TableComponent } from '../../commons/base/table/table.component';
+import { TableComponent } from '../../shared/ui/table/table.component';
 import { TableColumn } from '../../commons/model/table-column';
 import { TableAction } from '../../commons/model/table-action';
 import { CardService } from '../service/card.service';
