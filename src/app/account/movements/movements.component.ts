@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { Page } from '../../commons/base/model/page';
 import { PageQuery } from '../../commons/base/model/page-query';
 import { PageQueryModel } from '../../commons/base/model/page-query-model';
-import { TableComponent } from '../../shared/ui/table/table.component';
 import { TableAction } from '../../commons/model/table-action';
 import { TableColumn } from '../../commons/model/table-column';
 import { NotificationService } from '../../commons/service/notification.service';
+import { TablePaginatedComponent } from "../../shared/ui/table-paginated/table-paginated.component";
 import { AccountMovementModel } from '../model/account-movement-model';
 import { AccountMovementsUpsertComponent } from './account-movements-upsert/account-movements-upsert.component';
 import { AccountMovementService } from './service/account-movement-service';
-import { Page } from '../../commons/base/model/page';
 
 /**
  * Movements List Component for Accounts
@@ -23,7 +23,7 @@ import { Page } from '../../commons/base/model/page';
 @Component({
   selector: 'app-movements',
   standalone: true,
-  imports: [CommonModule, FormsModule, TableComponent, RouterOutlet],
+  imports: [CommonModule, FormsModule, RouterOutlet, TablePaginatedComponent],
   providers: [
     { provide: AccountMovementService, useClass: AccountMovementService },
     NgbModal
@@ -60,7 +60,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
   ];
 
   /** Movement data for table rendering */
-  data: AccountMovementModel[] = [];
+  data!: Page<AccountMovementModel>;
 
   /** Loading flag for async operation */
   loading = true;
@@ -85,18 +85,6 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
   /** Dropdown visibility for future movements */
   showFutureDropdown = false;
-
-  /** Pagination: Current page number (0-based) */
-  currentPage = 0;
-
-  /** Pagination: Items per page */
-  itemsPerPage = 15;
-
-  /** Pagination: Total number of items */
-  totalItems = 0;
-
-  /** Pagination: Total pages */
-  totalPages = 0;
 
   /** Table action buttons for edit/delete/mark as paid */
   movementActions: TableAction<AccountMovementModel>[] = [
@@ -128,12 +116,12 @@ export class MovementsComponent implements OnInit, OnDestroy {
         const idParam = params.get('accountId');
         if (idParam) {
           this.parentId = parseInt(idParam, 10);
-          this.loadMovementsWithPagination();
+          this.loadMovements(0);
           this.loadFutureMovements();
         }
       });
     } else {
-      this.loadMovementsWithPagination();
+      this.loadMovements(0);
       this.loadFutureMovements();
     }
 
@@ -219,7 +207,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
     // Reload movements after modal closes
     modalRef.result.then(
-      () => this.loadMovementsWithPagination()
+      () => this.loadMovements(0)
     );
   }
 
@@ -237,7 +225,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
     // Reload movements after modal closes
     modalRef.result.then(
-      () => this.loadMovementsWithPagination()
+      () => this.loadMovements(0)
     );
   }
 
@@ -256,7 +244,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.service.delete(id).subscribe({
       next: () => {
         this.notificationService.success('Movimento deletado com sucesso');
-        this.loadMovementsWithPagination();
+        this.loadMovements(0);
       },
       error: (error) => {
         this.notificationService.error(`Erro ao deletar movimento: ${error.message}`);
@@ -276,7 +264,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.service.markAsPaid(id).subscribe({
       next: (updatedMovement) => {
         this.notificationService.success('Movimento {} marcado como pago'.replace('{}', updatedMovement.id!.toString()));
-        this.loadMovementsWithPagination();
+        this.loadMovements(0);
       },
       error: (error) => {
         this.notificationService.error(`Erro ao marcar como pago: ${error.message}`);
@@ -356,20 +344,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     return `${year}-${month}-${day}`;
   }
 
-  /**
-   * Apply filter and reset pagination to page 1
-   * Called when user clicks filter button
-   */
-  applyFilter(): void {
-    this.currentPage = 0;
-    this.loadMovementsWithPagination();
-  }
-
-  /**
-   * Load movements with current filter and pagination
-   * Handles page query building with filters
-   */
-  private loadMovementsWithPagination(): void {
+  loadMovements(page: number): void {
     this.loadFutureMovements();
     this.loading = true;
     this.movementLoadingState.clear();
@@ -377,11 +352,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     const query: PageQuery = new PageQueryModel();
     query.sort = '-date';
     query.addQuery("date", this.filterStartDate + ";" + this.filterEndDate);
-    query.offset = this.currentPage;
-    query.limit = this.itemsPerPage;
-console.log(query)
-    // TODO: Add date filter query when backend supports it
-    // For now, we'll load all and let backend handle pagination
+    query.offset = page;
 
     if (this.parentId) {
       this.service.parentId = this.parentId;
@@ -389,9 +360,7 @@ console.log(query)
 
     this.service.search(query).subscribe({
       next: (data: Page<AccountMovementModel>) => {
-        this.data = data.content;
-        this.totalItems = data.totalElements; // This will be updated with proper page info from backend
-        this.totalPages = data.totalPages;
+        this.data = data;
         this.loading = false;
       },
       error: (error) => {
@@ -399,62 +368,5 @@ console.log(query)
         this.loading = false;
       }
     });
-  }
-
-  /**
-   * Navigate to next page
-   */
-  nextPage(): void {
-    if (this.currentPage < this.totalPages - 1) {
-      this.currentPage++;
-      this.loadMovementsWithPagination();
-    }
-  }
-
-  /**
-   * Navigate to previous page
-   */
-  previousPage(): void {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.loadMovementsWithPagination();
-    }
-  }
-
-  /**
-   * Navigate to first page
-   */
-  firstPage(): void {
-    this.currentPage = 0;
-    this.loadMovementsWithPagination();
-  }
-
-  /**
-   * Navigate to last page
-   */
-  lastPage(): void {
-    this.currentPage = this.totalPages - 1;
-    this.loadMovementsWithPagination();
-  }
-
-  /**
-   * Get current page number (1-based for display)
-   */
-  getCurrentPageNumber(): number {
-    return this.currentPage + 1;
-  }
-
-  /**
-   * Check if can navigate to next page
-   */
-  canNextPage(): boolean {
-    return this.currentPage < this.totalPages - 1;
-  }
-
-  /**
-   * Check if can navigate to previous page
-   */
-  canPreviousPage(): boolean {
-    return this.currentPage > 0;
   }
 }

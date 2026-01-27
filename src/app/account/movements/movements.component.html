@@ -20,7 +20,7 @@
     <div class="col-md-2 d-flex align-items-end">
       <button 
         class="btn btn-primary w-100" 
-        (click)="applyFilter()"
+        (click)="loadMovements(0)"
         [disabled]="loading">
         <i class="bi bi-funnel me-2"></i>Filtrar
       </button>
@@ -100,7 +100,7 @@
     </div>
     <div class="col-md-2 d-flex align-items-end justify-content-end">
       <small class="text-muted">
-        Total: {{ totalItems }} movimento(s)
+        Total: {{ data.totalElements }} movimento(s)
       </small>
     </div>
   </div>
@@ -111,10 +111,10 @@
         <span class="visually-hidden">Carregando...</span>
       </div>
     </div>
-  } @else if (data.length > 0) {
+  } @else if (!data.empty) {
     <div class="position-relative ms-4 me-4">
       <!-- Loading overlay for individual row operations -->
-      @for (movement of data; track movement.id) {
+      @for (movement of data.content; track movement.id) {
         @if (isMovementLoading(movement.id)) {
           <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="background: rgba(255,255,255,0.7); z-index: 1000; border-radius: 4px;">
             <div class="spinner-border spinner-border-sm text-primary" role="status">
@@ -124,52 +124,16 @@
         }
       }
       
-      <app-table
+      <app-table-paginated
         [columns]="columns"
-        [data]="data"
+        [data]="data.content"
         (rowSelected)="onValueSelected($event)"
-        [actions]="movementActions">
-      </app-table>
-    </div>
-
-    <!-- Pagination Controls -->
-    <div class="d-flex justify-content-between align-items-center mt-4 ms-4 me-4 mb-4">
-      <div>
-        <button 
-          class="btn btn-sm btn-outline-primary" 
-          (click)="firstPage()"
-          [disabled]="!canPreviousPage()">
-          <i class="bi bi-chevron-double-left"></i> Primeira
-        </button>
-        <button 
-          class="btn btn-sm btn-outline-primary ms-2" 
-          (click)="previousPage()"
-          [disabled]="!canPreviousPage()">
-          <i class="bi bi-chevron-left"></i> Anterior
-        </button>
-      </div>
-      
-      <div class="text-center">
-        <small class="text-muted">
-          Página {{ getCurrentPageNumber() }} de {{ totalPages }} 
-          <span class="ms-2">({{ itemsPerPage }} por página)</span>
-        </small>
-      </div>
-      
-      <div>
-        <button 
-          class="btn btn-sm btn-outline-primary" 
-          (click)="nextPage()"
-          [disabled]="!canNextPage()">
-          Próxima <i class="bi bi-chevron-right"></i>
-        </button>
-        <button 
-          class="btn btn-sm btn-outline-primary ms-2" 
-          (click)="lastPage()"
-          [disabled]="!canNextPage()">
-          Última <i class="bi bi-chevron-double-right"></i>
-        </button>
-      </div>
+        [actions]="movementActions"
+        [currentPage]="data.pageable.pageNumber"
+        [totalPages]="data.totalPages"
+        (selectedPage)="loadMovements($event)"
+        >
+      </app-table-paginated>
     </div>
   } @else {
     <div class="alert alert-info m-4">

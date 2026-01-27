@@ -1,0 +1,4 @@
+<app-table [columns]="columns" [data]="data" (rowSelected)="onRowClick($event)" [actions]="actions">
+</app-table>
+<app-paginated [currentPage]="currentPage" [totalPages]="totalPages" (selectedPage)="onSelectPageClick($event)">
+</app-paginated>
