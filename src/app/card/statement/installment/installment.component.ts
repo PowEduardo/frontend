@@ -13,6 +13,9 @@ import { TableComponent } from '../../../shared/ui/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { TableAction } from '../../../commons/model/table-action';
 import { NotificationService } from '../../../commons/service/notification.service';
+import { StatementService } from '../service/statement.service';
+import { StatementModel } from '../model/statement-model';
+import { StatementValidationModalComponent } from '../components/statement-validation-modal.component';
 
 @Component({
   selector: 'app-installment',
@@ -27,12 +30,15 @@ export class InstallmentComponent implements OnInit {
   private movementService = inject(CardMovementService);
   private route = inject(ActivatedRoute);
   private notificationService = inject(NotificationService);
-
+  private statementService = inject(StatementService);
 
   installments: InstallmentModel[] = [];
   sort = 'id';
   loading = true;
+  statementLoading = true;
   cardSelected!: number;
+  statementId!: number;
+  statement?: StatementModel;
 
   // Table configuration
   installmentColumns: TableColumn[] = [
@@ -64,11 +70,33 @@ export class InstallmentComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.cardSelected = Number(params.get('cardId'));
+    this.route.parent?.params.subscribe(parentParams => {
+      this.cardSelected = Number(parentParams['cardId']);
       this.movementService.parentId = this.cardSelected;
-      if (!isNaN(this.cardSelected)) {
-        this.getInstallments('id');
+
+      this.route.params.subscribe(params => {
+        this.statementId = Number(params['statementId']);
+        if (!isNaN(this.cardSelected) && !isNaN(this.statementId)) {
+          this.loadStatement();
+          this.getInstallments('id');
+        }
+      });
+    });
+  }
+
+  /**
+   * Load statement details
+   */
+  private loadStatement(): void {
+    this.statementLoading = true;
+    this.statementService.read(this.statementId).subscribe({
+      next: (statement: StatementModel) => {
+        this.statement = statement;
+        this.statementLoading = false;
+      },
+      error: () => {
+        this.notificationService.error('Erro ao carregar detalhes da fatura');
+        this.statementLoading = false;
       }
     });
   }
@@ -97,6 +125,20 @@ export class InstallmentComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  /**
+   * Validate statement - opens validation modal
+   */
+  validateStatement(): void {
+    if (!this.statement) {
+      this.notificationService.warning('Dados da fatura não disponíveis. Tente novamente em alguns instantes.');
+      return;
+    }
+
+    const modalRef = this.modalService.open(StatementValidationModalComponent, { size: 'lg' });
+    modalRef.componentInstance.statement = this.statement;
+    modalRef.componentInstance.cardId = this.cardSelected;
   }
 
   /**
