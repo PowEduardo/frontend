@@ -165,7 +165,8 @@ export class DashboardComponent implements OnInit {
    */
   private getDefaultEndDate(): string {
     const today = new Date();
-    return this.formatDate(today);
+    const firstDay = new Date(today.getFullYear(), 1 + (today.getMonth()), 0);
+    return this.formatDate(firstDay);
   }
 
   /**

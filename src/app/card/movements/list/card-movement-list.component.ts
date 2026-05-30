@@ -5,14 +5,15 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../../commons/base/model/page';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { TableComponent } from '../../../shared/ui/table/table.component';
 import { TableAction } from '../../../commons/model/table-action';
 import { TableColumn } from '../../../commons/model/table-column';
 import { NotificationService } from '../../../commons/service/notification.service';
+import { formatDateBR } from '../../../shared/ui/format-patterns';
+import { TablePaginatedComponent } from "../../../shared/ui/table-paginated/table-paginated.component";
 import { CardMovementsUpsertComponent } from '../card-movements-upsert/card-movements-upsert.component';
 import { CardMovementModel } from '../model/card-movement-model';
 import { CardMovementService } from '../service/card-movement.service';
-import { formatDateBR } from '../../../shared/ui/format-patterns';
+import { PageQueryModel } from '../../../commons/base/model/page-query-model';
 
 /**
  * Card Movement List Component
@@ -22,26 +23,26 @@ import { formatDateBR } from '../../../shared/ui/format-patterns';
 @Component({
   selector: 'app-card-movement-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TableComponent],
+  imports: [CommonModule, FormsModule, TablePaginatedComponent],
   templateUrl: './card-movement-list.component.html',
   styleUrls: ['./card-movement-list.component.css']
 })
 export class CardMovementListComponent implements OnInit {
-  private movementService = inject(CardMovementService);
+  private service = inject(CardMovementService);
   private route = inject(ActivatedRoute);
   private notificationService = inject(NotificationService);
   private modal = inject(NgbModal);
 
-  movements: CardMovementModel[] = [];
+  data!: Page<CardMovementModel>;
   loading = true;
   totalUnpaid = 0;
-  cardId = 0;
+  parentId = 0;
 
   filter = 'paid:false';
   sortBy = '-date';
 
   // Table configuration
-  movementColumns: TableColumn[] = [
+  columns: TableColumn[] = [
     { label: 'Data', key: 'date', format: (value: unknown) => formatDateBR(value as string | Date) },
     { label: 'Valor', key: 'value', format: (value: unknown) => `R$ ${Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` },
     { label: 'Descrição', key: 'description', format: (value: unknown) => (value as string | null | undefined) || '-' },
@@ -49,19 +50,12 @@ export class CardMovementListComponent implements OnInit {
     { label: 'Status', key: 'paid', format: (value: unknown) => value ? '✓ Pago' : '○ Aberto' }
   ];
 
-  movementActions: TableAction<CardMovementModel>[] = [
-    {
-      label: 'Editar',
-      icon: 'bi bi-pencil',
-      cssClass: 'primary',
-      action: (movement: CardMovementModel) => this.editMovement(movement)
-    }
-  ];
+  movementActions: TableAction<CardMovementModel>[] = [];
 
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params => {
-      this.cardId = params['cardId'];
-      this.movementService.parentId = this.cardId;
+      this.parentId = params['cardId'];
+      this.service.parentId = this.parentId;
       this.loadMovements();
     });
   }
@@ -75,9 +69,9 @@ export class CardMovementListComponent implements OnInit {
     pageQuery.query = this.filter;
     pageQuery.sort = this.sortBy + ',-id';
 
-    this.movementService.searchMovements(pageQuery).subscribe({
+    this.service.searchMovements(pageQuery).subscribe({
       next: (page: Page<CardMovementModel>) => {
-        this.movements = page.content;
+        this.data = page;
         this.calculateTotalUnpaid();
         this.loading = false;
       },
@@ -93,7 +87,7 @@ export class CardMovementListComponent implements OnInit {
    * Calculate total of unpaid movements
    */
   private calculateTotalUnpaid(): void {
-    this.totalUnpaid = this.movements
+    this.totalUnpaid = this.data.content
       .filter(m => !m.paid)
       .reduce((sum, m) => sum + m.value, 0);
   }
@@ -115,9 +109,9 @@ export class CardMovementListComponent implements OnInit {
   /**
    * Navigate to edit movement
    */
-  editMovement(movement: CardMovementModel): void {
+  onValueSelected(movement: CardMovementModel): void {
     const modalRef = this.modal.open(CardMovementsUpsertComponent, { size: 'lg', animation: true });
-    modalRef.componentInstance.parentId = this.cardId;
+    modalRef.componentInstance.parentId = this.parentId;
     modalRef.componentInstance.setModel(movement.id!);
     modalRef.result.then((result) => {
       if (result) {
@@ -131,10 +125,34 @@ export class CardMovementListComponent implements OnInit {
    */
   addMovement(): void {
     const modalRef = this.modal.open(CardMovementsUpsertComponent, { size: 'lg', animation: true });
-    modalRef.componentInstance.parentId = this.cardId;
+    modalRef.componentInstance.parentId = this.parentId;
     modalRef.result.then((result) => {
       if (result) {
         this.loadMovements();
+      }
+    });
+  }
+
+  searchData(page: number): void {
+    this.loading = true;
+
+    const query: PageQuery = new PageQueryModel();
+    query.sort = this.sortBy;
+    query.offset = page;
+    query.query = this.filter;
+
+    if (this.parentId) {
+      this.service.parentId = this.parentId;
+    }
+
+    this.service.search(query).subscribe({
+      next: (data: Page<CardMovementModel>) => {
+        this.data = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.notificationService.error(`Erro ao carregar movimentos: ${error.message}`);
+        this.loading = false;
       }
     });
   }

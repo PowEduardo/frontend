@@ -5,6 +5,7 @@ import { Page } from '../../../commons/base/model/page';
 import { PageQuery } from '../../../commons/base/model/page-query';
 import { MovementService } from '../../../commons/base/movement/service/movement.service';
 import { CardMovementModel } from '../model/card-movement-model';
+import { PageModel } from '../../../investment/asset/model/page-model';
 
 /**
  * Service for Card Movement operations.
@@ -25,15 +26,15 @@ export class CardMovementService extends MovementService<CardMovementModel> {
   create(request: CardMovementModel): Observable<CardMovementModel> {
     return this.httpClient.post<CardMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()), request);
   }
-  
+
   read(id: number): Observable<CardMovementModel> {
     return this.httpClient.get<CardMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()).concat('/').concat(id.toString()));
   }
-  
+
   readAll(pageQuery: PageQuery): Observable<CardMovementModel[]> {
     throw new Error(`Method not implemented. ${pageQuery}`);
   }
-  
+
   update(request: CardMovementModel): Observable<CardMovementModel> {
     return this.httpClient.put<CardMovementModel>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/" + request.id, request);
   }
@@ -44,15 +45,15 @@ export class CardMovementService extends MovementService<CardMovementModel> {
    */
   searchMovements(pageQuery: PageQuery): Observable<Page<CardMovementModel>> {
     const url = this.baseUrl.replace("{parentId}", this.parentId.toString()) + '/search';
-    
+
     let params = new HttpParams()
       .set('_limit', pageQuery.limit?.toString() || '10')
       .set('_offset', pageQuery.offset?.toString() || '0');
-    
+
     if (pageQuery.sort) {
       params = params.set('_sort', pageQuery.sort);
     }
-    
+
     if (pageQuery.query) {
       params = params.set('_q', pageQuery.query);
     }
@@ -73,6 +74,6 @@ export class CardMovementService extends MovementService<CardMovementModel> {
   }
 
   search(query: PageQuery): Observable<Page<CardMovementModel>> {
-    throw new Error(`Method not implemented. ${query}`);
+    return this.httpClient.get<Page<CardMovementModel>>(this.baseUrl.replace("{parentId}", this.parentId.toString()) + "/search?" + query.toString());
   }
 }

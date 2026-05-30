@@ -46,12 +46,17 @@
   }
 
   <!-- Movements Table -->
-  @if (!loading && movements.length > 0) {
-    <app-table 
-      [columns]="movementColumns"
-      [data]="movements"
-      [actions]="movementActions">
-    </app-table>
+  @if (!loading && !data.empty) {
+    <app-table-paginated
+        [columns]="columns"
+        [data]="data.content"
+        (rowSelected)="onValueSelected($event)"
+        [actions]="movementActions"
+        [currentPage]="data.pageable.pageNumber"
+        [totalPages]="data.totalPages"
+        (selectedPage)="searchData($event)"
+        >
+      </app-table-paginated>
 
     <!-- Total Summary -->
     <div class="alert alert-info mt-3 mb-0">

@@ -20,7 +20,7 @@
     <div class="col-md-2 d-flex align-items-end">
       <button 
         class="btn btn-primary w-100" 
-        (click)="loadMovements(0)"
+        (click)="searchData(0)"
         [disabled]="loading">
         <i class="bi bi-funnel me-2"></i>Filtrar
       </button>
@@ -131,7 +131,7 @@
         [actions]="movementActions"
         [currentPage]="data.pageable.pageNumber"
         [totalPages]="data.totalPages"
-        (selectedPage)="loadMovements($event)"
+        (selectedPage)="searchData($event)"
         >
       </app-table-paginated>
     </div>

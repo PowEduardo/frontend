@@ -48,10 +48,20 @@ export class TableComponent<T = unknown> {
   }
 
   formatCell(col: TableColumn, row: T): string {
-    const value = (row as Record<string, unknown>)[col.key];
+    const value = this.getNestedValue(row, col.key);
     return col.format ? col.format(value, row as unknown) : String(value);
   }
-
+  private getNestedValue(obj: T, key: string): unknown {
+    let value: unknown = obj as Record<string, unknown>;
+    if (key.includes('.')) {
+      const keys = key.split('.');
+      for (const k of keys) {
+        value = (value as Record<string, unknown>)[k];
+      }
+      return value;
+    }
+    return (value as Record<string, unknown>)[key];
+  }
   /**
    * Execute an action on a row.
    */

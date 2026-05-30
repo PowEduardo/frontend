@@ -74,17 +74,26 @@
       </div>
     </div>
 
-    <!-- Installments Table -->
-    @if (statement.installments && statement.installments.length > 0) {
-      <div class="mb-4">
-        <h6 class="mb-3">Parcelas</h6>
-        <app-table 
-          [columns]="installmentColumns"
-          [data]="statement.installments"
-          [actions]="installmentActions">
-        </app-table>
+    <!-- Installments Section -->
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h6 class="mb-0">Parcelas</h6>
+        <button class="btn btn-sm btn-outline-info" (click)="validateStatement()">
+          <i class="bi bi-check-circle me-2"></i> Validar Fatura
+        </button>
       </div>
-    }
+      <div class="card-body">
+        @if (statement.installments && statement.installments.length > 0) {
+          <app-table 
+            [columns]="installmentColumns"
+            [data]="statement.installments"
+            [actions]="installmentActions">
+          </app-table>
+        } @else {
+          <p class="text-muted text-center mb-0">Nenhuma parcela encontrada</p>
+        }
+      </div>
+    </div>
 
     <!-- Actions -->
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">

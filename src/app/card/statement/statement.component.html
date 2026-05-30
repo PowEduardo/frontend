@@ -5,13 +5,17 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-  } @else if (data.length > 0) {
-    <app-table
-      [columns]="columns"
-      [data]="data"
-      (rowSelected)="onValueSelected($event)"
-      [actions]="statementActions">
-    </app-table>
+  } @else if (!data.empty) {
+    <app-table-paginated
+        [columns]="columns"
+        [data]="data.content"
+        (rowSelected)="onValueSelected($event)"
+        [actions]="statementActions"
+        [currentPage]="data.pageable.pageNumber"
+        [totalPages]="data.totalPages"
+        (selectedPage)="searchData($event)"
+        >
+      </app-table-paginated>
   } @else {
     <div class="alert alert-info m-4">
       <i class="bi bi-info-circle me-2"></i>

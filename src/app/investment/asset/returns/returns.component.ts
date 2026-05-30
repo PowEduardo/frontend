@@ -2,14 +2,15 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Page } from '../../../commons/base/model/page';
 import { PageQuery } from '../../../commons/base/model/page-query';
-import { TableComponent } from '../../../shared/ui/table/table.component';
-import { TableColumn } from '../../../commons/model/table-column';
 import { TableAction } from '../../../commons/model/table-action';
+import { TableColumn } from '../../../commons/model/table-column';
+import { NotificationService } from '../../../commons/service/notification.service';
+import { TablePaginatedComponent } from "../../../shared/ui/table-paginated/table-paginated.component";
 import { AssetReturnMovementUpsertComponent } from '../modal/add-movement/asset-return/asset-return-upsert.component';
 import { AssetMovementReturnModel } from '../model/asset-movement-return-model';
 import { AssetReturnServiceImpl } from '../service/impl/movement-asset-return-impl.service';
-import { NotificationService } from '../../../commons/service/notification.service';
 
 /**
  * Displays asset return transactions (dividends, JCP, etc.)
@@ -18,7 +19,7 @@ import { NotificationService } from '../../../commons/service/notification.servi
 @Component({
   selector: 'app-returns',
   standalone: true,
-  imports: [CommonModule, TableComponent, MatIconModule],
+  imports: [CommonModule, MatIconModule, TablePaginatedComponent],
   providers: [CurrencyPipe, DatePipe],
   templateUrl: './returns.component.html',
   styleUrl: './returns.component.css'
@@ -33,10 +34,10 @@ export class ReturnsComponent implements OnChanges {
   @Input() parentId = 0;
   @Input() assetType?: string;
 
-  movements: AssetMovementReturnModel[] = [];
+  data!: Page<AssetMovementReturnModel>;
   columns: TableColumn[] = [];
   returnActions: TableAction<AssetMovementReturnModel>[] = [];
-  sort = '-exDividendDate';
+  sort = '-date';
   loading = false;
 
   constructor() {
@@ -46,7 +47,7 @@ export class ReturnsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['parentId']) {
-      this.loadMovements();
+      this.searchData(0);
     }
   }
 
@@ -56,7 +57,7 @@ export class ReturnsComponent implements OnChanges {
   private initializeColumns(): void {
     this.columns = [
       { key: 'id', label: 'Id' },
-      ...(this.parentId === 0 ? [{ key: 'asset', label: 'Asset' }] : []),
+      ...(this.parentId === 0 ? [{ key: 'asset.ticker', label: 'Asset' }] : []),
       {
         key: 'unitValue',
         label: 'Unit Value',
@@ -104,23 +105,24 @@ export class ReturnsComponent implements OnChanges {
   /**
    * Load return movements with sorting and filtering
    */
-  private loadMovements(): void {
+  searchData(page: number): void {
     this.loading = true;
     const query = new PageQuery();
     query.sort = this.sort;
+    query.offset = page;
 
     if (this.assetType) {
       query.addQuery('assetType', this.assetType);
     }
 
     this.service.parentId = this.parentId;
-    this.service.readAll(query).subscribe({
-      next: (data: AssetMovementReturnModel[]) => {
-        this.movements = data;
+    this.service.search(query).subscribe({
+      next: (data: Page<AssetMovementReturnModel>) => {
+        this.data = data;
         this.loading = false;
       },
       error: (error) => {
-        this.notificationService.error(`Erro ao recuperar IRPF: ${error.error.message}`);
+        this.notificationService.error(`Erro ao recuperar proventos: ${error.error.message}`);
         this.loading = false;
       }
     });
@@ -149,7 +151,7 @@ export class ReturnsComponent implements OnChanges {
   deleteMovement(id: number): void {
     if (confirm('Tem certeza que deseja deletar este retorno?')) {
       this.service.delete(id).subscribe({
-        next: () => this.loadMovements(),
+        next: () => this.searchData(this.data.pageable.pageNumber),
         error: (error) => this.notificationService.error(`Erro ao excluir movimento: ${error.error.message}`)
       });
     }

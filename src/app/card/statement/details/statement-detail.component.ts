@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatementModel } from '../model/statement-model';
 import { InstallmentModel } from '../model/installment-model';
 import { StatementService } from '../service/statement.service';
@@ -8,6 +9,7 @@ import { NotificationService } from '../../../commons/service/notification.servi
 import { TableComponent } from '../../../shared/ui/table/table.component';
 import { TableColumn } from '../../../commons/model/table-column';
 import { TableAction } from '../../../commons/model/table-action';
+import { StatementValidationModalComponent } from '../components/statement-validation-modal.component';
 
 /**
  * Statement Detail Component
@@ -26,6 +28,7 @@ export class StatementDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private notificationService = inject(NotificationService);
+  private modal = inject(NgbModal);
 
   statement: StatementModel | null = null;
   loading = true;
@@ -54,6 +57,7 @@ export class StatementDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.parent?.params.subscribe(params => {
       this.cardId = params['cardId'];
+      this.statementService.setCardId(this.cardId);
 
       this.route.params.subscribe(params => {
         this.statementId = params['statementId'];
@@ -67,13 +71,16 @@ export class StatementDetailComponent implements OnInit {
    */
   private loadStatement(): void {
     this.loading = true;
+    console.log(`Loading statement ${this.statementId}`);
     this.statementService.read(this.statementId).subscribe({
       next: (statement: StatementModel) => {
+        console.log('Statement loaded:', statement);
         this.statement = statement;
         this.calculateTotalPaid();
         this.loading = false;
       },
-      error: () => {
+      error: (error) => {
+        console.error('Error loading statement:', error);
         this.loading = false;
         this.notificationService.error('Erro ao carregar fatura');
         this.goBack();
@@ -122,6 +129,33 @@ export class StatementDetailComponent implements OnInit {
         this.notificationService.error('Erro ao marcar fatura como paga');
       }
     });
+  }
+
+  /**
+   * Open validation modal
+   */
+  validateStatement(): void {
+    if (!this.statement) return;
+
+    const modalRef = this.modal.open(StatementValidationModalComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static'
+    });
+
+    modalRef.componentInstance.statement = this.statement;
+    modalRef.componentInstance.cardId = this.cardId;
+    modalRef.componentInstance.onInstallmentEdited.subscribe(() => {
+      // Refresh statement after edit
+      this.loadStatement();
+    });
+
+    modalRef.result.then(
+      () => {
+        this.loadStatement();
+      },
+      () => {}
+    );
   }
 
   /**

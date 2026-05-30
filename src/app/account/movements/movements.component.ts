@@ -116,12 +116,12 @@ export class MovementsComponent implements OnInit, OnDestroy {
         const idParam = params.get('accountId');
         if (idParam) {
           this.parentId = parseInt(idParam, 10);
-          this.loadMovements(0);
+          this.searchData(0);
           this.loadFutureMovements();
         }
       });
     } else {
-      this.loadMovements(0);
+      this.searchData(0);
       this.loadFutureMovements();
     }
 
@@ -207,7 +207,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
     // Reload movements after modal closes
     modalRef.result.then(
-      () => this.loadMovements(0)
+      () => this.searchData(0)
     );
   }
 
@@ -225,7 +225,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
 
     // Reload movements after modal closes
     modalRef.result.then(
-      () => this.loadMovements(0)
+      () => this.searchData(0)
     );
   }
 
@@ -244,7 +244,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.service.delete(id).subscribe({
       next: () => {
         this.notificationService.success('Movimento deletado com sucesso');
-        this.loadMovements(0);
+        this.searchData(0);
       },
       error: (error) => {
         this.notificationService.error(`Erro ao deletar movimento: ${error.message}`);
@@ -264,7 +264,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     this.service.markAsPaid(id).subscribe({
       next: (updatedMovement) => {
         this.notificationService.success('Movimento {} marcado como pago'.replace('{}', updatedMovement.id!.toString()));
-        this.loadMovements(0);
+        this.searchData(this.data.number);
       },
       error: (error) => {
         this.notificationService.error(`Erro ao marcar como pago: ${error.message}`);
@@ -344,7 +344,7 @@ export class MovementsComponent implements OnInit, OnDestroy {
     return `${year}-${month}-${day}`;
   }
 
-  loadMovements(page: number): void {
+  searchData(page: number): void {
     this.loadFutureMovements();
     this.loading = true;
     this.movementLoadingState.clear();

@@ -71,9 +71,8 @@ export class InstallmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.parent?.params.subscribe(parentParams => {
-      this.cardSelected = Number(parentParams['cardId']);
+      this.cardSelected = 1;//Number(parentParams['cardId']);
       this.movementService.parentId = this.cardSelected;
-
       this.route.params.subscribe(params => {
         this.statementId = Number(params['statementId']);
         if (!isNaN(this.cardSelected) && !isNaN(this.statementId)) {
